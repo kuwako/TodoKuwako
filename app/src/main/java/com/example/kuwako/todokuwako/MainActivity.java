@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
-        mAdapter.add("くわこ");
-        mAdapter.add("たにだ");
-
         ListView todoListView = (ListView)findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
 
@@ -51,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 ListView listView = (ListView)parent;
                 // クリックされたアイテムを返す
                 String item = (String)listView.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, item, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, item + " is completed.", Toast.LENGTH_LONG).show();
 
                 mAdapter.remove(item);
             }
@@ -66,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter.add(String.valueOf(sTodo));
         Log.e("adapter", String.valueOf(sTodo));
+        et.setText("");
     }
 
     @Override
