@@ -1,5 +1,7 @@
 package com.example.kuwako.todokuwako;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,6 +42,37 @@ public class MainActivity extends AppCompatActivity {
 
         ListView todoListView = (ListView)findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
+
+        // db処理
+        // db open
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+        // 処理
+        Cursor c = null;
+        c = db.query(
+                TodoContract.Todos.TABLE_NAME,
+                null, // fields
+                null, // where
+                null, // where arg
+                null, // group by
+                null, // having
+                null // order by
+        );
+
+        Log.v("DB_TEST", "Count: " + c.getCount());
+
+        while (c.moveToNext()) {
+            int id = c.getInt(c.getColumnIndex(TodoContract.Todos._ID));
+            String task = c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK));
+            int is_done = c.getInt(c.getColumnIndex(TodoContract.Todos.COL_IS_DONE));
+            String created_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_CREATED_AT));
+
+            Log.v("DB_TEST", "id: " + id + " task: " + task + " is_done: " + is_done + " created_at: " + created_at);
+        }
+
+        c.close();
+        db.close();
 
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
