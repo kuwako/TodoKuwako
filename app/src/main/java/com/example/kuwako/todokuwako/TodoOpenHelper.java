@@ -17,12 +17,20 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE =
             "create table " + TodoContract.Todos.TABLE_NAME + " (" +
                 TodoContract.Todos._ID + " integer primary key autoincrement, " +
-                TodoContract.Todos.COL_TASK + " text" +
-                TodoContract.Todos.COL_IS_DONE + " integer " +
+                TodoContract.Todos.COL_TASK + " text, " +
+                TodoContract.Todos.COL_IS_DONE + " integer, " +
                 TodoContract.Todos.COL_CREATED_AT + " string)";
-    public static final String INIT_TABLE = "";
 
-    public static final String DROP_TABLE = "";
+    public static final String INIT_TABLE =
+            "insert into " + TodoContract.Todos.TABLE_NAME + " (" +
+                    TodoContract.Todos.COL_TASK + ", " +
+                    TodoContract.Todos.COL_IS_DONE + ", " +
+                    TodoContract.Todos.COL_CREATED_AT + ") values " +
+                    "('Android', 0, '2016-10-10'), " +
+                    "('swift', 0, '2016-01-01') ," +
+                    "('php', 1, '2016-02-28')";
+
+    public static final String DROP_TABLE = "drop table if exsits " + TodoContract.Todos.TABLE_NAME;
 
     public TodoOpenHelper (Context c) {
         super(c, DB_NAME, null, DB_VERSION);

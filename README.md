@@ -1,2 +1,2 @@
 # TodoKuwako
-TodoListのテスト
+AndroidでTodoList
