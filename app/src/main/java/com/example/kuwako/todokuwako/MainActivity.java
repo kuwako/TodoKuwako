@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
         c = db.query(
                 TodoContract.Todos.TABLE_NAME,
                 null, // fields
-                null, // where
-                null, // where arg
+                TodoContract.Todos.COL_CREATED_AT + " > ? and " + TodoContract.Todos.COL_IS_DONE + " < ?", // where
+                new String[] { "2016-01-02", "1"}, // where arg
                 null, // group by
                 null, // having
-                null // order by
+                TodoContract.Todos.COL_CREATED_AT + " desc"// order by
         );
 
         Log.v("DB_TEST", "Count: " + c.getCount());
