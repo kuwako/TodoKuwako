@@ -1,5 +1,6 @@
 package com.example.kuwako.todokuwako;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -91,10 +93,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void addList(View view) {
+
         EditText et = (EditText)findViewById(R.id.editText);
         Editable sTodo = et.getText();
 
         mAdapter.add(String.valueOf(sTodo));
+        Time time = new Time("Asia/Tolyo");
+        time.setToNow();
+
+        ContentValues newTask = new ContentValues();
+        newTask.put(TodoContract.Todos.COL_TASK, String.valueOf(sTodo));
+        newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
+        newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
+
+        long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+
         Log.e("adapter", String.valueOf(sTodo));
         et.setText("");
     }
