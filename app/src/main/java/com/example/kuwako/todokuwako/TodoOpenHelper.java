@@ -26,9 +26,9 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
                     TodoContract.Todos.COL_TASK + ", " +
                     TodoContract.Todos.COL_IS_DONE + ", " +
                     TodoContract.Todos.COL_CREATED_AT + ") values " +
-                    "('Android', 0, '2016-10-10'), " +
-                    "('swift', 0, '2016-01-01') ," +
-                    "('php', 1, '2016-02-28')";
+                    "('SampleTask1', 0, '2016-10-10'), " +
+                    "('SampleTask2', 0, '2016-01-01') ," +
+                    "('SampleTask3', 1, '2016-02-28')";
 
     public static final String DROP_TABLE = "drop table if exsits " + TodoContract.Todos.TABLE_NAME;
 

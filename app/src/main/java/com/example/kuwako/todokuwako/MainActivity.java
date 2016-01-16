@@ -55,23 +55,24 @@ public class MainActivity extends AppCompatActivity {
         c = db.query(
                 TodoContract.Todos.TABLE_NAME,
                 null, // fields
-                TodoContract.Todos.COL_CREATED_AT + " > ? and " + TodoContract.Todos.COL_IS_DONE + " < ?", // where
-                new String[] { "2016-01-02", "1"}, // where arg
+                TodoContract.Todos.COL_IS_DONE + " < ?", // where
+                new String[] { "1" }, // where arg
                 null, // group by
                 null, // having
                 TodoContract.Todos.COL_CREATED_AT + " desc"// order by
         );
 
+        while(c.moveToNext()) {
+            mAdapter.add(
+                c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK))
+            );
+        }
+
+        // TODO 削除
         Log.v("DB_TEST", "Count: " + c.getCount());
 
-        while (c.moveToNext()) {
-            int id = c.getInt(c.getColumnIndex(TodoContract.Todos._ID));
-            String task = c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK));
-            int is_done = c.getInt(c.getColumnIndex(TodoContract.Todos.COL_IS_DONE));
-            String created_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_CREATED_AT));
-
-            Log.v("DB_TEST", "id: " + id + " task: " + task + " is_done: " + is_done + " created_at: " + created_at);
-        }
+        // DB内部確認
+        checkDB();
 
         c.close();
         db.close();
@@ -85,7 +86,23 @@ public class MainActivity extends AppCompatActivity {
                 String item = (String)listView.getItemAtPosition(position);
                 Toast.makeText(MainActivity.this, item + " is completed.", Toast.LENGTH_LONG).show();
 
+                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+                ContentValues updateTask = new ContentValues();
+                updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
+
+                int updateCount = db.update(
+                        TodoContract.Todos.TABLE_NAME,
+                        updateTask,
+                        TodoContract.Todos.COL_TASK + " = ?",
+                        new String[] { item }
+                );
+                db.close();
+
                 mAdapter.remove(item);
+
+                checkDB();
             }
 
         });
@@ -101,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
         Time time = new Time("Asia/Tolyo");
         time.setToNow();
 
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
         ContentValues newTask = new ContentValues();
         newTask.put(TodoContract.Todos.COL_TASK, String.valueOf(sTodo));
         newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
@@ -108,7 +128,41 @@ public class MainActivity extends AppCompatActivity {
 
         long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
 
+        db.close();
+
         Log.e("adapter", String.valueOf(sTodo));
         et.setText("");
+
+        checkDB();
+    }
+
+    // デバッグ用
+    private void checkDB() {
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+        // 処理
+        Cursor c = null;
+        c = db.query(
+                TodoContract.Todos.TABLE_NAME,
+                null, // fields
+                null, // where
+                null, // where arg
+                null, // group by
+                null, // having
+                TodoContract.Todos.COL_CREATED_AT + " desc"// order by
+        );
+
+        while (c.moveToNext()) {
+            int id = c.getInt(c.getColumnIndex(TodoContract.Todos._ID));
+            String task = c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK));
+            int is_done = c.getInt(c.getColumnIndex(TodoContract.Todos.COL_IS_DONE));
+            String created_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_CREATED_AT));
+
+            Log.v("DB_TEST", "id: " + id + " task: " + task + " is_done: " + is_done + " created_at: " + created_at);
+        }
+
+        c.close();
+        db.close();
     }
 }
