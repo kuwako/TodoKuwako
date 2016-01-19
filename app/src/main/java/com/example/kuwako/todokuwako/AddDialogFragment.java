@@ -25,7 +25,7 @@ public class AddDialogFragment extends DialogFragment {
         dialog.getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.dialog_custom);
+        dialog.setContentView(R.layout.dialog_add);
         // 背景を透明にする
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
