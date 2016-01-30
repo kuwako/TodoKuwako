@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
     }
 
 
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         db.close();
     }
 
+    // 入力用ダイアログ
     public static class InputDialogFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -178,8 +181,14 @@ public class MainActivity extends AppCompatActivity {
 
             LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dailog_input, null);
-            builder.setView(content);
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), String.valueOf(v.getId()), Toast.LENGTH_SHORT).show();
+                }
+            });
 
+            builder.setView(content);
             builder.setMessage("テスト")
                     .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
                         @Override
@@ -187,6 +196,18 @@ public class MainActivity extends AppCompatActivity {
                             dialog.cancel();
                         }
                     });
+//        TextView editDate = (TextView) findViewById(R.id.edit_data);
+//        TextView editTime = (TextView) findViewById(R.id.edit_time);
+//
+//        editDate.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//        );
+
             return  builder.create();
         }
     }
