@@ -5,39 +5,40 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content">
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="声音量"
-            android:id="@+id/textView"
-            android:clickable="true"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
-
-
+            android:inputType="text"
+            android:id="@+id/dialogEditText"/>
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
         android:layout_width="340dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
+        android:layout_height="wrap_content">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="エコー"
-            android:id="@+id/textView2"
             android:clickable="true"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
-
+            android:id="@+id/edit_data"
+            android:text="日付:"/>
     </LinearLayout>
-
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:id="@+id/edit_time"
+            android:text="時間:"/>
+    </LinearLayout>
 </LinearLayout>

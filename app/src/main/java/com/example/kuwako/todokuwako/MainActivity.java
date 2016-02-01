@@ -1,7 +1,7 @@
 package com.example.kuwako.todokuwako;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,8 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -18,8 +17,6 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -29,6 +26,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> mAdapter;
+    private DialogFragment mNewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +34,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // ダイアログ
-        InputDialogFragment inputDialogFragent = new InputDialogFragment();
+        mNewFragment = new InputDialogFragment();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputDialogFragent.show(getFragmentManager(), "test");
+                mNewFragment.show(getFragmentManager(), "aaa");
             }
         });
 
@@ -113,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
     }
 
 
@@ -171,6 +169,45 @@ public class MainActivity extends AppCompatActivity {
 
         c.close();
         db.close();
+    }
+
+    // 入力用ダイアログ
+    public static class InputDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+
+            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View content = inflater.inflate(R.layout.dailog_input, null);
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), String.valueOf(v.getId()), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setView(content);
+            builder.setMessage("テスト")
+                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+//        TextView editDate = (TextView) findViewById(R.id.edit_data);
+//        TextView editTime = (TextView) findViewById(R.id.edit_time);
+//
+//        editDate.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//        );
+
+            return  builder.create();
+        }
     }
 }
 
