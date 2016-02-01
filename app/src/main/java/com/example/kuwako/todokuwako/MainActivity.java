@@ -1,5 +1,6 @@
 package com.example.kuwako.todokuwako;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
@@ -9,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -17,10 +17,13 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
-        ListView todoListView = (ListView)findViewById(R.id.todoListView);
+        ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
 
         // db処理
@@ -60,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
                 TodoContract.Todos.TABLE_NAME,
                 null, // fields
                 TodoContract.Todos.COL_IS_DONE + " < ?", // where
-                new String[] { "1" }, // where arg
+                new String[]{"1"}, // where arg
                 null, // group by
                 null, // having
                 TodoContract.Todos.COL_CREATED_AT + " desc"// order by
         );
 
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             mAdapter.add(
-                c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK))
+                    c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK))
             );
         }
 
@@ -85,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                ListView listView = (ListView)parent;
+                ListView listView = (ListView) parent;
                 // クリックされたアイテムを返す
-                String item = (String)listView.getItemAtPosition(position);
+                String item = (String) listView.getItemAtPosition(position);
                 Toast.makeText(MainActivity.this, item + " is completed.", Toast.LENGTH_LONG).show();
 
                 TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         TodoContract.Todos.TABLE_NAME,
                         updateTask,
                         TodoContract.Todos.COL_TASK + " = ?",
-                        new String[] { item }
+                        new String[]{item}
                 );
                 db.close();
 
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addList(View view) {
 
-        EditText et = (EditText)findViewById(R.id.editText);
+        EditText et = (EditText) findViewById(R.id.editText);
         Editable sTodo = et.getText();
 
         mAdapter.add(String.valueOf(sTodo));
@@ -174,60 +177,49 @@ public class MainActivity extends AppCompatActivity {
     // 入力用ダイアログ
     public static class InputDialogFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        public void onStart() {
+            super.onStart();
+        }
 
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dailog_input, null);
-            content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), String.valueOf(v.getId()), Toast.LENGTH_SHORT).show();
-                }
-            });
+
+            TextView editDate = (TextView) content.findViewById(R.id.edit_date);
+            TextView editTime = (TextView) content.findViewById(R.id.edit_time);
+
+            editDate.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // datePickerを表示
+                        }
+                    }
+            );
+
+            editTime.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // timePickerを表示
+                        }
+                    }
+            );
 
             builder.setView(content);
-            builder.setMessage("テスト")
+            builder.setMessage("タスクを登録")
                     .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
                     });
-//        TextView editDate = (TextView) findViewById(R.id.edit_data);
-//        TextView editTime = (TextView) findViewById(R.id.edit_time);
-//
-//        editDate.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
 
-            return  builder.create();
+            return builder.create();
         }
     }
 }
 
-class InputDialogFragment extends DialogFragment {
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View content = inflater.inflate(R.layout.dialog_input, null);
-
-        builder.setView(content);
-
-        builder.setMessage("タスクを登録する").setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d("dialog", "clicked");
-            }
-        });
-
-        return builder.create();
-    }
-
-}
