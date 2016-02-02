@@ -1,6 +1,7 @@
 package com.example.kuwako.todokuwako;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
@@ -21,10 +22,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -175,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 入力用ダイアログ
-    public static class InputDialogFragment extends DialogFragment {
+    public class InputDialogFragment extends DialogFragment {
         @Override
         public void onStart() {
             super.onStart();
@@ -191,11 +196,36 @@ public class MainActivity extends AppCompatActivity {
             TextView editDate = (TextView) content.findViewById(R.id.edit_date);
             TextView editTime = (TextView) content.findViewById(R.id.edit_time);
 
+
             editDate.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             // datePickerを表示
+                            Calendar calendar = Calendar.getInstance();
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH);
+                            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                            DatePickerDialog dlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                }
+                            }, year, month, day);
+
+                            GregorianCalendar maxDate = new GregorianCalendar();
+                            maxDate.set(2020, 11, 31);
+
+                            GregorianCalendar minDate = new GregorianCalendar();
+                            minDate.set(2016, 0, 1);
+
+
+                            DatePicker datePicker = dlgDatePicker.getDatePicker();
+                            if (datePicker != null) {
+                                datePicker.setMaxDate(maxDate.getTimeInMillis());
+                                datePicker.setMinDate(minDate.getTimeInMillis());
+                            }
                         }
                     }
             );
