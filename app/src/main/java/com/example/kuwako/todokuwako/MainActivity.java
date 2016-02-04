@@ -181,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
 
     // 入力用ダイアログ
     public class InputDialogFragment extends DialogFragment {
+        private DatePickerDialog mDlgDatePicker;
+        private Calendar mCalendar;
+        private GregorianCalendar mMaxDate = new GregorianCalendar();
+        private GregorianCalendar mMinDate = new GregorianCalendar();
+        private DatePicker mDatePicker;
+
         @Override
         public void onStart() {
             super.onStart();
@@ -196,36 +202,34 @@ public class MainActivity extends AppCompatActivity {
             TextView editDate = (TextView) content.findViewById(R.id.edit_date);
             TextView editTime = (TextView) content.findViewById(R.id.edit_time);
 
+            // datePickerを表示
+            mCalendar = Calendar.getInstance();
+            int year = mCalendar.get(Calendar.YEAR);
+            int month = mCalendar.get(Calendar.MONTH);
+            int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+
+            mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                }
+            }, year, month, day);
+
+            mMaxDate.set(2020, 11, 31);
+            mMinDate.set(2016, 0, 1);
 
             editDate.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // datePickerを表示
-                            Calendar calendar = Calendar.getInstance();
-                            int year = calendar.get(Calendar.YEAR);
-                            int month = calendar.get(Calendar.MONTH);
-                            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                            DatePickerDialog dlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                                }
-                            }, year, month, day);
-
-                            GregorianCalendar maxDate = new GregorianCalendar();
-                            maxDate.set(2020, 11, 31);
-
-                            GregorianCalendar minDate = new GregorianCalendar();
-                            minDate.set(2016, 0, 1);
-
-
-                            DatePicker datePicker = dlgDatePicker.getDatePicker();
-                            if (datePicker != null) {
-                                datePicker.setMaxDate(maxDate.getTimeInMillis());
-                                datePicker.setMinDate(minDate.getTimeInMillis());
+                            Toast.makeText(MainActivity.this, "TOAST", Toast.LENGTH_SHORT).show();
+                            mDatePicker = mDlgDatePicker.getDatePicker();
+                            if (mDatePicker != null) {
+                                mDatePicker.setMaxDate(mMaxDate.getTimeInMillis());
+                                mDatePicker.setMinDate(mMinDate.getTimeInMillis());
                             }
+
+                            mDlgDatePicker.show();
                         }
                     }
             );
