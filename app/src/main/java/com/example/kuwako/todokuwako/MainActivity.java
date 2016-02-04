@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dailog_input, null);
 
-            TextView editDate = (TextView) content.findViewById(R.id.edit_date);
+            final TextView editDate = (TextView) content.findViewById(R.id.edit_date);
             TextView editTime = (TextView) content.findViewById(R.id.edit_time);
 
             // datePickerを表示
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+                    editDate.setText("日付: " + String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
                 }
             }, year, month, day);
 
@@ -222,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(MainActivity.this, "TOAST", Toast.LENGTH_SHORT).show();
                             mDatePicker = mDlgDatePicker.getDatePicker();
                             if (mDatePicker != null) {
                                 mDatePicker.setMaxDate(mMaxDate.getTimeInMillis());
