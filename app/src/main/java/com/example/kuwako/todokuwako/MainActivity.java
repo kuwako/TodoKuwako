@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -182,10 +184,12 @@ public class MainActivity extends AppCompatActivity {
     // 入力用ダイアログ
     public class InputDialogFragment extends DialogFragment {
         private DatePickerDialog mDlgDatePicker;
+        private TimePickerDialog mDlgTimePicker;
         private Calendar mCalendar;
         private GregorianCalendar mMaxDate = new GregorianCalendar();
         private GregorianCalendar mMinDate = new GregorianCalendar();
         private DatePicker mDatePicker;
+        private TimePicker mTimePicker;
 
         @Override
         public void onStart() {
@@ -200,20 +204,30 @@ public class MainActivity extends AppCompatActivity {
             View content = inflater.inflate(R.layout.dailog_input, null);
 
             final TextView editDate = (TextView) content.findViewById(R.id.edit_date);
-            TextView editTime = (TextView) content.findViewById(R.id.edit_time);
+            final TextView editTime = (TextView) content.findViewById(R.id.edit_time);
 
-            // datePickerを表示
+            // datepicker用の初期情報取得
             mCalendar = Calendar.getInstance();
             int year = mCalendar.get(Calendar.YEAR);
             int month = mCalendar.get(Calendar.MONTH);
             int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+            int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
+            int minute = mCalendar.get(Calendar.MINUTE);
 
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     editDate.setText("日付: " + String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
+                    mDlgTimePicker.show();
                 }
             }, year, month, day);
+
+            mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    editTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute));
+                }
+            }, hour, minute, true);
 
             mMaxDate.set(2020, 11, 31);
             mMinDate.set(2016, 0, 1);
@@ -228,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                                 mDatePicker.setMinDate(mMinDate.getTimeInMillis());
                             }
 
+                            // datePickerを表示
                             mDlgDatePicker.show();
                         }
                     }
