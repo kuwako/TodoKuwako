@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -127,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
     public void addList(View view) {
 
         EditText et = (EditText) findViewById(R.id.editText);
-        Editable sTodo = et.getText();
+        String sTodo = String.valueOf(et.getText());
 
-        mAdapter.add(String.valueOf(sTodo));
+        mAdapter.add(sTodo);
         Time time = new Time("Asia/Tokyo");
         time.setToNow();
 
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
         ContentValues newTask = new ContentValues();
-        newTask.put(TodoContract.Todos.COL_TASK, String.valueOf(sTodo));
+        newTask.put(TodoContract.Todos.COL_TASK, sTodo);
         newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
         newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.close();
 
-        Log.e("adapter", String.valueOf(sTodo));
+        Log.e("adapter", sTodo);
         et.setText("");
 
         checkDB();
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         private Button mDlgButton;
         private TextView mEditDate;
         private TextView mEditTime;
+        private EditText mEditText;
 
         @Override
         public void onStart() {
@@ -201,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dailog_input, null);
@@ -209,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
             mEditDate = (TextView) content.findViewById(R.id.edit_date);
             mEditTime = (TextView) content.findViewById(R.id.edit_time);
             mDlgButton = (Button) content.findViewById(R.id.dailogBtn);
+            mEditText = (EditText) content.findViewById(R.id.dialogEditText);
 
             // datepicker用の初期情報取得
             mCalendar = Calendar.getInstance();
@@ -265,7 +268,18 @@ public class MainActivity extends AppCompatActivity {
             mDlgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // テキストを取得
+                    String sEditText = String.valueOf(mEditText.getText());
+                    mAdapter.add(sEditText);
+                    // 入力エリアを初期化
+                    mEditText.setText("");
 
+                    // TODO 日付を取得
+
+                    // DBに追加
+
+                    // Dialogを閉じる
+                    dismiss();
                 }
             });
 
