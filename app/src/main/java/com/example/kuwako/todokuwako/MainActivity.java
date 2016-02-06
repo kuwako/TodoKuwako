@@ -190,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
         private GregorianCalendar mMinDate = new GregorianCalendar();
         private DatePicker mDatePicker;
         private TimePicker mTimePicker;
+        private Button mDlgButton;
+        private TextView mEditDate;
+        private TextView mEditTime;
 
         @Override
         public void onStart() {
@@ -203,8 +206,9 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dailog_input, null);
 
-            final TextView editDate = (TextView) content.findViewById(R.id.edit_date);
-            final TextView editTime = (TextView) content.findViewById(R.id.edit_time);
+            mEditDate = (TextView) content.findViewById(R.id.edit_date);
+            mEditTime = (TextView) content.findViewById(R.id.edit_time);
+            mDlgButton = (Button) content.findViewById(R.id.dailogBtn);
 
             // datepicker用の初期情報取得
             mCalendar = Calendar.getInstance();
@@ -217,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    editDate.setText("日付: " + String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
+                    mEditDate.setText("日付: " + String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
                     mDlgTimePicker.show();
                 }
             }, year, month, day);
@@ -225,14 +229,14 @@ public class MainActivity extends AppCompatActivity {
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    editTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute));
+                    mEditTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute));
                 }
             }, hour, minute, true);
 
             mMaxDate.set(2020, 11, 31);
             mMinDate.set(2016, 0, 1);
 
-            editDate.setOnClickListener(
+            mEditDate.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -248,14 +252,22 @@ public class MainActivity extends AppCompatActivity {
                     }
             );
 
-            editTime.setOnClickListener(
+            mEditTime.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             // timePickerを表示
+                            mDlgTimePicker.show();
                         }
                     }
             );
+
+            mDlgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             builder.setView(content);
             builder.setMessage("タスクを登録")
