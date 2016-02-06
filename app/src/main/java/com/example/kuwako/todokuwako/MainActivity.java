@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         Editable sTodo = et.getText();
 
         mAdapter.add(String.valueOf(sTodo));
-        Time time = new Time("Asia/Tolyo");
+        Time time = new Time("Asia/Tokyo");
         time.setToNow();
 
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
