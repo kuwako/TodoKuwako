@@ -18,8 +18,15 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
             "create table " + TodoContract.Todos.TABLE_NAME + " (" +
                 TodoContract.Todos._ID + " integer primary key autoincrement, " +
                 TodoContract.Todos.COL_TASK + " text, " +
-                TodoContract.Todos.COL_IS_DONE + " integer, " +
-                TodoContract.Todos.COL_CREATED_AT + " string)";
+                TodoContract.Todos.COL_IS_DONE + " integer default 0, " +
+                TodoContract.Todos.COL_DEADLINE + " string default null, " +
+                TodoContract.Todos.COL_IS_SNOOZE + " integer default 0, " +
+                TodoContract.Todos.COL_SNOOZE_INTERVAL + " integer default 0, " +
+                TodoContract.Todos.COL_LABEL + " text default null, " +
+                TodoContract.Todos.COL_LEVEL + " integer default 0, " +
+                TodoContract.Todos.COL_STATUS + " integer default 0, " +
+                TodoContract.Todos.COL_COMPLETED_AT + " string default null, " +
+                TodoContract.Todos.COL_CREATED_AT + " string default null)";
 
     public static final String INIT_TABLE =
             "insert into " + TodoContract.Todos.TABLE_NAME + " (" +
@@ -38,6 +45,7 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(DROP_TABLE);
         // create table
         db.execSQL(CREATE_TABLE);
         // init table
