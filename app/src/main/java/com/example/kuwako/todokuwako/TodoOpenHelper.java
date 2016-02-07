@@ -32,10 +32,11 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
             "insert into " + TodoContract.Todos.TABLE_NAME + " (" +
                     TodoContract.Todos.COL_TASK + ", " +
                     TodoContract.Todos.COL_IS_DONE + ", " +
+                    TodoContract.Todos.COL_DEADLINE + ", " +
                     TodoContract.Todos.COL_CREATED_AT + ") values " +
-                    "('サンプル1', 0, '2016-10-10'), " +
-                    "('SampleTask2', 0, '2016-01-01') ," +
-                    "('SampleTask3', 1, '2016-02-28')";
+                    "('サンプル1', 0, '2016-03-01', '2016-10-10'), " +
+                    "('SampleTask2', 0, null, '2016-01-01') ," +
+                    "('SampleTask3', 1, '2016-01-01', '2016-02-28')";
 
     public static final String DROP_TABLE = "drop table if exists " + TodoContract.Todos.TABLE_NAME;
 

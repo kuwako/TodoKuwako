@@ -180,11 +180,13 @@ public class MainActivity extends AppCompatActivity {
             int is_done = c.getInt(c.getColumnIndex(TodoContract.Todos.COL_IS_DONE));
             String created_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_CREATED_AT));
             String completed_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_COMPLETED_AT));
+            String deadline = c.getString(c.getColumnIndex(TodoContract.Todos.COL_DEADLINE));
 
             Log.v("DB_TEST",
                     "id: " + id +
                     " task: " + task +
                     " is_done: " + is_done +
+                    " deadline: " + deadline +
                     " created_at: " + created_at +
                     " completed_at: " + completed_at
             );
