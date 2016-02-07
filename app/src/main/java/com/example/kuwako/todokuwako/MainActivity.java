@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
+        // TODO 削除。必ず初期化
+        db.execSQL(TodoOpenHelper.DROP_TABLE);
+        db.execSQL(TodoOpenHelper.CREATE_TABLE);
+        db.execSQL(TodoOpenHelper.INIT_TABLE);
+
         // 処理
         Cursor c = null;
         c = db.query(
@@ -174,8 +179,15 @@ public class MainActivity extends AppCompatActivity {
             String task = c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK));
             int is_done = c.getInt(c.getColumnIndex(TodoContract.Todos.COL_IS_DONE));
             String created_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_CREATED_AT));
+            String completed_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_COMPLETED_AT));
 
-            Log.v("DB_TEST", "id: " + id + " task: " + task + " is_done: " + is_done + " created_at: " + created_at);
+            Log.v("DB_TEST",
+                    "id: " + id +
+                    " task: " + task +
+                    " is_done: " + is_done +
+                    " created_at: " + created_at +
+                    " completed_at: " + completed_at
+            );
         }
 
         c.close();

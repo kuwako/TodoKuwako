@@ -33,11 +33,11 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
                     TodoContract.Todos.COL_TASK + ", " +
                     TodoContract.Todos.COL_IS_DONE + ", " +
                     TodoContract.Todos.COL_CREATED_AT + ") values " +
-                    "('SampleTask1', 0, '2016-10-10'), " +
+                    "('サンプル1', 0, '2016-10-10'), " +
                     "('SampleTask2', 0, '2016-01-01') ," +
                     "('SampleTask3', 1, '2016-02-28')";
 
-    public static final String DROP_TABLE = "drop table if exsits " + TodoContract.Todos.TABLE_NAME;
+    public static final String DROP_TABLE = "drop table if exists " + TodoContract.Todos.TABLE_NAME;
 
     public TodoOpenHelper (Context c) {
         super(c, DB_NAME, null, DB_VERSION);
@@ -59,5 +59,9 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
 
         // onCreate
         onCreate(db);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
     }
 }
