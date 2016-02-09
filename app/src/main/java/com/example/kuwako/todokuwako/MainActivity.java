@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void addList(View view) {
-
         EditText et = (EditText) findViewById(R.id.editText);
         String sTodo = String.valueOf(et.getText());
 
@@ -246,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mEditTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute));
+                    mEditTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute) + "分");
                 }
             }, hour, minute, true);
 
