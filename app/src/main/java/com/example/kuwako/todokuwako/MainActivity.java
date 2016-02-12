@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO 削除
         Log.v("DB_TEST", "Count: " + c.getCount());
 
-        // DB内部確認
+        // TODO 削除。DB内部確認
         checkDB();
 
         c.close();
@@ -118,17 +118,17 @@ public class MainActivity extends AppCompatActivity {
                         TodoContract.Todos.COL_TASK + " = ?",
                         new String[]{item}
                 );
-                db.close();
 
+                db.close();
                 mAdapter.remove(item);
 
+                // TODO デバッグ用関数。削除。
                 checkDB();
             }
 
         });
 
     }
-
 
     public void addList(View view) {
         EditText et = (EditText) findViewById(R.id.editText);
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e("adapter", sTodo);
         et.setText("");
 
+        // TODO 削除 デバッグ用関数
         checkDB();
     }
 
