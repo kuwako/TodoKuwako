@@ -31,12 +31,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayAdapter<String> mAdapter;
+    private TodoListAdapter mAdapter;
     private DialogFragment mNewFragment;
 
     @Override
@@ -55,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+//        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        ArrayList<Todo> list = new ArrayList<>();
+        mAdapter = new TodoListAdapter(MainActivity.this);
+        mAdapter.setTodoArrayList(list);
 
         ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);

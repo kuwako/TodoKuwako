@@ -4,6 +4,7 @@ package com.example.kuwako.todokuwako;
  * Created by kuwako on 2016/02/16.
  */
 public class Todo {
+    long id;
     String task; // タスク名
     int is_done; // 完了フラグ
     String deadline; // 期限
@@ -93,5 +94,13 @@ public class Todo {
 
     public void setCompleted_at(String completed_at) {
         this.completed_at = completed_at;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }
