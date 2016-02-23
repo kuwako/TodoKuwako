@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TodoListAdapter mAdapter;
     private DialogFragment mNewFragment;
+    private ArrayList<Todo> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        ArrayList<Todo> list = new ArrayList<>();
+        mList = new ArrayList<>();
         mAdapter = new TodoListAdapter(MainActivity.this);
-        mAdapter.setTodoArrayList(list);
+        mAdapter.setTodoArrayList(mList);
 
         ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
@@ -87,10 +88,14 @@ public class MainActivity extends AppCompatActivity {
         );
 
         while (c.moveToNext()) {
-            mAdapter.add(
-                    c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK))
-            );
+            Todo todo = new Todo();
+            todo.setTask(c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK)));
+            todo.setDeadline(c.getString(c.getColumnIndex(TodoContract.Todos.COL_DEADLINE)));
+
+            mList.add(todo);
         }
+
+        mAdapter.notifyDataSetChanged();
 
         // TODO 削除
         Log.v("DB_TEST", "Count: " + c.getCount());
@@ -124,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 );
 
                 db.close();
-                mAdapter.remove(item);
+                mList.remove(item);
 
                 // TODO デバッグ用関数。削除。
                 checkDB();
@@ -138,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         EditText et = (EditText) findViewById(R.id.editText);
         String sTodo = String.valueOf(et.getText());
 
-        mAdapter.add(sTodo);
+//        mAdapter.add(sTodo);
         Time time = new Time("Asia/Tokyo");
         time.setToNow();
 
@@ -288,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // テキストを取得
                     String sEditText = String.valueOf(mEditText.getText());
-                    mAdapter.add(sEditText);
+//                    mAdapter.add(sEditText);
                     // 入力エリアを初期化
                     mEditText.setText("");
 
