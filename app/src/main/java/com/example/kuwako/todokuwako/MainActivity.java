@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
         c = db.query(
                 TodoContract.Todos.TABLE_NAME,
                 null, // fields
-                TodoContract.Todos.COL_IS_DONE + " < ?", // where
-                new String[]{"1"}, // where arg
+                null, //TodoContract.Todos.COL_IS_DONE + " < ?", // where
+                null, //new String[]{"1"}, // where arg
                 null, // group by
                 null, // having
                 TodoContract.Todos.COL_CREATED_AT + " desc"// order by
