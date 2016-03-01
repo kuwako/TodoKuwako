@@ -34,6 +34,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
 //        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         mList = new ArrayList<>();
-        mAdapter = new TodoListAdapter(MainActivity.this);
+        mAdapter = new TodoListAdapter(MainActivity.this) {
+            @Override
+            public void onClick(View v) {
+                Log.d("TODO_DEBUG", "aaaaa触ったよ");
+            }
+        };
         mAdapter.setTodoArrayList(mList);
 
         ListView todoListView = (ListView) findViewById(R.id.todoListView);
@@ -109,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Log.d("TODO_DEBUG", "触ったよ");
                 ListView listView = (ListView) parent;
                 // クリックされたアイテムを返す
                 String item = (String) listView.getItemAtPosition(position);
@@ -134,16 +140,17 @@ public class MainActivity extends AppCompatActivity {
                 // TODO デバッグ用関数。削除。
                 checkDB();
             }
-
         });
-
     }
 
     public void addList(View view) {
         EditText et = (EditText) findViewById(R.id.editText);
-        String sTodo = String.valueOf(et.getText());
+        String task = String.valueOf(et.getText());
 
-//        mAdapter.add(sTodo);
+        Todo todo = new Todo();
+        todo.setTask(task);
+        mList.add(todo);
+
         Time time = new Time("Asia/Tokyo");
         time.setToNow();
 
@@ -151,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
         ContentValues newTask = new ContentValues();
-        newTask.put(TodoContract.Todos.COL_TASK, sTodo);
+        newTask.put(TodoContract.Todos.COL_TASK, task);
         newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
         newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
 
@@ -159,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.close();
 
-        Log.e("adapter", sTodo);
+        Log.e("adapter", task);
         et.setText("");
 
         // TODO 削除 デバッグ用関数
@@ -291,14 +298,17 @@ public class MainActivity extends AppCompatActivity {
             mDlgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Todo todo = new Todo();
                     // テキストを取得
                     String sEditText = String.valueOf(mEditText.getText());
-//                    mAdapter.add(sEditText);
+                    todo.setTask(sEditText);
                     // 入力エリアを初期化
                     mEditText.setText("");
 
                     // TODO 日付を取得
 
+                    // タスクに追加
+                    mList.add(todo);
                     // DBに追加
 
                     // Dialogを閉じる
