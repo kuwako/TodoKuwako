@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         c.close();
         db.close();
 
+        // TODO なんかクリックするとACTION_DOWNしかでない...
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,6 +140,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // TODO デバッグ用関数。削除。
                 checkDB();
+            }
+        });
+
+        // TODO 長押しでタスク削除
+        todoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("@@@@@TODO_DEBUG", "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
+                return false;
             }
         });
     }
