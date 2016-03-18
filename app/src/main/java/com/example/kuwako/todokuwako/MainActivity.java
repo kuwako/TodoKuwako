@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mNewFragment = new InputDialogFragment();
 
+        // TODO 起動時にTextFieldにフォーカスされているの解除
+        
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         mList = new ArrayList<>();
         mAdapter = new TodoListAdapter(MainActivity.this) {
             @Override
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         };
         mAdapter.setTodoArrayList(mList);
 
-        ListView todoListView = (ListView) findViewById(R.id.todoListView);
+        final ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
 
         // db処理
@@ -112,11 +113,10 @@ public class MainActivity extends AppCompatActivity {
         c.close();
         db.close();
 
-        // TODO なんかクリックするとACTION_DOWNしかでない...
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("TODO_DEBUG", "触ったよ");
+                Log.d("@@@@@TODO_DEBUG", "触ったよ");
 //                ListView listView = (ListView) parent;
 //                // クリックされたアイテムを返す
 //                String item = (String) listView.getItemAtPosition(position);
@@ -149,6 +149,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("@@@@@TODO_DEBUG", "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
+                Todo task = (Todo) parent.getItemAtPosition(position);
+                mList.remove(task);
+                mAdapter.notifyDataSetChanged();
+
+                // TODO DB書き換え
+
                 return true;
             }
         });
