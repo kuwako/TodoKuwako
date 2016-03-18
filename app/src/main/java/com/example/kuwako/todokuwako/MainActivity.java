@@ -117,26 +117,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("TODO_DEBUG", "触ったよ");
-                ListView listView = (ListView) parent;
-                // クリックされたアイテムを返す
-                String item = (String) listView.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, item + " is completed.", Toast.LENGTH_LONG).show();
-
-                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-
-                ContentValues updateTask = new ContentValues();
-                updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
-
-                int updateCount = db.update(
-                        TodoContract.Todos.TABLE_NAME,
-                        updateTask,
-                        TodoContract.Todos.COL_TASK + " = ?",
-                        new String[]{item}
-                );
-
-                db.close();
-                mList.remove(item);
+//                ListView listView = (ListView) parent;
+//                // クリックされたアイテムを返す
+//                String item = (String) listView.getItemAtPosition(position);
+//                Toast.makeText(MainActivity.this, item + " is completed.", Toast.LENGTH_LONG).show();
+//
+//                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+//                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+//
+//                ContentValues updateTask = new ContentValues();
+//                updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
+//
+//                int updateCount = db.update(
+//                        TodoContract.Todos.TABLE_NAME,
+//                        updateTask,
+//                        TodoContract.Todos.COL_TASK + " = ?",
+//                        new String[]{item}
+//                );
+//
+//                db.close();
+//                mList.remove(item);
 
                 // TODO デバッグ用関数。削除。
                 checkDB();
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("@@@@@TODO_DEBUG", "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
-                return false;
+                return true;
             }
         });
     }
