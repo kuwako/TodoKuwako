@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mNewFragment = new InputDialogFragment();
 
-        // TODO 起動時にTextFieldにフォーカスされているの解除
-        
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
