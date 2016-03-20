@@ -115,43 +115,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("@@@@@TODO_DEBUG", "触ったよ");
-//                ListView listView = (ListView) parent;
-//                // クリックされたアイテムを返す
-//                String item = (String) listView.getItemAtPosition(position);
-//                Toast.makeText(MainActivity.this, item + " is completed.", Toast.LENGTH_LONG).show();
-//
-//                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-//                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-//
-//                ContentValues updateTask = new ContentValues();
-//                updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
-//
-//                int updateCount = db.update(
-//                        TodoContract.Todos.TABLE_NAME,
-//                        updateTask,
-//                        TodoContract.Todos.COL_TASK + " = ?",
-//                        new String[]{item}
-//                );
-//
-//                db.close();
-//                mList.remove(item);
 
-                // TODO デバッグ用関数。削除。
-                checkDB();
             }
         });
 
-        // TODO 長押しでタスク削除
+        // 長押しでタスク削除
         todoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("@@@@@TODO_DEBUG", "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
-                Todo task = (Todo) parent.getItemAtPosition(position);
-                mList.remove(task);
+
+                Todo todo = (Todo) parent.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
+                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+                ContentValues updateTask = new ContentValues();
+                updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
+
+                int updateCount = db.update(
+                        TodoContract.Todos.TABLE_NAME,
+                        updateTask,
+                        TodoContract.Todos.COL_TASK + " = ?",
+                        new String[]{todo.getTask()}
+                );
+
+                db.close();
+
+                mList.remove(todo);
                 mAdapter.notifyDataSetChanged();
 
-                // TODO DB書き換え
+                // TODO デバッグ用関数。削除。
+                checkDB();
 
                 return true;
             }
