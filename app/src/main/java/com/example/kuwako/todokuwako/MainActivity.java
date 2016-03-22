@@ -11,18 +11,14 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,7 +30,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -273,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    // TODO 処理が雑なのでリファクタ
                     mEditTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute) + "分");
                 }
             }, hour, minute, true);
@@ -320,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // タスクに追加
                     mList.add(todo);
-                    // DBに追加
+                    // TODO DBに追加
 
                     // Dialogを閉じる
                     dismiss();
