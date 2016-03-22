@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TodoListAdapter mAdapter;
     private DialogFragment mNewFragment;
     private ArrayList<Todo> mList;
+    private String logTag = "@@@@@BAITALK_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new TodoListAdapter(MainActivity.this) {
             @Override
             public void onClick(View v) {
-                Log.d("TODO_DEBUG", "aaaaa触ったよ");
+                Log.d(logTag, "aaaaa触ったよ");
             }
         };
         mAdapter.setTodoArrayList(mList);
@@ -85,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         c = db.query(
                 TodoContract.Todos.TABLE_NAME,
                 null, // fields
-                null, //TodoContract.Todos.COL_IS_DONE + " < ?", // where
-                null, //new String[]{"1"}, // where arg
+                TodoContract.Todos.COL_IS_DONE + " < ?", // where
+                new String[]{"1"}, // where arg
                 null, // group by
                 null, // having
                 TodoContract.Todos.COL_CREATED_AT + " desc"// order by
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
 
         // TODO 削除
-        Log.v("DB_TEST", "Count: " + c.getCount());
+        Log.v(logTag, "Count: " + c.getCount());
 
         // TODO 削除。DB内部確認
         checkDB();
@@ -114,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("@@@@@TODO_DEBUG", "触ったよ");
-
+                Log.d(logTag, "触ったよ");
             }
         });
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("@@@@@TODO_DEBUG", "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
+                Log.d(logTag, "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
 
                 Todo todo = (Todo) parent.getItemAtPosition(position);
                 Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.close();
 
-        Log.e("adapter", task);
+        Log.e(logTag, task);
         et.setText("");
 
         // TODO 削除 デバッグ用関数
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             String completed_at = c.getString(c.getColumnIndex(TodoContract.Todos.COL_COMPLETED_AT));
             String deadline = c.getString(c.getColumnIndex(TodoContract.Todos.COL_DEADLINE));
 
-            Log.v("DB_TEST",
+            Log.v(logTag,
                     "id: " + id +
                     " task: " + task +
                     " is_done: " + is_done +
