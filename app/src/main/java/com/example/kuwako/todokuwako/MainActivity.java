@@ -231,11 +231,11 @@ public class MainActivity extends AppCompatActivity {
         private TextView mEditDate;
         private TextView mEditTime;
         private EditText mEditText;
-
-        @Override
-        public void onStart() {
-            super.onStart();
-        }
+        private int mYear;
+        private int mMonth;
+        private int mDay;
+        private int mHour;
+        private int mMinute;
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -251,11 +251,11 @@ public class MainActivity extends AppCompatActivity {
 
             // datepicker用の初期情報取得
             mCalendar = Calendar.getInstance();
-            int year = mCalendar.get(Calendar.YEAR);
-            int month = mCalendar.get(Calendar.MONTH);
-            int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-            int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
-            int minute = mCalendar.get(Calendar.MINUTE);
+            mYear = mCalendar.get(Calendar.YEAR);
+            mMonth = mCalendar.get(Calendar.MONTH);
+            mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+            mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+            mMinute = mCalendar.get(Calendar.MINUTE);
 
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                     mEditDate.setText("日付: " + String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
                     mDlgTimePicker.show();
                 }
-            }, year, month, day);
+            }, mYear, mMonth, mDay);
 
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
@@ -271,8 +271,9 @@ public class MainActivity extends AppCompatActivity {
                     // TODO 処理が雑なのでリファクタ
                     mEditTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute) + "分");
                 }
-            }, hour, minute, true);
+            }, mHour, mMinute, true);
 
+            // TODO もう少しおしゃれに
             mMaxDate.set(2020, 11, 31);
             mMinDate.set(2016, 0, 1);
 
@@ -313,6 +314,12 @@ public class MainActivity extends AppCompatActivity {
                     mEditText.setText("");
 
                     // TODO 日付を取得
+                    String deadline = String.valueOf(mYear) + "-" +
+                                    String.valueOf(mMonth) + "-" +
+                                    String.valueOf(mDay) + " " +
+                                    String.valueOf(mHour) + ":" +
+                                    String.valueOf(mMinute);
+                    todo.setDeadline(deadline);
 
                     // タスクに追加
                     mList.add(todo);
