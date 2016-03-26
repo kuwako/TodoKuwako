@@ -260,7 +260,8 @@ public class MainActivity extends AppCompatActivity {
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    mEditDate.setText("日付: " + String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
+                    // TODO 月と日付を二桁に
+                    mEditDate.setText(String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
                     mDlgTimePicker.show();
                 }
             }, mYear, mMonth, mDay);
@@ -268,8 +269,8 @@ public class MainActivity extends AppCompatActivity {
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    // TODO 処理が雑なのでリファクタ
-                    mEditTime.setText("日時: " + String.valueOf(hourOfDay) + "時" + String.valueOf(minute) + "分");
+                    // TODO 時と分を二桁に
+                    mEditTime.setText(String.valueOf(hourOfDay) + "時" + String.valueOf(minute) + "分");
                 }
             }, mHour, mMinute, true);
 
@@ -309,21 +310,36 @@ public class MainActivity extends AppCompatActivity {
                     Todo todo = new Todo();
                     // テキストを取得
                     String sEditText = String.valueOf(mEditText.getText());
+
+                    // テキストが空なら終わり
+                    if (sEditText.equals("")) {
+                        Toast.makeText(getActivity(), "タスク名を登録してください。", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     todo.setTask(sEditText);
+
+                    // TODO 過去の日付が登録されていたらダメ
                     // 入力エリアを初期化
                     mEditText.setText("");
 
-                    // TODO 日付を取得
+                    // TODO そもそも日付を登録してない場合の処理がない
+                    // 日付を取得
                     String deadline = String.valueOf(mYear) + "-" +
-                                    String.valueOf(mMonth) + "-" +
-                                    String.valueOf(mDay) + " " +
-                                    String.valueOf(mHour) + ":" +
-                                    String.valueOf(mMinute);
+                            String.valueOf(mMonth) + "-" +
+                            String.valueOf(mDay) + " " +
+                            String.valueOf(mHour) + ":" +
+                            String.valueOf(mMinute);
                     todo.setDeadline(deadline);
 
                     // タスクに追加
                     mList.add(todo);
+
                     // TODO DBに追加
+
+
+                    // DB追加が終わったら日時データを初期化
+
 
                     // Dialogを閉じる
                     dismiss();
