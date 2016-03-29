@@ -29,13 +29,12 @@
         android:paddingBottom="20dp"
         android:layout_width="340dp"
         android:layout_height="wrap_content">
-        <TextView
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_weight="1"
-            android:id="@+id/date"
-            android:text="日付:"/>
+            android:src="@drawable/calendar" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,13 +48,12 @@
         android:paddingBottom="20dp"
         android:layout_width="340dp"
         android:layout_height="wrap_content">
-        <TextView
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:id="@+id/time"
-            android:text="時間:"/>
+            android:src="@drawable/timer"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
