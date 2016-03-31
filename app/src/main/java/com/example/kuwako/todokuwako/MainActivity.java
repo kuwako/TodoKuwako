@@ -342,6 +342,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                     // DB追加が終わったら日時データを初期化
+                    mYear = mCalendar.get(Calendar.YEAR);
+                    mMonth = mCalendar.get(Calendar.MONTH);
+                    mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+                    mMinute = mCalendar.get(Calendar.MINUTE);
 
 
                     // Dialogを閉じる
