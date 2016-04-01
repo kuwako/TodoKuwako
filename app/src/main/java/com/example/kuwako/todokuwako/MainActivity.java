@@ -323,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
                     todo.setTask(sEditText);
 
                     // TODO 過去の日付が登録されていたらダメ
+
                     // 入力エリアを初期化
                     mEditText.setText("");
 
@@ -338,7 +339,22 @@ public class MainActivity extends AppCompatActivity {
                     // タスクに追加
                     mList.add(todo);
 
-                    // TODO DBに追加
+                    // DBに追加
+                    Time time = new Time("Asia/Tokyo");
+                    time.setToNow();
+
+                    TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+                    SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+                    ContentValues newTask = new ContentValues();
+                    newTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
+                    newTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
+                    newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
+                    newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
+
+                    long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+
+        db.close();
 
 
                     // DB追加が終わったら日時データを初期化
