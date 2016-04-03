@@ -263,8 +263,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    // TODO 月と日付を二桁に
-                    mEditDate.setText(String.valueOf(year) + "年" + String.valueOf(monthOfYear + 1) + "月" + String.valueOf(dayOfMonth) + "日");
+                    mEditDate.setText(String.valueOf(year) + "年" + String.format("%1$02d", monthOfYear + 1) + "月" + String.format("%1$02d", dayOfMonth) + "日");
                     mDlgTimePicker.show();
                 }
             }, mYear, mMonth, mDay);
@@ -272,8 +271,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    // TODO 時と分を二桁に
-                    mEditTime.setText(String.valueOf(hourOfDay) + "時" + String.valueOf(minute) + "分");
+                    mEditTime.setText(String.format("%1$02d", hourOfDay) + "時" + String.format("%1$02d", minute) + "分");
                 }
             }, mHour, mMinute, true);
 
@@ -330,10 +328,10 @@ public class MainActivity extends AppCompatActivity {
                     // TODO そもそも日付を登録してない場合の処理がない
                     // 日付を取得
                     String deadline = String.valueOf(mYear) + "-" +
-                            String.valueOf(mMonth) + "-" +
-                            String.valueOf(mDay) + " " +
-                            String.valueOf(mHour) + ":" +
-                            String.valueOf(mMinute);
+                            String.format("%02d", mMonth) + "-" +
+                            String.format("%02d", mDay) + " " +
+                            String.format("%02d", mHour) + ":" +
+                            String.format("%02d", mMinute);
                     todo.setDeadline(deadline);
 
                     // タスクに追加
