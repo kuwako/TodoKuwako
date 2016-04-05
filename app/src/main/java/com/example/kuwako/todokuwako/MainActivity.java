@@ -264,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     mEditDate.setText(String.valueOf(year) + "年" + String.format("%1$02d", monthOfYear + 1) + "月" + String.format("%1$02d", dayOfMonth) + "日");
+                    mCalendar.set(year, monthOfYear, dayOfMonth);
+
                     mDlgTimePicker.show();
                 }
             }, mYear, mMonth, mDay);
@@ -272,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     mEditTime.setText(String.format("%1$02d", hourOfDay) + "時" + String.format("%1$02d", minute) + "分");
+                    mCalendar.set(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH), hourOfDay, minute);
                 }
             }, mHour, mMinute, true);
 
@@ -320,18 +323,26 @@ public class MainActivity extends AppCompatActivity {
 
                     todo.setTask(sEditText);
 
-                    // TODO 過去の日付が登録されていたらダメ
+                    // 過去の日付が登録されていたらダメ
+                    Calendar nowCalendar = Calendar.getInstance();
+
+                    int diff = nowCalendar.compareTo(mCalendar);
+
+                    if (diff > 0) {
+                        Toast.makeText(getActivity(),"過去の日付は登録できません", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     // 入力エリアを初期化
                     mEditText.setText("");
 
                     // TODO そもそも日付を登録してない場合の処理がない
                     // 日付を取得
-                    String deadline = String.valueOf(mYear) + "-" +
-                            String.format("%02d", mMonth) + "-" +
-                            String.format("%02d", mDay) + " " +
-                            String.format("%02d", mHour) + ":" +
-                            String.format("%02d", mMinute);
+                    String deadline = String.valueOf(mCalendar.get(Calendar.YEAR)) + "-" +
+                            String.format("%02d", mCalendar.get(Calendar.MONTH) + 1) + "-" +
+                            String.format("%02d", mCalendar.get(Calendar.DAY_OF_MONTH)) + " " +
+                            String.format("%02d", mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" +
+                            String.format("%02d", mCalendar.get(Calendar.MINUTE));
                     todo.setDeadline(deadline);
 
                     // タスクに追加
@@ -352,16 +363,11 @@ public class MainActivity extends AppCompatActivity {
 
                     long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
 
-        db.close();
+                    db.close();
 
 
-                    // DB追加が終わったら日時データを初期化
-                    mYear = mCalendar.get(Calendar.YEAR);
-                    mMonth = mCalendar.get(Calendar.MONTH);
-                    mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
-                    mMinute = mCalendar.get(Calendar.MINUTE);
-
+                    // TODO? DB追加が終わったら日時データを初期化
+                    mCalendar = null;
 
                     // Dialogを閉じる
                     dismiss();
