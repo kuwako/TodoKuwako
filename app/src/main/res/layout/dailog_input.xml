@@ -5,61 +5,81 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:paddingBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
         <EditText
+            android:id="@+id/dialogEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:inputType="text"
-            android:id="@+id/dialogEditText"/>
+            android:inputType="text" />
+
         <Button
+            android:id="@+id/dailogBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/dailogBtn"
             android:text="追加" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:paddingBottom="20dp"
         android:layout_width="340dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:layout_weight="1"
+            android:clickable="true"
             android:src="@drawable/calendar" />
+
         <TextView
+            android:id="@+id/edit_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:clickable="true"
-            android:layout_weight="5"
-            android:id="@+id/edit_date"
             android:text="日付登録にはこちらをクリック" />
+
+        <ImageView
+            android:id="@+id/dateResetBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:clickable="true"
+            android:src="@drawable/cancel" />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:paddingBottom="20dp"
         android:layout_width="340dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@drawable/timer"/>
+            android:src="@drawable/timer" />
+
         <TextView
+            android:id="@+id/edit_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:clickable="true"
-            android:id="@+id/edit_time"
-            android:text=""/>
+            android:text="" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:clickable="true" />
     </LinearLayout>
 </LinearLayout>

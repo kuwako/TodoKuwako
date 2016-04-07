@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -209,11 +210,11 @@ public class MainActivity extends AppCompatActivity {
 
             Log.v(logTag,
                     "id: " + id +
-                    " task: " + task +
-                    " is_done: " + is_done +
-                    " deadline: " + deadline +
-                    " created_at: " + created_at +
-                    " completed_at: " + completed_at
+                            " task: " + task +
+                            " is_done: " + is_done +
+                            " deadline: " + deadline +
+                            " created_at: " + created_at +
+                            " completed_at: " + completed_at
             );
         }
 
@@ -251,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
             mEditTime = (TextView) content.findViewById(R.id.edit_time);
             mDlgButton = (Button) content.findViewById(R.id.dailogBtn);
             mEditText = (EditText) content.findViewById(R.id.dialogEditText);
+            ImageView resetDateBtn = (ImageView) content.findViewById(R.id.dateResetBtn);
 
             // datepicker用の初期情報取得
             mCalendar = Calendar.getInstance();
@@ -281,6 +283,15 @@ public class MainActivity extends AppCompatActivity {
             // TODO もう少しおしゃれに
             mMaxDate.set(2020, 11, 31);
             mMinDate.set(2016, 0, 1);
+
+            // TODO 日付け削除ボタン
+            resetDateBtn.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(MainActivity.this, "リセット", Toast.LENGTH_SHORT);
+                        }
+                    });
 
             mEditDate.setOnClickListener(
                     new View.OnClickListener() {
@@ -329,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                     int diff = nowCalendar.compareTo(mCalendar);
 
                     if (diff > 0) {
-                        Toast.makeText(getActivity(),"過去の日付は登録できません", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "過去の日付は登録できません", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -337,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
                     mEditText.setText("");
 
                     // TODO そもそも日付を登録してない場合の処理がない
+
                     // 日付を取得
                     String deadline = String.valueOf(mCalendar.get(Calendar.YEAR)) + "-" +
                             String.format("%02d", mCalendar.get(Calendar.MONTH) + 1) + "-" +
