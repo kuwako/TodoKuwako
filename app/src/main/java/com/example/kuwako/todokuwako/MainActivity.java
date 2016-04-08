@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // TODO アラート機能追加
+
     public void addList(View view) {
         EditText et = (EditText) findViewById(R.id.editText);
         String task = String.valueOf(et.getText());
@@ -240,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
         private int mDay;
         private int mHour;
         private int mMinute;
+        private boolean mSetTime;
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -261,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
             mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
             mMinute = mCalendar.get(Calendar.MINUTE);
+            mSetTime = false;
 
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -277,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     mEditTime.setText(String.format("%1$02d", hourOfDay) + "時" + String.format("%1$02d", minute) + "分");
                     mCalendar.set(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH), hourOfDay, minute);
+                    mSetTime = true;
                 }
             }, mHour, mMinute, true);
 
@@ -290,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(MainActivity.this, "リセット", Toast.LENGTH_SHORT);
+                            mSetTime = false;
                         }
                     });
 
@@ -349,13 +355,17 @@ public class MainActivity extends AppCompatActivity {
 
                     // TODO そもそも日付を登録してない場合の処理がない
 
-                    // 日付を取得
-                    String deadline = String.valueOf(mCalendar.get(Calendar.YEAR)) + "-" +
-                            String.format("%02d", mCalendar.get(Calendar.MONTH) + 1) + "-" +
-                            String.format("%02d", mCalendar.get(Calendar.DAY_OF_MONTH)) + " " +
-                            String.format("%02d", mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-                            String.format("%02d", mCalendar.get(Calendar.MINUTE));
-                    todo.setDeadline(deadline);
+                    if (mSetTime) {
+                        // 日付を取得
+                        String deadline = String.valueOf(mCalendar.get(Calendar.YEAR)) + "-" +
+                                String.format("%02d", mCalendar.get(Calendar.MONTH) + 1) + "-" +
+                                String.format("%02d", mCalendar.get(Calendar.DAY_OF_MONTH)) + " " +
+                                String.format("%02d", mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" +
+                                String.format("%02d", mCalendar.get(Calendar.MINUTE));
+                        todo.setDeadline(deadline);
+
+                        mSetTime = false;
+                    }
 
                     // タスクに追加
                     mList.add(todo);
