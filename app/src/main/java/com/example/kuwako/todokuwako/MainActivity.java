@@ -154,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO アラート機能追加
+    // この辺参考になりそう
+    // https://akira-watson.com/android/alarmmanager-timer.html
+    // http://creativeindustry.seesaa.net/article/420816059.html
+    // http://qiita.com/petitviolet/items/89a0166f4167753d8844
 
     public void addList(View view) {
         EditText et = (EditText) findViewById(R.id.editText);
@@ -294,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            // TODO なぜか動かないので要チェック
                             Toast.makeText(MainActivity.this, "リセット", Toast.LENGTH_SHORT);
                             mSetTime = false;
                         }
@@ -353,8 +358,7 @@ public class MainActivity extends AppCompatActivity {
                     // 入力エリアを初期化
                     mEditText.setText("");
 
-                    // TODO そもそも日付を登録してない場合の処理がない
-
+                    // そもそも日付を登録してない場合の処理がない
                     if (mSetTime) {
                         // 日付を取得
                         String deadline = String.valueOf(mCalendar.get(Calendar.YEAR)) + "-" +
@@ -386,10 +390,6 @@ public class MainActivity extends AppCompatActivity {
                     long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
 
                     db.close();
-
-
-                    // TODO? DB追加が終わったら日時データを初期化
-                    mCalendar = null;
 
                     // Dialogを閉じる
                     dismiss();
