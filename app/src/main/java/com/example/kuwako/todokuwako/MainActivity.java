@@ -298,8 +298,12 @@ public class MainActivity extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // TODO なぜか動かないので要チェック
-                            Toast.makeText(MainActivity.this, "リセット", Toast.LENGTH_SHORT);
+                            // 日付初期化
+                            mCalendar = Calendar.getInstance();
+                            mEditDate.setText("日付登録にはこちらをクリック");
+                            mEditTime.setText("");
+
+                            Log.e("@@@@@x", "x button");
                             mSetTime = false;
                         }
                     });
@@ -350,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
                     int diff = nowCalendar.compareTo(mCalendar);
 
-                    if (diff > 0) {
+                    if (diff > 0 && mSetTime) {
                         Toast.makeText(getActivity(), "過去の日付は登録できません", Toast.LENGTH_SHORT).show();
                         return;
                     }
