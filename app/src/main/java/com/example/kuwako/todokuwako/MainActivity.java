@@ -1,18 +1,22 @@
 package com.example.kuwako.todokuwako;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -308,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+            // 日付指定ボタン
             mEditDate.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -324,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     }
             );
 
+            // 時間指定ボタン
             mEditTime.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -362,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
                     // 入力エリアを初期化
                     mEditText.setText("");
 
-                    // そもそも日付を登録してない場合の処理がない
+                    // 日付が指定されていた場合、登録
                     if (mSetTime) {
                         // 日付を取得
                         String deadline = String.valueOf(mCalendar.get(Calendar.YEAR)) + "-" +
@@ -371,6 +377,17 @@ public class MainActivity extends AppCompatActivity {
                                 String.format("%02d", mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                                 String.format("%02d", mCalendar.get(Calendar.MINUTE));
                         todo.setDeadline(deadline);
+
+                        // アラームの登録
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
+                        }
 
                         mSetTime = false;
                     }
