@@ -22,6 +22,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        // TODO タスク名とか出す。
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.calendar)
                 .setTicker("Time has come.")
