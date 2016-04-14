@@ -14,7 +14,6 @@ import android.support.v4.app.NotificationCompat;
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-//        Toast.makeText(context, "Received", Toast.LENGTH_LONG).show();
         int bid = intent.getIntExtra("intentId", 0);
         Intent intent2 = new Intent(context, MainActivity.class);
 
@@ -27,8 +26,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.calendar)
                 .setTicker("Time has come.")
                 .setWhen(System.currentTimeMillis())
-                .setContentTitle("時間ですよー")
-                .setContentText("なう")
+                .setContentTitle(intent.getStringExtra("deadline"))
+                .setContentText(intent.getStringExtra("task"))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .build();

@@ -157,12 +157,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // TODO アラート機能追加
-    // この辺参考になりそう
-    // https://akira-watson.com/android/alarmmanager-timer.html
-    // http://creativeindustry.seesaa.net/article/420816059.html
-    // http://qiita.com/petitviolet/items/89a0166f4167753d8844
-
     public void addList(View view) {
         EditText et = (EditText) findViewById(R.id.editText);
         String task = String.valueOf(et.getText());
@@ -297,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
             mMaxDate.set(2020, 11, 31);
             mMinDate.set(2016, 0, 1);
 
-            // TODO 日付け削除ボタン
+            // 日付け削除ボタン
             resetDateBtn.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -381,6 +375,8 @@ public class MainActivity extends AppCompatActivity {
                         // アラームの登録
                         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                         Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+                        intent.putExtra("task", todo.getTask());
+                        intent.putExtra("deadline", todo.getDeadline());
                         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
