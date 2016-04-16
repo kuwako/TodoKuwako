@@ -19,7 +19,7 @@ public abstract class TodoListAdapter extends BaseAdapter implements View.OnClic
 
     public TodoListAdapter(Context context) {
         this.context = context;
-        this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void setTodoArrayList(ArrayList<Todo> todoArrayList) {
@@ -45,8 +45,8 @@ public abstract class TodoListAdapter extends BaseAdapter implements View.OnClic
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.todorow, parent, false);
 
-        ((TextView)convertView.findViewById(R.id.task)).setText(todoArrayList.get(position).getTask());
-        ((TextView)convertView.findViewById(R.id.deadline)).setText(todoArrayList.get(position).getDeadline());
+        ((TextView) convertView.findViewById(R.id.task)).setText(todoArrayList.get(position).getTask());
+        ((TextView) convertView.findViewById(R.id.deadline)).setText(todoArrayList.get(position).getDeadline());
 
         return convertView;
     }

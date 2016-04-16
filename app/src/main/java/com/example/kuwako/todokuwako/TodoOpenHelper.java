@@ -9,24 +9,24 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class TodoOpenHelper extends SQLiteOpenHelper {
 
-//    public TodoOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    //    public TodoOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
 //        super(context, name, factory, version);
 //    }
     public static final String DB_NAME = "myapp.db";
     public static final Integer DB_VERSION = 1;
     public static final String CREATE_TABLE =
             "create table " + TodoContract.Todos.TABLE_NAME + " (" +
-                TodoContract.Todos._ID + " integer primary key autoincrement, " +
-                TodoContract.Todos.COL_TASK + " text, " +
-                TodoContract.Todos.COL_IS_DONE + " integer default 0, " +
-                TodoContract.Todos.COL_DEADLINE + " string default null, " +
-                TodoContract.Todos.COL_IS_SNOOZE + " integer default 0, " +
-                TodoContract.Todos.COL_SNOOZE_INTERVAL + " integer default 0, " +
-                TodoContract.Todos.COL_LABEL + " text default null, " +
-                TodoContract.Todos.COL_LEVEL + " integer default 0, " +
-                TodoContract.Todos.COL_STATUS + " integer default 0, " +
-                TodoContract.Todos.COL_COMPLETED_AT + " string default null, " +
-                TodoContract.Todos.COL_CREATED_AT + " string default null)";
+                    TodoContract.Todos._ID + " integer primary key autoincrement, " +
+                    TodoContract.Todos.COL_TASK + " text, " +
+                    TodoContract.Todos.COL_IS_DONE + " integer default 0, " +
+                    TodoContract.Todos.COL_DEADLINE + " string default null, " +
+                    TodoContract.Todos.COL_IS_SNOOZE + " integer default 0, " +
+                    TodoContract.Todos.COL_SNOOZE_INTERVAL + " integer default 0, " +
+                    TodoContract.Todos.COL_LABEL + " text default null, " +
+                    TodoContract.Todos.COL_LEVEL + " integer default 0, " +
+                    TodoContract.Todos.COL_STATUS + " integer default 0, " +
+                    TodoContract.Todos.COL_COMPLETED_AT + " string default null, " +
+                    TodoContract.Todos.COL_CREATED_AT + " string default null)";
 
     public static final String INIT_TABLE =
             "insert into " + TodoContract.Todos.TABLE_NAME + " (" +
@@ -40,7 +40,7 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
 
     public static final String DROP_TABLE = "drop table if exists " + TodoContract.Todos.TABLE_NAME;
 
-    public TodoOpenHelper (Context c) {
+    public TodoOpenHelper(Context c) {
         super(c, DB_NAME, null, DB_VERSION);
     }
 

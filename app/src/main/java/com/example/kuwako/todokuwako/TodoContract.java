@@ -8,7 +8,8 @@ import java.util.Date;
  * Created by kuwako on 2016/01/12.
  */
 public final class TodoContract {
-    public TodoContract() {};
+    public TodoContract() {
+    }
 
     public static abstract class Todos implements BaseColumns {
         public static final String TABLE_NAME          = "todos";
