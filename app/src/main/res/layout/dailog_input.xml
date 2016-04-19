@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@drawable/calendar" />
+            android:src="@android:drawable/ic_menu_my_calendar"/>
 
         <TextView
             android:id="@+id/edit_date"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:clickable="true"
-            android:src="@drawable/cancel" />
+            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@drawable/timer" />
+            android:src="@android:drawable/ic_menu_recent_history"/>
 
         <TextView
             android:id="@+id/edit_time"

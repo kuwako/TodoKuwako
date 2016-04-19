@@ -21,18 +21,19 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // TODO タスク名とか出す。
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.calendar)
-                .setTicker("Time has come.")
+                .setTicker("タスクの時間だよ")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(intent.getStringExtra("deadline"))
                 .setContentText(intent.getStringExtra("task"))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .build();
 
         notificationManager.cancelAll();
+
         notificationManager.notify(R.string.app_name, notification);
     }
 }
