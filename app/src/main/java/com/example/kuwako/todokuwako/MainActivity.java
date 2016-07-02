@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
         // TODO 削除。必ず初期化
-        db.execSQL(TodoOpenHelper.DROP_TABLE);
-        db.execSQL(TodoOpenHelper.CREATE_TABLE);
-        db.execSQL(TodoOpenHelper.INIT_TABLE);
+//        db.execSQL(TodoOpenHelper.DROP_TABLE);
+//        db.execSQL(TodoOpenHelper.CREATE_TABLE);
+//        db.execSQL(TodoOpenHelper.INIT_TABLE);
 
         // 処理
         Cursor c = null;
@@ -116,6 +116,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(logTag, "触ったよ");
+            }
+        });
+
+        // シングルタップでモーダル表示 + 編集削除
+        todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
 
