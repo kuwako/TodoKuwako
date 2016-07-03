@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO editFragmentの呼び出し
 
             }
         });
@@ -231,6 +232,21 @@ public class MainActivity extends AppCompatActivity {
         db.close();
     }
 
+    public class EditDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // TODO ダイアログ内の動き
+            // TODO ダイアログのviewセット
+            // TODO 選択されたTaskの取得
+            // TODO editを選ばれたときの処理
+            // TODO deleteを選ばれたときの処理
+            return builder.create();
+        }
+
+    }
+
+    // TODO 別ファイル化
     // 入力用ダイアログ
     public class InputDialogFragment extends DialogFragment {
         private DatePickerDialog mDlgDatePicker;
