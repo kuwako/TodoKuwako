@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "143069893806",
+    "firebase_url": "https://todokuwako.firebaseio.com",
+    "project_id": "todokuwako",
+    "storage_bucket": "todokuwako.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143069893806:android:4111423a626968e0",
+        "android_client_info": {
+          "package_name": "com.example.kuwako.todokuwako"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143069893806-5098m9gkqqctcjp93dmg5r2ibpekgph4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-fho3WcMVPuJ16_Dgos-Mtd6_y7COzqk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
