@@ -240,6 +240,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View content = inflater.inflate(R.layout.dailog_edit, null);
             // TODO ダイアログ内の動き
             // TODO ダイアログのviewセット
             // TODO 選択されたTaskの取得
