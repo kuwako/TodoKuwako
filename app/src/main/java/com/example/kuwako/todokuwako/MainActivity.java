@@ -41,7 +41,8 @@ import java.util.GregorianCalendar;
 public class MainActivity extends AppCompatActivity {
 
     private TodoListAdapter mAdapter;
-    private DialogFragment mNewFragment;
+    private DialogFragment mInputFragment;
+    private DialogFragment mEditFragment;
     private ArrayList<Todo> mList;
     private String logTag = "@@@@@BAITALK_TAG";
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -50,16 +51,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // TODO checkbox消す
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mNewFragment = new InputDialogFragment();
+        mInputFragment = new InputDialogFragment();
+        mEditFragment = new EditDialogFragment();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mNewFragment.show(getFragmentManager(), "aaa");
+                mInputFragment.show(getFragmentManager(), "aaa");
             }
         });
 
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO editFragmentの呼び出し
-
+                mEditFragment.show(getFragmentManager(), "bbb");
             }
         });
 
@@ -247,6 +250,14 @@ public class MainActivity extends AppCompatActivity {
             // TODO 選択されたTaskの取得
             // TODO editを選ばれたときの処理
             // TODO deleteを選ばれたときの処理
+            builder.setView(content);
+            builder.setMessage("タスクを編集/削除")
+                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
             return builder.create();
         }
 
