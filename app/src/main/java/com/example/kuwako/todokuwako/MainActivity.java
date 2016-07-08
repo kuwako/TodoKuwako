@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Todo> mList;
     private String logTag = "@@@@@BAITALK_TAG";
     private FirebaseAnalytics mFirebaseAnalytics;
+    private Todo editTodo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,18 +120,13 @@ public class MainActivity extends AppCompatActivity {
         c.close();
         db.close();
 
-        todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(logTag, "触ったよ");
-            }
-        });
-
         // シングルタップでモーダル表示 + 編集削除
         todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO editFragmentの呼び出し
+                ListView listView = (ListView) parent;
+                editTodo = (Todo) listView.getItemAtPosition(position);
+
                 mEditFragment.show(getFragmentManager(), "bbb");
             }
         });
@@ -245,11 +241,28 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dailog_edit, null);
+            Button saveBtn = (Button) content.findViewById(R.id.saveBtn);
+            Button deleteBtn  = (Button) content.findViewById(R.id.deleteBtn);
+            EditText editTask = (EditText) content.findViewById(R.id.editTask);
+
             // TODO ダイアログ内の動き
-            // TODO ダイアログのviewセット
-            // TODO 選択されたTaskの取得
-            // TODO editを選ばれたときの処理
-            // TODO deleteを選ばれたときの処理
+            if (editTodo == null) {
+                return null;
+            }
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO saveを選ばれたときの処理
+
+                }
+            });
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO deleteを選ばれたときの処理
+
+                }
+            });
             builder.setView(content);
             builder.setMessage("タスクを編集/削除")
                     .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
