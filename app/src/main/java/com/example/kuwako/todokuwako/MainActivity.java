@@ -238,17 +238,19 @@ public class MainActivity extends AppCompatActivity {
     public class EditDialogFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View content = inflater.inflate(R.layout.dailog_edit, null);
-            Button saveBtn = (Button) content.findViewById(R.id.saveBtn);
-            Button deleteBtn  = (Button) content.findViewById(R.id.deleteBtn);
-            EditText editTask = (EditText) content.findViewById(R.id.editTask);
-
             // TODO ダイアログ内の動き
             if (editTodo == null) {
                 return null;
             }
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View content = inflater.inflate(R.layout.dialog_edit, null);
+            Button saveBtn = (Button) content.findViewById(R.id.saveBtn);
+            Button deleteBtn  = (Button) content.findViewById(R.id.deleteBtn);
+            EditText editTask = (EditText) content.findViewById(R.id.editTask);
+            editTask.setText(editTodo.getTask());
+
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -302,11 +304,11 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View content = inflater.inflate(R.layout.dailog_input, null);
+            View content = inflater.inflate(R.layout.dialog_input, null);
 
             mEditDate = (TextView) content.findViewById(R.id.edit_date);
             mEditTime = (TextView) content.findViewById(R.id.edit_time);
-            mDlgButton = (Button) content.findViewById(R.id.dailogBtn);
+            mDlgButton = (Button) content.findViewById(R.id.dialogBtn);
             mEditText = (EditText) content.findViewById(R.id.dialogEditText);
             ImageView resetDateBtn = (ImageView) content.findViewById(R.id.dateResetBtn);
 
