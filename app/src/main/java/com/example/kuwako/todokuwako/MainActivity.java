@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private Todo editTodo = null;
 
+    // TODO DBをrealmに移行
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,28 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(logTag, "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
 
                 Todo todo = (Todo) parent.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
-                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-
-                ContentValues updateTask = new ContentValues();
-                updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
-
-                int updateCount = db.update(
-                        TodoContract.Todos.TABLE_NAME,
-                        updateTask,
-                        TodoContract.Todos.COL_TASK + " = ?",
-                        new String[]{todo.getTask()}
-                );
-
-                db.close();
-
-                mList.remove(todo);
-                mAdapter.notifyDataSetChanged();
-
-                // TODO デバッグ用関数。削除。
-                checkDB();
-
+                deleteTodo(todo);
                 return true;
             }
         });
@@ -235,9 +215,36 @@ public class MainActivity extends AppCompatActivity {
         db.close();
     }
 
+    private boolean deleteTodo(Todo todo) {
+        Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+        ContentValues updateTask = new ContentValues();
+        updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
+
+        int updateCount = db.update(
+                TodoContract.Todos.TABLE_NAME,
+                updateTask,
+                TodoContract.Todos.COL_TASK + " = ?",
+                new String[]{todo.getTask()}
+        );
+
+        db.close();
+
+        mList.remove(todo);
+        mAdapter.notifyDataSetChanged();
+
+        // TODO デバッグ用関数。削除。
+        checkDB();
+
+        return true;
+    }
+
     public class EditDialogFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            super.onCreateDialog(savedInstanceState);
             // TODO ダイアログ内の動き
             if (editTodo == null) {
                 return null;
@@ -250,6 +257,15 @@ public class MainActivity extends AppCompatActivity {
             Button deleteBtn  = (Button) content.findViewById(R.id.deleteBtn);
             EditText editTask = (EditText) content.findViewById(R.id.editTask);
             editTask.setText(editTodo.getTask());
+            TextView editTime = (TextView) content.findViewById(R.id.editTime);
+            editTime.setText(editTodo.getDeadline());
+
+            editTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO 時計を表示
+                }
+            });
 
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -262,7 +278,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // TODO deleteを選ばれたときの処理
-
+                    deleteTodo(editTodo);
+                    editTodo = null;
+                    dismiss();
                 }
             });
             builder.setView(content);
