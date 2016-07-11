@@ -242,6 +242,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class EditDialogFragment extends DialogFragment {
+        private int mYear;
+        private int mMonth;
+        private int mDay;
+        private int mHour;
+        private int mMinute;
+        Calendar mCalendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog;
+        TimePickerDialog timePickerDialog;
+        EditText editTask;
+        TextView editTime;
+        String deadLine;
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             super.onCreateDialog(savedInstanceState);
@@ -254,28 +266,67 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dialog_edit, null);
             Button saveBtn = (Button) content.findViewById(R.id.saveBtn);
-            Button deleteBtn  = (Button) content.findViewById(R.id.deleteBtn);
-            EditText editTask = (EditText) content.findViewById(R.id.editTask);
+            Button deleteBtn = (Button) content.findViewById(R.id.deleteBtn);
+            editTask = (EditText) content.findViewById(R.id.editTask);
             editTask.setText(editTodo.getTask());
-            TextView editTime = (TextView) content.findViewById(R.id.editTime);
+            editTime = (TextView) content.findViewById(R.id.editTime);
+
             if (editTodo.getDeadline() != null) {
                 editTime.setText(editTodo.getDeadline());
+                String[] deadLineArr = editTodo.getDeadline().split(" ", 0);
+                String[] deadLineDateArr = deadLineArr[0].split("-", 0);
+                String[] deadLineTimeArr = deadLineArr[1].split(":");
+                mYear = Integer.parseInt(deadLineDateArr[0]);
+                mMonth = Integer.parseInt(deadLineDateArr[1]);
+                mDay = Integer.parseInt(deadLineDateArr[2]);
+                mHour = Integer.parseInt(deadLineTimeArr[0]);
+                mMinute = Integer.parseInt(deadLineTimeArr[1]);
+
             } else {
                 editTime.setText("タスクの期限を設定");
+
+                mYear = mCalendar.get(Calendar.YEAR);
+                mMonth = mCalendar.get(Calendar.MONTH);
+                mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+                mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+                mMinute = mCalendar.get(Calendar.MINUTE);
             }
 
             editTime.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO 時計を表示
+                    datePickerDialog.show();
                 }
             });
+
+            datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+
+                    timePickerDialog.show();
+                }
+            }, mYear, mMonth, mDay);
+
+            timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    mHour = hourOfDay;
+                    mMinute = minute;
+
+                    deadLine = mYear + "-" + mMonth + "-" + mDay + " " + mHour + ":" + mMinute;
+                    editTime.setText(deadLine);
+                }
+            }, mHour, mMinute, true);
 
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO saveを選ばれたときの処理
 
+                    dismiss();
                 }
             });
             deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -289,12 +340,12 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.setView(content);
             builder.setMessage("タスクを編集/削除")
-                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
             return builder.create();
         }
 
