@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             super.onCreateDialog(savedInstanceState);
             // TODO ダイアログ内の動き
             if (editTodo == null) {
-                return null;
+                dismiss();
             }
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -258,7 +258,11 @@ public class MainActivity extends AppCompatActivity {
             EditText editTask = (EditText) content.findViewById(R.id.editTask);
             editTask.setText(editTodo.getTask());
             TextView editTime = (TextView) content.findViewById(R.id.editTime);
-            editTime.setText(editTodo.getDeadline());
+            if (editTodo.getDeadline() != null) {
+                editTime.setText(editTodo.getDeadline());
+            } else {
+                editTime.setText("タスクの期限を設定");
+            }
 
             editTime.setOnClickListener(new View.OnClickListener() {
                 @Override
