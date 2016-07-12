@@ -241,6 +241,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private boolean saveTodo(Todo todo) {
+        // TODO 保存部分実装
+
+        return true;
+    }
+
     public class EditDialogFragment extends DialogFragment {
         private int mYear;
         private int mMonth;
@@ -325,7 +331,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // TODO saveを選ばれたときの処理
+                    editTodo.setTask(editTask.getText().toString());
+                    editTodo.setDeadline(deadLine);
 
+                    saveTodo(editTodo);
+                    // TODO タスク名がnullだった場合の例外処理
                     dismiss();
                 }
             });
