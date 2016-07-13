@@ -238,13 +238,33 @@ public class MainActivity extends AppCompatActivity {
         // TODO デバッグ用関数。削除。
         checkDB();
 
-        return true;
+        return updateCount > 0;
     }
 
     private boolean saveTodo(Todo todo) {
         // TODO 保存部分実装
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
-        return true;
+        ContentValues updateTask = new ContentValues();
+        updateTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
+        updateTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
+
+        int updateCount = db.update(
+                TodoContract.Todos.TABLE_NAME,
+                updateTask,
+                TodoContract.Todos.COL_TASK + " = ?",
+                new String[]{todo.getTask()}
+        );
+
+        db.close();
+
+        mAdapter.notifyDataSetChanged();
+
+        // TODO デバッグ用関数。削除。
+        checkDB();
+
+        return updateCount > 0;
     }
 
     public class EditDialogFragment extends DialogFragment {
