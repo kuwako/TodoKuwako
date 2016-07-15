@@ -342,7 +342,11 @@ public class MainActivity extends AppCompatActivity {
                     mHour = hourOfDay;
                     mMinute = minute;
 
-                    deadLine = mYear + "-" + mMonth + "-" + mDay + " " + mHour + ":" + mMinute;
+                    deadLine = String.valueOf(mYear) + "-" +
+                            String.format("%02d", mMonth) + "-" +
+                            String.format("%02d", mDay) + " " +
+                            String.format("%02d", mHour) + ":" +
+                            String.format("%02d", mMinute);
                     editTime.setText(deadLine);
                 }
             }, mHour, mMinute, true);
@@ -356,6 +360,8 @@ public class MainActivity extends AppCompatActivity {
 
                     saveTodo(editTodo);
                     // TODO タスク名がnullだった場合の例外処理
+
+                    // TODO アラーム仕込む処理
                     dismiss();
                 }
             });
