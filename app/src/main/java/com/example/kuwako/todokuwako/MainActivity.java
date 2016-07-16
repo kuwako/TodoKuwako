@@ -283,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             super.onCreateDialog(savedInstanceState);
-            // TODO ダイアログ内の動き
             if (editTodo == null) {
                 dismiss();
             }
@@ -297,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
             editTask.setText(editTodo.getTask());
             editTime = (TextView) content.findViewById(R.id.editTime);
 
+            // TODO そもそも期限を削除する機能も必要そう。
             if (editTodo.getDeadline() != null) {
                 editTime.setText(editTodo.getDeadline());
                 String[] deadLineArr = editTodo.getDeadline().split(" ", 0);
@@ -354,14 +354,19 @@ public class MainActivity extends AppCompatActivity {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO saveを選ばれたときの処理
+                    // タスク名がカラだったら無効
+                    if (editTask.getText().toString() != "") {
+                        Toast.makeText(MainActivity.this, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // saveを選ばれたときの処理
                     editTodo.setTask(editTask.getText().toString());
                     editTodo.setDeadline(deadLine);
 
                     saveTodo(editTodo);
-                    // TODO タスク名がnullだった場合の例外処理
 
                     // TODO アラーム仕込む処理
+                    // TODO 既にアラームが登録済みならば変更する処理
                     dismiss();
                 }
             });
@@ -570,7 +575,6 @@ public class MainActivity extends AppCompatActivity {
 
                     db.close();
 
-                    // Dialogを閉じる
                     dismiss();
                 }
             });
