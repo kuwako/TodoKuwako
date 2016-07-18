@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Todo editTodo = null;
 
     // TODO DBをrealmに移行
+    // TODO スヌーズ機能
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
-        // TODO 削除。必ず初期化
+        // 削除。必ず初期化
 //        db.execSQL(TodoOpenHelper.DROP_TABLE);
 //        db.execSQL(TodoOpenHelper.CREATE_TABLE);
 //        db.execSQL(TodoOpenHelper.INIT_TABLE);
@@ -110,9 +111,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mAdapter.notifyDataSetChanged();
-
-        // TODO 削除
-        Log.v(logTag, "Count: " + c.getCount());
 
         // TODO 削除。DB内部確認
         checkDB();
@@ -372,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO deleteを選ばれたときの処理
+                    // deleteを選ばれたときの処理
                     deleteTodo(editTodo);
                     editTodo = null;
                     dismiss();
@@ -543,7 +541,12 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
                         intent.putExtra("task", todo.getTask());
                         intent.putExtra("deadline", todo.getDeadline());
-                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
+                        // TODO id指定用
+//                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int)todo.getId(), intent, 0);
+                        Log.e("@@@", String.valueOf((int)todo.getId()));
+                        checkDB();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
