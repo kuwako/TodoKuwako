@@ -32,6 +32,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .build();
 
+        // TODO cancelAllすると前のが消えてしまうので、対応
         notificationManager.cancelAll();
 
         notificationManager.notify(R.string.app_name, notification);

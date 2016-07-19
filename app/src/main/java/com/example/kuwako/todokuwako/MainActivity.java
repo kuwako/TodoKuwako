@@ -535,26 +535,6 @@ public class MainActivity extends AppCompatActivity {
                                 String.format("%02d", mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                                 String.format("%02d", mCalendar.get(Calendar.MINUTE));
                         todo.setDeadline(deadline);
-
-                        // アラームの登録
-                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-                        intent.putExtra("task", todo.getTask());
-                        intent.putExtra("deadline", todo.getDeadline());
-
-                        // TODO id指定用
-//                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int)todo.getId(), intent, 0);
-                        Log.e("@@@", String.valueOf((int)todo.getId()));
-                        checkDB();
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
-                        } else {
-                            alarmManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
-                        }
-
-                        mSetTime = false;
                     }
 
                     // タスクに追加
@@ -574,6 +554,26 @@ public class MainActivity extends AppCompatActivity {
                     newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
 
                     long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+
+                    if (mSetTime) {
+                        // アラームの登録
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+                        intent.putExtra("task", todo.getTask());
+                        intent.putExtra("deadline", todo.getDeadline());
+
+                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) newId, intent, 0);
+                        Log.e("@@@", String.valueOf((int) newId));
+                        checkDB();
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
+                        }
+                        mSetTime = false;
+                    }
+
 
                     db.close();
 
