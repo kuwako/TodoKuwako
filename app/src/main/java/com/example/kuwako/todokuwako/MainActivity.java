@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Todo editTodo = null;
 
     // TODO DBをrealmに移行
+    // TODO 関数をService系クラスに移行
     // TODO スヌーズ機能
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean saveTodo(Todo todo) {
-        // TODO 保存部分実装
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
@@ -255,13 +255,29 @@ public class MainActivity extends AppCompatActivity {
         );
 
         db.close();
-
         mAdapter.notifyDataSetChanged();
 
         // TODO デバッグ用関数。削除。
         checkDB();
 
         return updateCount > 0;
+    }
+
+    private void setTodoAlarm(Todo todo, int alarmId, Calendar calendar) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+        intent.putExtra("task", todo.getTask());
+        intent.putExtra("deadline", todo.getDeadline());
+
+        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
+        Log.e("@@@", String.valueOf(alarmId));
+        checkDB();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+        }
     }
 
     public class EditDialogFragment extends DialogFragment {
@@ -344,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
                             String.format("%02d", mDay) + " " +
                             String.format("%02d", mHour) + ":" +
                             String.format("%02d", mMinute);
+                    mCalendar.set(mYear, mMonth, mDay, mHour, mMinute);
                     editTime.setText(deadLine);
                 }
             }, mHour, mMinute, true);
@@ -361,8 +378,8 @@ public class MainActivity extends AppCompatActivity {
                     editTodo.setDeadline(deadLine);
 
                     saveTodo(editTodo);
-
-                    // TODO アラーム仕込む処理
+                    // アラーム仕込む処理
+                    setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
                     // TODO 既にアラームが登録済みならば変更する処理
                     dismiss();
                 }
@@ -554,28 +571,13 @@ public class MainActivity extends AppCompatActivity {
                     newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
 
                     long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+                    db.close();
 
                     if (mSetTime) {
                         // アラームの登録
-                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-                        intent.putExtra("task", todo.getTask());
-                        intent.putExtra("deadline", todo.getDeadline());
-
-                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) newId, intent, 0);
-                        Log.e("@@@", String.valueOf((int) newId));
-                        checkDB();
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
-                        } else {
-                            alarmManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pending);
-                        }
+                        setTodoAlarm(todo, (int) newId, mCalendar);
                         mSetTime = false;
                     }
-
-
-                    db.close();
 
                     dismiss();
                 }
