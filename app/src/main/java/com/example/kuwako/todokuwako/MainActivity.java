@@ -380,7 +380,6 @@ public class MainActivity extends AppCompatActivity {
                     saveTodo(editTodo);
                     // アラーム仕込む処理
                     setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
-                    // TODO 既にアラームが登録済みならば変更する処理
                     dismiss();
                 }
             });
@@ -395,12 +394,12 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.setView(content);
             builder.setMessage("タスクを編集/削除")
-                .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
             return builder.create();
         }
 
