@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // タスク名がカラだったら無効
-                    if (editTask.getText().toString() != "") {
+                    if (editTask.getText().toString() == "" || editTask.getText() == null) {
                         Toast.makeText(MainActivity.this, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
                         return;
                     }
