@@ -33,7 +33,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .build();
 
         // TODO 二つ目の通知がくると一つ目が消える。
-
+        // 原因はnotify()の第一引数に同じ値を使っているためだった。
         notificationManager.notify(R.string.app_name, notification);
     }
 }
