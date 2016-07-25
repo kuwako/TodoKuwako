@@ -268,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
         intent.putExtra("task", todo.getTask());
         intent.putExtra("deadline", todo.getDeadline());
+        intent.putExtra("id", (int) todo.getId());
 
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
         Log.e("@@@", String.valueOf(alarmId));

@@ -32,8 +32,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .build();
 
-        // TODO 二つ目の通知がくると一つ目が消える。
-        // 原因はnotify()の第一引数に同じ値を使っているためだった。
-        notificationManager.notify(R.string.app_name, notification);
+        notificationManager.notify(intent.getIntExtra("id", 0), notification);
     }
 }
