@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 /**
  * Created by kuwako on 2016/04/11.
@@ -22,7 +23,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.calendar)
+                .setSmallIcon(R.drawable.ic_app)
                 .setTicker("タスクの時間だよ")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(intent.getStringExtra("deadline"))
@@ -33,5 +34,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .build();
 
         notificationManager.notify(intent.getIntExtra("id", 0), notification);
+        Log.e("@@@", String.valueOf(intent.getIntExtra("id", 0)));
     }
 }
