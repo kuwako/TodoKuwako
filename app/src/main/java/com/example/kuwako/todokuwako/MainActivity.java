@@ -144,6 +144,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        Log.e("@@@onStart", String.valueOf(intent.getIntExtra("todoId", 0)));
+        if (intent.getIntExtra("todoId", 0) != 0) {
+            for (int i = 0; mList.size() > i; i++) {
+                Todo targetTodo = mList.get(i);
+                if (targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
+                    editTodo = targetTodo;
+                    break;
+                }
+            }
+
+            if (editTodo != null) {
+                mEditFragment.show(getFragmentManager(), "bbb");
+            }
+        }
+    }
+
     public void addList(View view) {
         EditText et = (EditText) findViewById(R.id.editText);
         String task = String.valueOf(et.getText());
@@ -389,7 +409,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // deleteを選ばれたときの処理
                     deleteTodo(editTodo);
-                    editTodo = null;
                     dismiss();
                 }
             });
@@ -404,6 +423,11 @@ public class MainActivity extends AppCompatActivity {
             return builder.create();
         }
 
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            editTodo = null;
+            super.onDismiss(dialog);
+        }
     }
 
     // TODO 別ファイル化
