@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private String logTag = "@@@@@BAITALK_TAG";
     private FirebaseAnalytics mFirebaseAnalytics;
     private Todo editTodo = null;
+    private EditText editTask;
+    private Button addButon;
 
     // TODO DBをrealmに移行
     // TODO 関数をService系クラスに移行
@@ -58,8 +62,28 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(BuildConfig.DEBUG);
         mInputFragment = new InputDialogFragment();
         mEditFragment = new EditDialogFragment();
+        editTask = (EditText) findViewById(R.id.editText);
+        editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // キーボードを隠す処理
+                if (hasFocus == false) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
+
+        addButon = (Button) findViewById(R.id.addButton);
+        addButon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addList(v);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
             todo.setTask(c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK)));
             todo.setDeadline(c.getString(c.getColumnIndex(TodoContract.Todos.COL_DEADLINE)));
 
-            mList.add(todo);
+            mList.add(0, todo);
+            mAdapter.notifyDataSetChanged();
         }
 
         mAdapter.notifyDataSetChanged();
@@ -127,19 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 editTodo = (Todo) listView.getItemAtPosition(position);
 
                 mEditFragment.show(getFragmentManager(), "bbb");
-            }
-        });
-
-        // 長押しでタスク削除
-        todoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(logTag, "ロングタッチ " + String.valueOf(position) + " " + String.valueOf(id));
-
-                Todo todo = (Todo) parent.getItemAtPosition(position);
-                deleteTodo(todo);
-                return true;
             }
         });
     }
@@ -165,15 +177,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addList(View view) {
-        EditText et = (EditText) findViewById(R.id.editText);
-        String task = String.valueOf(et.getText());
+        String task = String.valueOf(editTask.getText());
 
         Todo todo = new Todo();
         todo.setTask(task);
-        mList.add(todo);
+        mList.add(0, todo);
+        mAdapter.notifyDataSetChanged();
 
         Time time = new Time("Asia/Tokyo");
         time.setToNow();
+        editTask.setText("");
 
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
@@ -188,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
         db.close();
 
         Log.e(logTag, task);
-        et.setText("");
 
         // TODO 削除 デバッグ用関数
         checkDB();
@@ -328,6 +340,16 @@ public class MainActivity extends AppCompatActivity {
             Button deleteBtn = (Button) content.findViewById(R.id.deleteBtn);
             editTask = (EditText) content.findViewById(R.id.editTask);
             editTask.setText(editTodo.getTask());
+            editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    // キーボードを隠す処理
+                    if (hasFocus == false) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+            });
             editTime = (TextView) content.findViewById(R.id.editTime);
 
             // TODO そもそも期限を削除する機能も必要そう。
@@ -462,6 +484,16 @@ public class MainActivity extends AppCompatActivity {
             mEditTime = (TextView) content.findViewById(R.id.edit_time);
             mDlgButton = (Button) content.findViewById(R.id.dialogBtn);
             mEditText = (EditText) content.findViewById(R.id.dialogEditText);
+            mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    // キーボードを隠す処理
+                    if (hasFocus == false) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+            });
             ImageView resetDateBtn = (ImageView) content.findViewById(R.id.dateResetBtn);
 
             // datepicker用の初期情報取得
@@ -579,7 +611,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // タスクに追加
-                    mList.add(todo);
+                    mList.add(0, todo);
+                    mAdapter.notifyDataSetChanged();
 
                     // DBに追加
                     Time time = new Time("Asia/Tokyo");

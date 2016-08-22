@@ -37,7 +37,6 @@
                 android:text="追加"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:onClick="addList"
                 >
                 <requestFocus />
             </Button>
