@@ -33,6 +33,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setContentText(intent.getStringExtra("task"))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
+                .setVibrate(new long[]{1000, 100, 2000})
                 .setAutoCancel(true)
                 .build();
 

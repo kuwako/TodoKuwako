@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addButon;
 
     // TODO DBをrealmに移行
-    // TODO 関数をService系クラスに移行
+    // TODO 関数をHelper系クラスに移行
     // TODO スヌーズ機能
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,11 +109,6 @@ public class MainActivity extends AppCompatActivity {
         // db open
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-
-        // 削除。必ず初期化
-//        db.execSQL(TodoOpenHelper.DROP_TABLE);
-//        db.execSQL(TodoOpenHelper.CREATE_TABLE);
-//        db.execSQL(TodoOpenHelper.INIT_TABLE);
 
         // 処理
         Cursor c = null;
@@ -412,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // タスク名がカラだったら無効
-                    if (editTask.getText().toString() == "" || editTask.getText() == null) {
+                    if (editTask.getText().toString().equals("") || editTask.getText() == null) {
                         Toast.makeText(MainActivity.this, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
                         return;
                     }
