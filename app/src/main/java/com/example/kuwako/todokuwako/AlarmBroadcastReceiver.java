@@ -38,6 +38,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .build();
 
         notificationManager.notify(intent.getIntExtra("id", 0), notification);
-        Log.e("@@@", String.valueOf(intent.getIntExtra("id", 0)));
+        Log.e("@@@notify_id: ", String.valueOf(intent.getIntExtra("id", 0)));
+        // TODO 通知から開いた時にそのタスクのダイアログが開いているようにする
     }
 }

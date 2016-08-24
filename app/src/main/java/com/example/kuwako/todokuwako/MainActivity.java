@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTask;
     private Button addButon;
 
+    // TODO BetterKnife導入
+    // TODO EventBus導入
+    // TODO Dagger2導入
     // TODO DBをrealmに移行
     // TODO 関数をHelper系クラスに移行
     // TODO スヌーズ機能
@@ -105,12 +108,9 @@ public class MainActivity extends AppCompatActivity {
         final ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
 
-        // db処理
-        // db open
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
-        // 処理
         Cursor c = null;
         c = db.query(
                 TodoContract.Todos.TABLE_NAME,
