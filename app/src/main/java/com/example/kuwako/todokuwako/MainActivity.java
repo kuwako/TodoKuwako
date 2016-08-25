@@ -154,12 +154,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // TODO なぜか取得したintentから取れるtodoIdが初回のやつ。
         Intent intent = getIntent();
-        Log.e("@@@onStart", String.valueOf(intent.getIntExtra("todoId", 0)));
+        Log.e("@@@onStartTodoId", String.valueOf(intent.getIntExtra("todoId", 0)));
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
-                if (targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
+                // TODO mListから取得したあたいにはidが入っていない
+
+                Log.e("@@@todoId", String.valueOf(intent.getIntExtra("todoId", 0)));
+                Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getId()));
+                Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getTask()));
+                if ((int) targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
                     editTodo = targetTodo;
                     break;
                 }
