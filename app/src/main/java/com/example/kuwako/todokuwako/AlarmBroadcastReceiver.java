@@ -32,9 +32,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(intent.getStringExtra("deadline"))
                 .setContentText(intent.getStringExtra("task"))
-                .setDefaults(Notification.DEFAULT_ALL)
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
-                .setVibrate(new long[]{1000, 100, 2000})
+                .setVibrate(new long[]{0, 1000, 300, 2000})
                 .setAutoCancel(true)
                 .build();
 
