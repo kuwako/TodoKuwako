@@ -24,6 +24,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        // TODO setVibrateきいてない
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_app)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
@@ -38,6 +39,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .build();
 
         notificationManager.notify(intent.getIntExtra("id", 0), notification);
-        Log.e("@@@", String.valueOf(intent.getIntExtra("id", 0)));
+        Log.e("@@@notify_id: ", String.valueOf(intent.getIntExtra("id", 0)));
+        // TODO 通知から開いた時にそのタスクのダイアログが開いているようにする
     }
 }

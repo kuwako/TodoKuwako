@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTask;
     private Button addButon;
 
+    // TODO BetterKnife導入
+    // TODO EventBus導入
+    // TODO Dagger2導入
     // TODO DBをrealmに移行
     // TODO 関数をHelper系クラスに移行
     // TODO スヌーズ機能
@@ -105,12 +108,9 @@ public class MainActivity extends AppCompatActivity {
         final ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
 
-        // db処理
-        // db open
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
-        // 処理
         Cursor c = null;
         c = db.query(
                 TodoContract.Todos.TABLE_NAME,
@@ -154,12 +154,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // TODO なぜか取得したintentから取れるtodoIdが初回のやつ。
         Intent intent = getIntent();
-        Log.e("@@@onStart", String.valueOf(intent.getIntExtra("todoId", 0)));
+        Log.e("@@@onStartTodoId", String.valueOf(intent.getIntExtra("todoId", 0)));
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
-                if (targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
+                // TODO mListから取得したあたいにはidが入っていない
+
+                Log.e("@@@todoId", String.valueOf(intent.getIntExtra("todoId", 0)));
+                Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getId()));
+                Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getTask()));
+                if ((int) targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
                     editTodo = targetTodo;
                     break;
                 }
