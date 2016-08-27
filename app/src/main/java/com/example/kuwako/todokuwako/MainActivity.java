@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             Todo todo = new Todo();
             todo.setTask(c.getString(c.getColumnIndex(TodoContract.Todos.COL_TASK)));
             todo.setDeadline(c.getString(c.getColumnIndex(TodoContract.Todos.COL_DEADLINE)));
+            todo.setId(c.getLong(c.getColumnIndex(TodoContract.Todos._ID)));
 
             mList.add(0, todo);
             mAdapter.notifyDataSetChanged();
@@ -152,15 +153,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        // デフォルトだとAlarm側から起動されるintentは
+        // Activityに留まったままAlarmManagerからAへの新しいIntentを複数回
+        // 投げたところ、getIntet()で取得するIntentがActivity起動時のものから変わらない
+        super.onNewIntent(intent);
+        // 画面表示時に再度起動された際にgetIntent()を更新する。
+        setIntent(intent);
+        Log.d("@@@onNewIntent", String.valueOf(intent.getIntExtra("todoId", 0)));
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        // TODO なぜか取得したintentから取れるtodoIdが初回のやつ。
         Intent intent = getIntent();
         Log.e("@@@onStartTodoId", String.valueOf(intent.getIntExtra("todoId", 0)));
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
-                // TODO mListから取得したあたいにはidが入っていない
 
                 Log.e("@@@todoId", String.valueOf(intent.getIntExtra("todoId", 0)));
                 Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getId()));
@@ -182,8 +192,6 @@ public class MainActivity extends AppCompatActivity {
 
         Todo todo = new Todo();
         todo.setTask(task);
-        mList.add(0, todo);
-        mAdapter.notifyDataSetChanged();
 
         Time time = new Time("Asia/Tokyo");
         time.setToNow();
@@ -198,7 +206,11 @@ public class MainActivity extends AppCompatActivity {
         newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
 
         long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+        todo.setId(newId);
 
+
+        mList.add(0, todo);
+        mAdapter.notifyDataSetChanged();
         db.close();
 
         Log.e(logTag, task);
@@ -611,10 +623,6 @@ public class MainActivity extends AppCompatActivity {
                         todo.setDeadline(deadline);
                     }
 
-                    // タスクに追加
-                    mList.add(0, todo);
-                    mAdapter.notifyDataSetChanged();
-
                     // DBに追加
                     Time time = new Time("Asia/Tokyo");
                     time.setToNow();
@@ -629,6 +637,10 @@ public class MainActivity extends AppCompatActivity {
                     newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
 
                     long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+                    todo.setId(newId);
+                    mList.add(0, todo);
+                    mAdapter.notifyDataSetChanged();
+
                     db.close();
 
                     if (mSetTime) {
