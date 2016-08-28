@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        // TODO なぜか前回のintentをしようしている。
         // デフォルトだとAlarm側から起動されるintentは
         // Activityに留まったままAlarmManagerからAへの新しいIntentを複数回
         // 投げたところ、getIntet()で取得するIntentがActivity起動時のものから変わらない
