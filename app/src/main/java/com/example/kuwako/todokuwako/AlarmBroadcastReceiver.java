@@ -19,7 +19,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         int bid = intent.getIntExtra("intentId", 0);
         Intent intent2 = new Intent(context, MainActivity.class);
         intent2.putExtra("todoId", intent.getIntExtra("id", 0));
-        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, bid, intent2, 0);
 

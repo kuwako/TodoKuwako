@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         Intent intent = getIntent();
         Log.e("@@@onStartTodoId", String.valueOf(intent.getIntExtra("todoId", 0)));
         if (intent.getIntExtra("todoId", 0) != 0) {
@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
         long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
         todo.setId(newId);
-
 
         mList.add(0, todo);
         mAdapter.notifyDataSetChanged();
@@ -315,6 +314,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("task", todo.getTask());
         intent.putExtra("deadline", todo.getDeadline());
         intent.putExtra("id", alarmId);
+        intent.putExtra("todoId", alarmId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
         Log.e("@@@", String.valueOf(alarmId));
