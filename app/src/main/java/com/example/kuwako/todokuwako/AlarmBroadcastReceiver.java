@@ -21,7 +21,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         intent2.putExtra("todoId", intent.getIntExtra("id", 0));
         intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, bid, intent2, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, bid, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -40,6 +40,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         notificationManager.notify(intent.getIntExtra("id", 0), notification);
         Log.e("@@@notify_id: ", String.valueOf(intent.getIntExtra("id", 0)));
+        Log.e("@@@notify_id2: ", String.valueOf(intent2.getIntExtra("todoId", 0)));
         // TODO 通知から開いた時にそのタスクのダイアログが開いているようにする
     }
 }
