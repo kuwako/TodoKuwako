@@ -171,21 +171,16 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         // 画面表示時に再度起動された際にgetIntent()を更新する。
         setIntent(intent);
-        Log.d("@@@onNewIntent", String.valueOf(intent.getIntExtra("todoId", 0)));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-        Log.e("@@@onStartTodoId", String.valueOf(intent.getIntExtra("todoId", 0)));
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
 
-                Log.e("@@@todoId", String.valueOf(intent.getIntExtra("todoId", 0)));
-                Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getId()));
-                Log.e("@@@targetTodo.getId", String.valueOf(targetTodo.getTask()));
                 if ((int) targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
                     editTodo = targetTodo;
                     break;
@@ -328,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
-        Log.e("@@@", String.valueOf(alarmId));
         checkDB();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -382,12 +376,21 @@ public class MainActivity extends AppCompatActivity {
                 editTime.setText(editTodo.getDeadline());
                 String[] deadLineArr = editTodo.getDeadline().split(" ", 0);
                 String[] deadLineDateArr = deadLineArr[0].split("-", 0);
-                String[] deadLineTimeArr = deadLineArr[1].split(":");
+                String[] deadLineTimeArr = null;
+                if (deadLineArr.length > 1) {
+                    deadLineTimeArr = deadLineArr[1].split(":");
+                }
+
                 mYear = Integer.parseInt(deadLineDateArr[0]);
                 mMonth = Integer.parseInt(deadLineDateArr[1]);
                 mDay = Integer.parseInt(deadLineDateArr[2]);
-                mHour = Integer.parseInt(deadLineTimeArr[0]);
-                mMinute = Integer.parseInt(deadLineTimeArr[1]);
+                if (deadLineTimeArr != null) {
+                    mHour = Integer.parseInt(deadLineTimeArr[0]);
+                    mMinute = Integer.parseInt(deadLineTimeArr[1]);
+                } else {
+                    mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+                    mMinute = mCalendar.get(Calendar.MINUTE);
+                }
 
             } else {
                 editTime.setText("タスクの期限を設定");
