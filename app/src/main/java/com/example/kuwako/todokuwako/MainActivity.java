@@ -150,11 +150,21 @@ public class MainActivity extends AppCompatActivity {
                 mEditFragment.show(getFragmentManager(), "bbb");
             }
         });
+
+        todoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView) parent;
+                editTodo = (Todo) listView.getItemAtPosition(position);
+
+                mEditFragment.show(getFragmentManager(), "bbb");
+                return true;
+            }
+        });
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // TODO なぜか前回のintentをしようしている。
         // デフォルトだとAlarm側から起動されるintentは
         // Activityに留まったままAlarmManagerからAへの新しいIntentを複数回
         // 投げたところ、getIntet()で取得するIntentがActivity起動時のものから変わらない
