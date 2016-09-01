@@ -15,7 +15,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +39,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.editText)
+    EditText editText;
+    @BindView(R.id.addButton)
+    Button addButton;
+    @BindView(R.id.todoListView)
+    ListView todoListView;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.editTask)
+    EditText editTask;
 
     private TodoListAdapter mAdapter;
     private DialogFragment mInputFragment;
@@ -49,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
     private String logTag = "@@@@@BAITALK_TAG";
     private FirebaseAnalytics mFirebaseAnalytics;
     private Todo editTodo = null;
-    private EditText editTask;
-    private Button addButon;
 
     // TODO BetterKnife導入
     // TODO EventBus導入
@@ -62,13 +76,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(BuildConfig.DEBUG);
         mInputFragment = new InputDialogFragment();
         mEditFragment = new EditDialogFragment();
-        editTask = (EditText) findViewById(R.id.editText);
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -80,15 +93,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        addButon = (Button) findViewById(R.id.addButton);
-        addButon.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addList(v);
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         };
         mAdapter.setTodoArrayList(mList);
 
-        final ListView todoListView = (ListView) findViewById(R.id.todoListView);
         todoListView.setAdapter(mAdapter);
 
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(this);
@@ -329,6 +339,18 @@ public class MainActivity extends AppCompatActivity {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+        }
+    }
+
+    @OnClick({R.id.addButton, R.id.todoListView, R.id.fab})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.addButton:
+                break;
+            case R.id.todoListView:
+                break;
+            case R.id.fab:
+                break;
         }
     }
 
