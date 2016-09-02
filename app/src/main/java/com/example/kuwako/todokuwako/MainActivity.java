@@ -22,6 +22,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -47,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.editText)
-    EditText editText;
     @BindView(R.id.addButton)
     Button addButton;
     @BindView(R.id.todoListView)
@@ -66,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private Todo editTodo = null;
 
-    // TODO BetterKnife導入
     // TODO EventBus導入
     // TODO Dagger2導入
     // TODO DBをrealmに移行
@@ -355,6 +353,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class EditDialogFragment extends DialogFragment {
+        @BindView(R.id.editTask)
+        EditText editTask;
+        @BindView(R.id.editTime)
+        TextView editTime;
+        @BindView(R.id.saveBtn)
+        Button saveBtn;
+        @BindView(R.id.deleteBtn)
+        Button deleteBtn;
         private int mYear;
         private int mMonth;
         private int mDay;
@@ -363,8 +369,6 @@ public class MainActivity extends AppCompatActivity {
         Calendar mCalendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog;
         TimePickerDialog timePickerDialog;
-        EditText editTask;
-        TextView editTime;
         String deadLine;
 
         @Override
@@ -377,9 +381,6 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dialog_edit, null);
-            Button saveBtn = (Button) content.findViewById(R.id.saveBtn);
-            Button deleteBtn = (Button) content.findViewById(R.id.deleteBtn);
-            editTask = (EditText) content.findViewById(R.id.editTask);
             editTask.setText(editTodo.getTask());
             editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -391,7 +392,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            editTime = (TextView) content.findViewById(R.id.editTime);
 
             // TODO そもそも期限を削除する機能も必要そう。
             if (editTodo.getDeadline() != null) {
@@ -500,11 +500,43 @@ public class MainActivity extends AppCompatActivity {
             editTodo = null;
             super.onDismiss(dialog);
         }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            // TODO: inflate a fragment view
+            View rootView = super.onCreateView(inflater, container, savedInstanceState);
+            ButterKnife.bind(this, rootView);
+            return rootView;
+        }
+
+        @OnClick({R.id.editTask, R.id.editTime, R.id.saveBtn, R.id.deleteBtn})
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.editTask:
+                    break;
+                case R.id.editTime:
+                    break;
+                case R.id.saveBtn:
+                    break;
+                case R.id.deleteBtn:
+                    break;
+            }
+        }
     }
 
     // TODO 別ファイル化
     // 入力用ダイアログ
     public class InputDialogFragment extends DialogFragment {
+        @BindView(R.id.dialogEditText)
+        EditText dialogEditText;
+        @BindView(R.id.dialogBtn)
+        Button dialogBtn;
+        @BindView(R.id.edit_date)
+        TextView editDate;
+        @BindView(R.id.dateResetBtn)
+        ImageView dateResetBtn;
+        @BindView(R.id.edit_time)
+        TextView editTime;
         private DatePickerDialog mDlgDatePicker;
         private TimePickerDialog mDlgTimePicker;
         private Calendar mCalendar;
@@ -512,10 +544,6 @@ public class MainActivity extends AppCompatActivity {
         private GregorianCalendar mMinDate = new GregorianCalendar();
         private DatePicker mDatePicker;
         private TimePicker mTimePicker;
-        private Button mDlgButton;
-        private TextView mEditDate;
-        private TextView mEditTime;
-        private EditText mEditText;
         private int mYear;
         private int mMonth;
         private int mDay;
@@ -530,11 +558,7 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dialog_input, null);
 
-            mEditDate = (TextView) content.findViewById(R.id.edit_date);
-            mEditTime = (TextView) content.findViewById(R.id.edit_time);
-            mDlgButton = (Button) content.findViewById(R.id.dialogBtn);
-            mEditText = (EditText) content.findViewById(R.id.dialogEditText);
-            mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            dialogEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     // キーボードを隠す処理
@@ -558,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgDatePicker = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    mEditDate.setText(String.valueOf(year) + "年" + String.format("%1$02d", monthOfYear + 1) + "月" + String.format("%1$02d", dayOfMonth) + "日");
+                    editDate.setText(String.valueOf(year) + "年" + String.format("%1$02d", monthOfYear + 1) + "月" + String.format("%1$02d", dayOfMonth) + "日");
                     mCalendar.set(year, monthOfYear, dayOfMonth);
 
                     mDlgTimePicker.show();
@@ -568,7 +592,7 @@ public class MainActivity extends AppCompatActivity {
             mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mEditTime.setText(String.format("%1$02d", hourOfDay) + "時" + String.format("%1$02d", minute) + "分");
+                    editTime.setText(String.format("%1$02d", hourOfDay) + "時" + String.format("%1$02d", minute) + "分");
                     mCalendar.set(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH), hourOfDay, minute);
                     mSetTime = true;
                 }
@@ -585,8 +609,8 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             // 日付初期化
                             mCalendar = Calendar.getInstance();
-                            mEditDate.setText("日付登録にはこちらをクリック");
-                            mEditTime.setText("");
+                            editDate.setText("日付登録にはこちらをクリック");
+                            editTime.setText("");
 
                             Log.e("@@@@@x", "x button");
                             mSetTime = false;
@@ -594,7 +618,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
             // 日付指定ボタン
-            mEditDate.setOnClickListener(
+            editDate.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -611,7 +635,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
             // 時間指定ボタン
-            mEditTime.setOnClickListener(
+            editTime.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -621,12 +645,12 @@ public class MainActivity extends AppCompatActivity {
                     }
             );
 
-            mDlgButton.setOnClickListener(new View.OnClickListener() {
+            dialogBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Todo todo = new Todo();
                     // テキストを取得
-                    String sEditText = String.valueOf(mEditText.getText());
+                    String sEditText = String.valueOf(dialogEditText.getText());
 
                     // テキストが空なら終わり
                     if (sEditText.equals("")) {
@@ -647,7 +671,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // 入力エリアを初期化
-                    mEditText.setText("");
+                    dialogEditText.setText("");
 
                     // 日付が指定されていた場合、登録
                     if (mSetTime) {
@@ -700,6 +724,30 @@ public class MainActivity extends AppCompatActivity {
                     });
 
             return builder.create();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            // TODO: inflate a fragment view
+            View rootView = super.onCreateView(inflater, container, savedInstanceState);
+            ButterKnife.bind(this, rootView);
+            return rootView;
+        }
+
+        @OnClick({R.id.dialogEditText, R.id.dialogBtn, R.id.edit_date, R.id.dateResetBtn, R.id.edit_time})
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.dialogEditText:
+                    break;
+                case R.id.dialogBtn:
+                    break;
+                case R.id.edit_date:
+                    break;
+                case R.id.dateResetBtn:
+                    break;
+                case R.id.edit_time:
+                    break;
+            }
         }
     }
 }
