@@ -91,20 +91,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addList(v);
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mInputFragment.show(getFragmentManager(), "aaa");
-            }
-        });
-
         mList = new ArrayList<>();
         mAdapter = new TodoListAdapter(MainActivity.this) {
             @Override
@@ -344,10 +330,13 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addButton:
+                addList(view);
                 break;
             case R.id.todoListView:
+                Log.d("@@@todoListView ButterKnife", "clicked");
                 break;
             case R.id.fab:
+                mInputFragment.show(getFragmentManager(), "aaa");
                 break;
         }
     }
