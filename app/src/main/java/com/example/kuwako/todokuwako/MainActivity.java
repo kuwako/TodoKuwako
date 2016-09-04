@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     ListView todoListView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.editTask)
+    @BindView(R.id.editText)
     EditText editTask;
 
     private TodoListAdapter mAdapter;
@@ -92,12 +92,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mList = new ArrayList<>();
-        mAdapter = new TodoListAdapter(MainActivity.this) {
-            @Override
-            public void onClick(View v) {
-                Log.d(logTag, "aaaaa触ったよ");
-            }
-        };
+        mAdapter = new TodoListAdapter(MainActivity.this) {};
         mAdapter.setTodoArrayList(mList);
 
         todoListView.setAdapter(mAdapter);
@@ -326,14 +321,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.addButton, R.id.todoListView, R.id.fab})
+    @OnClick({R.id.addButton, R.id.fab})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addButton:
                 addList(view);
-                break;
-            case R.id.todoListView:
-                Log.d("@@@todoListView ButterKnife", "clicked");
                 break;
             case R.id.fab:
                 mInputFragment.show(getFragmentManager(), "aaa");

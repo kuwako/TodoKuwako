@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by kuwako on 2016/02/16.
  */
-public abstract class TodoListAdapter extends BaseAdapter implements View.OnClickListener {
+public abstract class TodoListAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater = null;
     ArrayList<Todo> todoArrayList;
