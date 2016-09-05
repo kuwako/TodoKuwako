@@ -362,6 +362,8 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dialog_edit, null);
+            ButterKnife.bind(this, content);
+
             editTask.setText(editTodo.getTask());
             editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -405,13 +407,6 @@ public class MainActivity extends AppCompatActivity {
                 mMinute = mCalendar.get(Calendar.MINUTE);
             }
 
-            editTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    datePickerDialog.show();
-                }
-            });
-
             datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -439,32 +434,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, mHour, mMinute, true);
 
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // タスク名がカラだったら無効
-                    if (editTask.getText().toString().equals("") || editTask.getText() == null) {
-                        Toast.makeText(MainActivity.this, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    // saveを選ばれたときの処理
-                    editTodo.setTask(editTask.getText().toString());
-                    editTodo.setDeadline(deadLine);
-
-                    saveTodo(editTodo);
-                    // アラーム仕込む処理
-                    setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
-                    dismiss();
-                }
-            });
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // deleteを選ばれたときの処理
-                    deleteTodo(editTodo);
-                    dismiss();
-                }
-            });
             builder.setView(content);
             builder.setMessage("タスクを編集/削除")
                     .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
@@ -496,10 +465,26 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.editTask:
                     break;
                 case R.id.editTime:
+                    datePickerDialog.show();
                     break;
                 case R.id.saveBtn:
+                    // タスク名がカラだったら無効
+                    if (editTask.getText().toString().equals("") || editTask.getText() == null) {
+                        Toast.makeText(MainActivity.this, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // saveを選ばれたときの処理
+                    editTodo.setTask(editTask.getText().toString());
+                    editTodo.setDeadline(deadLine);
+
+                    saveTodo(editTodo);
+                    // アラーム仕込む処理
+                    setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
+                    dismiss();
                     break;
                 case R.id.deleteBtn:
+                    deleteTodo(editTodo);
+                    dismiss();
                     break;
             }
         }
@@ -535,9 +520,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View content = inflater.inflate(R.layout.dialog_input, null);
+            ButterKnife.bind(this, content);
 
             dialogEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -549,7 +534,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            ImageView resetDateBtn = (ImageView) content.findViewById(R.id.dateResetBtn);
 
             // datepicker用の初期情報取得
             mCalendar = Calendar.getInstance();
@@ -583,52 +567,30 @@ public class MainActivity extends AppCompatActivity {
             mMaxDate.set(2020, 11, 31);
             mMinDate.set(2016, 0, 1);
 
-            // 日付け削除ボタン
-            resetDateBtn.setOnClickListener(
-                    new View.OnClickListener() {
+            builder.setView(content);
+            builder.setMessage("タスクを登録")
+                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
-                            // 日付初期化
-                            mCalendar = Calendar.getInstance();
-                            editDate.setText("日付登録にはこちらをクリック");
-                            editTime.setText("");
-
-                            Log.e("@@@@@x", "x button");
-                            mSetTime = false;
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
                     });
 
-            // 日付指定ボタン
-            editDate.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDatePicker = mDlgDatePicker.getDatePicker();
-                            if (mDatePicker != null) {
-                                mDatePicker.setMaxDate(mMaxDate.getTimeInMillis());
-                                mDatePicker.setMinDate(mMinDate.getTimeInMillis());
-                            }
+            return builder.create();
+        }
 
-                            // datePickerを表示
-                            mDlgDatePicker.show();
-                        }
-                    }
-            );
 
-            // 時間指定ボタン
-            editTime.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // timePickerを表示
-                            mDlgTimePicker.show();
-                        }
-                    }
-            );
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+        }
 
-            dialogBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        @OnClick({R.id.dialogEditText, R.id.dialogBtn, R.id.edit_date, R.id.dateResetBtn, R.id.edit_time})
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.dialogEditText:
+                    break;
+                case R.id.dialogBtn:
                     Todo todo = new Todo();
                     // テキストを取得
                     String sEditText = String.valueOf(dialogEditText.getText());
@@ -692,41 +654,27 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     dismiss();
-                }
-            });
-
-            builder.setView(content);
-            builder.setMessage("タスクを登録")
-                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-            return builder.create();
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            // TODO: inflate a fragment view
-            View rootView = super.onCreateView(inflater, container, savedInstanceState);
-            ButterKnife.bind(this, rootView);
-            return rootView;
-        }
-
-        @OnClick({R.id.dialogEditText, R.id.dialogBtn, R.id.edit_date, R.id.dateResetBtn, R.id.edit_time})
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.dialogEditText:
-                    break;
-                case R.id.dialogBtn:
                     break;
                 case R.id.edit_date:
+                    mDatePicker = mDlgDatePicker.getDatePicker();
+                    if (mDatePicker != null) {
+                        mDatePicker.setMaxDate(mMaxDate.getTimeInMillis());
+                        mDatePicker.setMinDate(mMinDate.getTimeInMillis());
+                    }
+
+                    // datePickerを表示
+                    mDlgDatePicker.show();
                     break;
                 case R.id.dateResetBtn:
+                    mCalendar = Calendar.getInstance();
+                    editDate.setText("日付登録にはこちらをクリック");
+                    editTime.setText("");
+
+                    Log.e("@@@@@x", "x button");
+                    mSetTime = false;
                     break;
                 case R.id.edit_time:
+                    mDlgTimePicker.show();
                     break;
             }
         }
