@@ -451,14 +451,6 @@ public class MainActivity extends AppCompatActivity {
             super.onDismiss(dialog);
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            // TODO: inflate a fragment view
-            View rootView = super.onCreateView(inflater, container, savedInstanceState);
-            ButterKnife.bind(this, rootView);
-            return rootView;
-        }
-
         @OnClick({R.id.editTask, R.id.editTime, R.id.saveBtn, R.id.deleteBtn})
         public void onClick(View view) {
             switch (view.getId()) {
@@ -479,6 +471,8 @@ public class MainActivity extends AppCompatActivity {
 
                     saveTodo(editTodo);
                     // アラーム仕込む処理
+                    // TODO 再度編集した場合にアラームならない？
+                    // TODO 期限を設定せずに保存した場合にすぐ通知がされるバグ発見
                     setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
                     dismiss();
                     break;
