@@ -303,6 +303,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTodoAlarm(Todo todo, int alarmId, Calendar calendar) {
+        if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
+            return;
+        }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
         intent.putExtra("task", todo.getTask());
@@ -472,7 +475,6 @@ public class MainActivity extends AppCompatActivity {
                     saveTodo(editTodo);
                     // アラーム仕込む処理
                     // TODO 再度編集した場合にアラームならない？
-                    // TODO 期限を設定せずに保存した場合にすぐ通知がされるバグ発見
                     setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
                     dismiss();
                     break;
