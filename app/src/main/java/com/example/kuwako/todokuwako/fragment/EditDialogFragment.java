@@ -30,14 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EditDialogFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EditDialogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditDialogFragment extends DialogFragment {
     private OnFragmentInteractionListener mListener;
     @BindView(R.id.editTask)
@@ -168,7 +160,7 @@ public class EditDialogFragment extends DialogFragment {
             case R.id.saveBtn:
                 // タスク名がカラだったら無効
                 if (editTask.getText().toString().equals("") || editTask.getText() == null) {
-                    Toast.makeText(MainActivity.this, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.class, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // saveを選ばれたときの処理
@@ -205,13 +197,6 @@ public class EditDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_dialog, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

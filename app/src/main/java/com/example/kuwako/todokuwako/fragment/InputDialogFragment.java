@@ -39,14 +39,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InputDialogFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link InputDialogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class InputDialogFragment extends DialogFragment {
     @BindView(R.id.dialogEditText)
     EditText dialogEditText;
