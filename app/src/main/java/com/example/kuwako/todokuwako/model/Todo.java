@@ -1,4 +1,4 @@
-package com.example.kuwako.todokuwako;
+package com.example.kuwako.todokuwako.model;
 
 /**
  * Created by kuwako on 2016/02/16.

@@ -1,4 +1,4 @@
-package com.example.kuwako.todokuwako;
+package com.example.kuwako.todokuwako.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.kuwako.todokuwako.R;
+import com.example.kuwako.todokuwako.model.Todo;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.kuwako.todokuwako;
+package com.example.kuwako.todokuwako.activity;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -34,6 +34,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.kuwako.todokuwako.BuildConfig;
+import com.example.kuwako.todokuwako.R;
+import com.example.kuwako.todokuwako.adapter.TodoListAdapter;
+import com.example.kuwako.todokuwako.contract.TodoContract;
+import com.example.kuwako.todokuwako.model.Todo;
+import com.example.kuwako.todokuwako.receiver.AlarmBroadcastReceiver;
+import com.example.kuwako.todokuwako.sqlite.TodoOpenHelper;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -43,6 +50,7 @@ import java.util.GregorianCalendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 
 public class MainActivity extends AppCompatActivity {
 
