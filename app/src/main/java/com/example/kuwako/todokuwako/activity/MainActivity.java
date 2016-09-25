@@ -27,6 +27,8 @@ import com.example.kuwako.todokuwako.BuildConfig;
 import com.example.kuwako.todokuwako.R;
 import com.example.kuwako.todokuwako.adapter.TodoListAdapter;
 import com.example.kuwako.todokuwako.contract.TodoContract;
+import com.example.kuwako.todokuwako.fragment.EditDialogFragment;
+import com.example.kuwako.todokuwako.fragment.InputDialogFragment;
 import com.example.kuwako.todokuwako.model.Todo;
 import com.example.kuwako.todokuwako.receiver.AlarmBroadcastReceiver;
 import com.example.kuwako.todokuwako.sqlite.TodoOpenHelper;
@@ -54,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     EditText editTask;
 
     private TodoListAdapter mAdapter;
-    private DialogFragment mInputFragment;
-    private DialogFragment mEditFragment;
+    private InputDialogFragment mInputFragment;
+    private EditDialogFragment mEditFragment;
     private ArrayList<Todo> mList;
     private String logTag = "@@@@@BAITALK_TAG";
     private FirebaseAnalytics mFirebaseAnalytics;
