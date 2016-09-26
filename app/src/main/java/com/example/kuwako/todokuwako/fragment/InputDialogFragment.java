@@ -10,8 +10,7 @@ import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +26,8 @@ import android.widget.Toast;
 import android.text.format.Time;
 
 import com.example.kuwako.todokuwako.R;
-import com.example.kuwako.todokuwako.activity.MainActivity;
 import com.example.kuwako.todokuwako.contract.TodoContract;
+import com.example.kuwako.todokuwako.listener.InputDialogListener;
 import com.example.kuwako.todokuwako.model.Todo;
 import com.example.kuwako.todokuwako.sqlite.TodoOpenHelper;
 
@@ -40,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class InputDialogFragment extends DialogFragment {
+    private InputDialogListener listener = null;
     @BindView(R.id.dialogEditText)
     EditText dialogEditText;
     @BindView(R.id.dialogBtn)
@@ -64,22 +64,10 @@ public class InputDialogFragment extends DialogFragment {
     private int mMinute;
     private boolean mSetTime;
 
-    private OnFragmentInteractionListener mListener;
+    // 空のコンストラクタが必須
+    public InputDialogFragment() {}
 
-    public InputDialogFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment InputDialogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static InputDialogFragment newInstance(String param1, String param2) {
+    public static InputDialogFragment newInstance() {
         InputDialogFragment fragment = new InputDialogFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -109,7 +97,7 @@ public class InputDialogFragment extends DialogFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 // キーボードを隠す処理
                 if (hasFocus == false) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             }
@@ -124,7 +112,7 @@ public class InputDialogFragment extends DialogFragment {
         mMinute = mCalendar.get(Calendar.MINUTE);
         mSetTime = false;
 
-        mDlgDatePicker = new DatePickerDialog(MainActivity.class, new DatePickerDialog.OnDateSetListener() {
+        mDlgDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 editDate.setText(String.valueOf(year) + "年" + String.format("%1$02d", monthOfYear + 1) + "月" + String.format("%1$02d", dayOfMonth) + "日");
@@ -134,7 +122,7 @@ public class InputDialogFragment extends DialogFragment {
             }
         }, mYear, mMonth, mDay);
 
-        mDlgTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        mDlgTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 editTime.setText(String.format("%1$02d", hourOfDay) + "時" + String.format("%1$02d", minute) + "分");
@@ -205,7 +193,7 @@ public class InputDialogFragment extends DialogFragment {
                 Time time = new Time("Asia/Tokyo");
                 time.setToNow();
 
-                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(getActivity());
                 SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
                 ContentValues newTask = new ContentValues();
@@ -216,16 +204,11 @@ public class InputDialogFragment extends DialogFragment {
 
                 long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
                 todo.setId(newId);
-                mList.add(0, todo);
-                mAdapter.notifyDataSetChanged();
+                // TODO todoオブジェクトをActivity側に返す処理
+                listener.setTodo(todo);
+
 
                 db.close();
-
-                if (mSetTime) {
-                    // アラームの登録
-                    setTodoAlarm(todo, (int) newId, mCalendar);
-                    mSetTime = false;
-                }
 
                 dismiss();
                 break;
@@ -258,43 +241,16 @@ public class InputDialogFragment extends DialogFragment {
         super.onDestroyView();
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void setInputDialogListener(InputDialogListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeDialogLister() {
+        this.listener = null;
     }
 }

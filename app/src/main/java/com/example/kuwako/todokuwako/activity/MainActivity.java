@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     EditText editTask;
 
     private TodoListAdapter mAdapter;
-    private InputDialogFragment mInputFragment;
     private EditDialogFragment mEditFragment;
     private ArrayList<Todo> mList;
     private String logTag = "@@@@@BAITALK_TAG";
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(BuildConfig.DEBUG);
-        mInputFragment = new InputDialogFragment();
         mEditFragment = new EditDialogFragment();
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -329,9 +327,12 @@ public class MainActivity extends AppCompatActivity {
                 addList(view);
                 break;
             case R.id.fab:
-                mInputFragment.show(getFragmentManager(), "aaa");
+                InputDialogFragment idf = new InputDialogFragment();
+                idf.show(getFragmentManager(), "aaa");
                 break;
         }
     }
+    // TODO DialogFragmentから返ってきたTodoをmListにaddしnofityする
+    // TODO deadlineがあればアラーム登録処理
 }
 
