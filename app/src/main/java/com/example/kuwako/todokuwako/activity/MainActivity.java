@@ -29,6 +29,7 @@ import com.example.kuwako.todokuwako.adapter.TodoListAdapter;
 import com.example.kuwako.todokuwako.contract.TodoContract;
 import com.example.kuwako.todokuwako.fragment.EditDialogFragment;
 import com.example.kuwako.todokuwako.fragment.InputDialogFragment;
+import com.example.kuwako.todokuwako.listener.InputDialogListener;
 import com.example.kuwako.todokuwako.model.Todo;
 import com.example.kuwako.todokuwako.receiver.AlarmBroadcastReceiver;
 import com.example.kuwako.todokuwako.sqlite.TodoOpenHelper;
@@ -42,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements InputDialogListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -327,10 +328,16 @@ public class MainActivity extends AppCompatActivity {
                 addList(view);
                 break;
             case R.id.fab:
-                InputDialogFragment idf = new InputDialogFragment();
+                InputDialogFragment idf = InputDialogFragment.newInstance();
+                idf.setInputDialogListener(this);
+                idf.setCancelable(false);
                 idf.show(getFragmentManager(), "aaa");
                 break;
         }
+    }
+
+    public Todo setTodo(Todo todo) {
+        return todo;
     }
     // TODO DialogFragmentから返ってきたTodoをmListにaddしnofityする
     // TODO deadlineがあればアラーム登録処理
