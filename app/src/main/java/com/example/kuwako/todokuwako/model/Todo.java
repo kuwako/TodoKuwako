@@ -1,9 +1,12 @@
 package com.example.kuwako.todokuwako.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by kuwako on 2016/02/16.
  */
-public class Todo {
+public class Todo implements Parcelable {
     long id;
     String task; // タスク名
     int is_done; // 完了フラグ
@@ -103,4 +106,53 @@ public class Todo {
     public long getId() {
         return id;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.task);
+        dest.writeInt(this.is_done);
+        dest.writeString(this.deadline);
+        dest.writeInt(this.is_snooze);
+        dest.writeInt(this.snooze_interval);
+        dest.writeString(this.label);
+        dest.writeInt(this.level);
+        dest.writeInt(this.status);
+        dest.writeString(this.created_at);
+        dest.writeString(this.completed_at);
+    }
+
+    public Todo() {
+    }
+
+    protected Todo(Parcel in) {
+        this.id = in.readLong();
+        this.task = in.readString();
+        this.is_done = in.readInt();
+        this.deadline = in.readString();
+        this.is_snooze = in.readInt();
+        this.snooze_interval = in.readInt();
+        this.label = in.readString();
+        this.level = in.readInt();
+        this.status = in.readInt();
+        this.created_at = in.readString();
+        this.completed_at = in.readString();
+    }
+
+    public static final Parcelable.Creator<Todo> CREATOR = new Parcelable.Creator<Todo>() {
+        @Override
+        public Todo createFromParcel(Parcel source) {
+            return new Todo(source);
+        }
+
+        @Override
+        public Todo[] newArray(int size) {
+            return new Todo[size];
+        }
+    };
 }

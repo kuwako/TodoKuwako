@@ -8,11 +8,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.kuwako.todokuwako.R;
 import com.example.kuwako.todokuwako.activity.MainActivity;
+import com.example.kuwako.todokuwako.model.Todo;
 
 import java.util.Calendar;
 
@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditDialogFragment extends DialogFragment {
-    private OnFragmentInteractionListener mListener;
+    private EditDialogListener listener = null;
     @BindView(R.id.editTask)
     EditText editTask;
     @BindView(R.id.editTime)
@@ -184,11 +184,10 @@ public class EditDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static EditDialogFragment newInstance(String param1, String param2) {
+    public static EditDialogFragment newInstance(Todo todo) {
         EditDialogFragment fragment = new EditDialogFragment();
         Bundle args = new Bundle();
-        fragment.setArguments(args);
+        args.putParcelable("todo", (Parcelable) todo);
         return fragment;
     }
 
@@ -199,7 +198,6 @@ public class EditDialogFragment extends DialogFragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -223,16 +221,6 @@ public class EditDialogFragment extends DialogFragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

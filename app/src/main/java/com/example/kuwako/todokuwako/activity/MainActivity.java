@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     EditText editTask;
 
     private TodoListAdapter mAdapter;
-    private EditDialogFragment mEditFragment;
     private ArrayList<Todo> mList;
     private String logTag = "@@@@@BAITALK_TAG";
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(BuildConfig.DEBUG);
-        mEditFragment = new EditDialogFragment();
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -133,7 +131,8 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 ListView listView = (ListView) parent;
                 editTodo = (Todo) listView.getItemAtPosition(position);
 
-                mEditFragment.show(getFragmentManager(), "bbb");
+                // mEditFragment.show(getFragmentManager(), "bbb");
+
             }
         });
 
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 ListView listView = (ListView) parent;
                 editTodo = (Todo) listView.getItemAtPosition(position);
 
-                mEditFragment.show(getFragmentManager(), "bbb");
+                // mEditFragment.show(getFragmentManager(), "bbb");
                 return true;
             }
         });
