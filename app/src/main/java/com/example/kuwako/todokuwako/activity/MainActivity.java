@@ -132,7 +132,13 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 editTodo = (Todo) listView.getItemAtPosition(position);
 
                 // mEditFragment.show(getFragmentManager(), "bbb");
-
+                EditDialogFragment edf = new EditDialogFragment.newInstance(editTodo);
+                edf.setDialogListener(this);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("editTodo", editTodo);
+                edf.setArguments(bundle);
+                edf.setCancelable(false);
+                edf.show(getFragmentManager(), "edit");
             }
         });
 
@@ -176,6 +182,18 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 mEditFragment.show(getFragmentManager(), "bbb");
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("parcelableTodo", editTodo);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        editTodo = savedInstanceState.getParcelable("parcelableTodo");
     }
 
     public void addList(View view) {
