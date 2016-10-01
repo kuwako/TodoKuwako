@@ -141,17 +141,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 edf.show(getFragmentManager(), "edit");
             }
         });
-
-        todoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView listView = (ListView) parent;
-                editTodo = (Todo) listView.getItemAtPosition(position);
-
-                // mEditFragment.show(getFragmentManager(), "bbb");
-                return true;
-            }
-        });
     }
 
     @Override

@@ -32,6 +32,7 @@ import butterknife.OnClick;
 
 public class EditDialogFragment extends DialogFragment {
     private EditDialogListener listener = null;
+    private Todo editTodo = null;
     @BindView(R.id.editTask)
     EditText editTask;
     @BindView(R.id.editTime)
@@ -53,6 +54,8 @@ public class EditDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
+        editTodo = getArguments().getParcelable("todo");
+
         if (editTodo == null) {
             dismiss();
         }
@@ -68,7 +71,7 @@ public class EditDialogFragment extends DialogFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 // キーボードを隠す処理
                 if (hasFocus == false) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             }
@@ -105,7 +108,7 @@ public class EditDialogFragment extends DialogFragment {
             mMinute = mCalendar.get(Calendar.MINUTE);
         }
 
-        datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 mYear = year;
@@ -116,7 +119,7 @@ public class EditDialogFragment extends DialogFragment {
             }
         }, mYear, mMonth, mDay);
 
-        timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 mHour = hourOfDay;
@@ -160,7 +163,7 @@ public class EditDialogFragment extends DialogFragment {
             case R.id.saveBtn:
                 // タスク名がカラだったら無効
                 if (editTask.getText().toString().equals("") || editTask.getText() == null) {
-                    Toast.makeText(MainActivity.class, "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "タスク名が入力されていません。", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // saveを選ばれたときの処理
@@ -181,14 +184,15 @@ public class EditDialogFragment extends DialogFragment {
     }
 
     public EditDialogFragment() {
-        // Required empty public constructor
     }
 
     public static EditDialogFragment newInstance(Todo todo) {
-        EditDialogFragment fragment = new EditDialogFragment();
+        EditDialogFragment instance = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putParcelable("todo", (Parcelable) todo);
-        return fragment;
+        instance.setArguments(args);
+
+        return instance;
     }
 
     @Override
@@ -198,31 +202,21 @@ public class EditDialogFragment extends DialogFragment {
         }
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void setDialogListener(EditDialogLisstener listener) {
+        this.listener = listener;
+    }
+
+    public void removeDialogListener() {
+        this.listener = null;
     }
 }
