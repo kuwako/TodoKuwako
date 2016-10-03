@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.kuwako.todokuwako.R;
 import com.example.kuwako.todokuwako.activity.MainActivity;
+import com.example.kuwako.todokuwako.listener.EditDialogListener;
 import com.example.kuwako.todokuwako.model.Todo;
 
 import java.util.Calendar;
@@ -170,14 +171,14 @@ public class EditDialogFragment extends DialogFragment {
                 editTodo.setTask(editTask.getText().toString());
                 editTodo.setDeadline(deadLine);
 
-                saveTodo(editTodo);
+                listener.saveTodo(editTodo);
                 // アラーム仕込む処理
                 // TODO 再度編集した場合にアラームならない？
-                setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
+                listener.setTodoAlarm(editTodo, (int) editTodo.getId(), mCalendar);
                 dismiss();
                 break;
             case R.id.deleteBtn:
-                deleteTodo(editTodo);
+                listener.deleteTodo(editTodo);
                 dismiss();
                 break;
         }
@@ -212,7 +213,7 @@ public class EditDialogFragment extends DialogFragment {
         super.onDetach();
     }
 
-    public void setDialogListener(EditDialogLisstener listener) {
+    public void setDialogListener(EditDialogListener listener) {
         this.listener = listener;
     }
 
