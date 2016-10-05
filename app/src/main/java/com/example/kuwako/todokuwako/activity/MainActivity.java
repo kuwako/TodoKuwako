@@ -29,6 +29,7 @@ import com.example.kuwako.todokuwako.adapter.TodoListAdapter;
 import com.example.kuwako.todokuwako.contract.TodoContract;
 import com.example.kuwako.todokuwako.fragment.EditDialogFragment;
 import com.example.kuwako.todokuwako.fragment.InputDialogFragment;
+import com.example.kuwako.todokuwako.listener.EditDialogListener;
 import com.example.kuwako.todokuwako.listener.InputDialogListener;
 import com.example.kuwako.todokuwako.model.Todo;
 import com.example.kuwako.todokuwako.receiver.AlarmBroadcastReceiver;
@@ -43,7 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity implements InputDialogListener {
+public class MainActivity extends AppCompatActivity implements InputDialogListener, EditDialogListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -132,13 +133,13 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 editTodo = (Todo) listView.getItemAtPosition(position);
 
                 // mEditFragment.show(getFragmentManager(), "bbb");
-                EditDialogFragment edf = new EditDialogFragment.newInstance(editTodo);
-                edf.setDialogListener(this);
+                EditDialogFragment edf = EditDialogFragment.newInstance(editTodo);
+                edf.setEditDialogListener(MainActivity.this);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("editTodo", editTodo);
                 edf.setArguments(bundle);
                 edf.setCancelable(false);
-                edf.show(getFragmentManager(), "edit");
+                edf.show(getFragmentManager(), "fff");
             }
         });
     }
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
             }
 
             if (editTodo != null) {
-                mEditFragment.show(getFragmentManager(), "bbb");
+//                mEditFragment.show(getFragmentManager(), "bbb");
             }
         }
     }
@@ -347,5 +348,9 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     }
     // TODO DialogFragmentから返ってきたTodoをmListにaddしnofityする
     // TODO deadlineがあればアラーム登録処理
+
+    public void saveTodo(Todo todo) {}
+    public void deleteTodo(Todo todo) {}
+    public void setTodoAlarmTodo(Todo todo, int TodoId, Calendar calendar) {}
 }
 

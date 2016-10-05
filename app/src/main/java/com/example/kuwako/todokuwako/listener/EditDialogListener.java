@@ -12,5 +12,5 @@ import java.util.EventListener;
 public interface EditDialogListener extends EventListener {
     public void saveTodo(Todo todo);
     public void deleteTodo(Todo todo);
-    public void setTodoAlarm(Todo todo, int todoId, Calendar calendar);
+    public void setTodoAlarm(Todo toda, int todoId, Calendar calendar);
 }
