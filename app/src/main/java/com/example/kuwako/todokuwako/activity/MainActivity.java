@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     protected void onNewIntent(Intent intent) {
         // デフォルトだとAlarm側から起動されるintentは
         // Activityに留まったままAlarmManagerからAへの新しいIntentを複数回
-        // 投げたところ、getIntet()で取得するIntentがActivity起動時のものから変わらない
+        // 投げたところ、getIntent()で取得するIntentがActivity起動時のものから変わらない
         super.onNewIntent(intent);
         // 画面表示時に再度起動された際にgetIntent()を更新する。
         setIntent(intent);
@@ -256,78 +256,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         db.close();
     }
 
-    private boolean deleteTodo(Todo todo) {
-        Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
-        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-
-        ContentValues updateTask = new ContentValues();
-        updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
-
-        int updateCount = db.update(
-                TodoContract.Todos.TABLE_NAME,
-                updateTask,
-                TodoContract.Todos.COL_TASK + " = ?",
-                new String[]{todo.getTask()}
-        );
-
-        db.close();
-
-        mList.remove(todo);
-        mAdapter.notifyDataSetChanged();
-
-        // TODO デバッグ用関数。削除。
-        checkDB();
-
-        return updateCount > 0;
-    }
-
-    private boolean saveTodo(Todo todo) {
-        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-
-        ContentValues updateTask = new ContentValues();
-        updateTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
-        updateTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
-
-        int updateCount = db.update(
-                TodoContract.Todos.TABLE_NAME,
-                updateTask,
-                TodoContract.Todos.COL_TASK + " = ?",
-                new String[]{todo.getTask()}
-        );
-
-        db.close();
-        mAdapter.notifyDataSetChanged();
-
-        // TODO デバッグ用関数。削除。
-        checkDB();
-
-        return updateCount > 0;
-    }
-
-    private void setTodoAlarm(Todo todo, int alarmId, Calendar calendar) {
-        if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
-            return;
-        }
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-        intent.putExtra("task", todo.getTask());
-        intent.putExtra("deadline", todo.getDeadline());
-        intent.putExtra("id", alarmId);
-        intent.putExtra("todoId", alarmId);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
-        checkDB();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-        }
-    }
-
     @OnClick({R.id.addButton, R.id.fab})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -349,8 +277,81 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     // TODO DialogFragmentから返ってきたTodoをmListにaddしnofityする
     // TODO deadlineがあればアラーム登録処理
 
-    public void saveTodo(Todo todo) {}
-    public void deleteTodo(Todo todo) {}
-    public void setTodoAlarmTodo(Todo todo, int TodoId, Calendar calendar) {}
+    public void saveTodo(Todo todo) {
+//
+//        private boolean saveTodo(Todo todo) {
+//            TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+//            SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+//
+//            ContentValues updateTask = new ContentValues();
+//            updateTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
+//            updateTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
+//
+//            int updateCount = db.update(
+//                    TodoContract.Todos.TABLE_NAME,
+//                    updateTask,
+//                    TodoContract.Todos.COL_TASK + " = ?",
+//                    new String[]{todo.getTask()}
+//            );
+//
+//            db.close();
+//            mAdapter.notifyDataSetChanged();
+//
+//            // TODO デバッグ用関数。削除。
+//            checkDB();
+//
+//            return updateCount > 0;
+//        }
+    }
+    public void deleteTodo(Todo todo) {
+//        private boolean deleteTodo(Todo todo) {
+//            Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
+//            TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+//            SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+//
+//            ContentValues updateTask = new ContentValues();
+//            updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
+//
+//            int updateCount = db.update(
+//                    TodoContract.Todos.TABLE_NAME,
+//                    updateTask,
+//                    TodoContract.Todos.COL_TASK + " = ?",
+//                    new String[]{todo.getTask()}
+//            );
+//
+//            db.close();
+//
+//            mList.remove(todo);
+//            mAdapter.notifyDataSetChanged();
+//
+//            // TODO デバッグ用関数。削除。
+//            checkDB();
+//
+//            return updateCount > 0;
+//        }
+    }
+    public void setTodoAlarm(Todo todo, int TodoId, Calendar calendar) {
+//        private void setTodoAlarm(Todo todo, int alarmId, Calendar calendar) {
+//            if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
+//                return;
+//            }
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+//            intent.putExtra("task", todo.getTask());
+//            intent.putExtra("deadline", todo.getDeadline());
+//            intent.putExtra("id", alarmId);
+//            intent.putExtra("todoId", alarmId);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//
+//            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
+//            checkDB();
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+//            } else {
+//                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+//            }
+//        }
+    }
 }
 
