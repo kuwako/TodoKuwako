@@ -56,8 +56,9 @@ public class EditDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        editTodo = getArguments().getParcelable("todo");
+        editTodo = getArguments().getParcelable("editTodo");
 
+        // TODO 機能してない？
         if (editTodo == null) {
             dismiss();
         }
@@ -67,6 +68,7 @@ public class EditDialogFragment extends DialogFragment {
         View content = inflater.inflate(R.layout.dialog_edit, null);
         ButterKnife.bind(this, content);
 
+        // TODO 時間が保存されない。
         editTask.setText(editTodo.getTask());
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
