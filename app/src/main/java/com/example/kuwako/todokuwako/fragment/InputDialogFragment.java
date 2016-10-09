@@ -201,7 +201,6 @@ public class InputDialogFragment extends DialogFragment {
                 // TODO todoオブジェクトをActivity側に返す処理
                 listener.setTodo(todo);
 
-
                 db.close();
 
                 dismiss();

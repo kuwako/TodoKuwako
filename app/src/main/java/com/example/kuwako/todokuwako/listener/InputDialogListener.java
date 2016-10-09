@@ -8,5 +8,5 @@ import com.example.kuwako.todokuwako.model.Todo;
 import java.util.EventListener;
 
 public interface InputDialogListener extends EventListener {
-    public Todo setTodo(Todo todo);
+    public void setTodo(Todo todo);
 }

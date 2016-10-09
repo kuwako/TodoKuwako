@@ -271,11 +271,16 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         }
     }
 
-    public Todo setTodo(Todo todo) {
-        return todo;
+    public void setTodo(Todo todo) {
+        mList.add(0, todo);
+        mAdapter.notifyDataSetChanged();
+        // TODO deadlineがあればアラーム登録処理
+        if (todo.getDeadline() != null) {
+            Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
+        }
+        return;
     }
     // TODO DialogFragmentから返ってきたTodoをmListにaddしnofityする
-    // TODO deadlineがあればアラーム登録処理
 
     public void saveTodo(Todo todo) {
 //
