@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         });
 
         mList = new ArrayList<>();
-        mAdapter = new TodoListAdapter(MainActivity.this) {};
+        mAdapter = new TodoListAdapter(MainActivity.this) {
+        };
         mAdapter.setTodoArrayList(mList);
 
         todoListView.setAdapter(mAdapter);
@@ -272,70 +273,91 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     }
 
     public void setTodo(Todo todo) {
+        long newId = insertTodoForDb(todo);
+        todo.setId(newId);
         mList.add(0, todo);
         mAdapter.notifyDataSetChanged();
+
         // TODO deadlineがあればアラーム登録処理
         if (todo.getDeadline() != null) {
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
         }
         return;
     }
-    // TODO DialogFragmentから返ってきたTodoをmListにaddしnofityする
+
+    private long insertTodoForDb(Todo todo) {
+        // DBに追加
+        Time time = new Time("Asia/Tokyo");
+        time.setToNow();
+
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+        ContentValues newTask = new ContentValues();
+        newTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
+        newTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
+        newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
+        newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
+
+        long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
+
+        db.close();
+        return newId;
+    }
 
     public void saveTodo(Todo todo) {
-//
-//        private boolean saveTodo(Todo todo) {
-//            TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-//            SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-//
-//            ContentValues updateTask = new ContentValues();
-//            updateTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
-//            updateTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
-//
-//            int updateCount = db.update(
-//                    TodoContract.Todos.TABLE_NAME,
-//                    updateTask,
-//                    TodoContract.Todos.COL_TASK + " = ?",
-//                    new String[]{todo.getTask()}
-//            );
-//
-//            db.close();
-//            mAdapter.notifyDataSetChanged();
-//
-//            // TODO デバッグ用関数。削除。
-//            checkDB();
-//
-//            return updateCount > 0;
-//        }
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+        ContentValues updateTask = new ContentValues();
+        updateTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
+        updateTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
+
+        int updateCount = db.update(
+                TodoContract.Todos.TABLE_NAME,
+                updateTask,
+                TodoContract.Todos.COL_TASK + " = ?",
+                new String[]{todo.getTask()}
+        );
+
+        db.close();
+        mAdapter.notifyDataSetChanged();
+
+        // TODO デバッグ用関数。削除。
+        checkDB();
+
+        // TODO deadlineがあればアラーム登録処理
+        return;
     }
+
     public void deleteTodo(Todo todo) {
-//        private boolean deleteTodo(Todo todo) {
-//            Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
-//            TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
-//            SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-//
-//            ContentValues updateTask = new ContentValues();
-//            updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
-//
-//            int updateCount = db.update(
-//                    TodoContract.Todos.TABLE_NAME,
-//                    updateTask,
-//                    TodoContract.Todos.COL_TASK + " = ?",
-//                    new String[]{todo.getTask()}
-//            );
-//
-//            db.close();
-//
-//            mList.remove(todo);
-//            mAdapter.notifyDataSetChanged();
-//
-//            // TODO デバッグ用関数。削除。
-//            checkDB();
-//
-//            return updateCount > 0;
-//        }
+        Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
+        TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
+        SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
+
+        ContentValues updateTask = new ContentValues();
+        updateTask.put(TodoContract.Todos.COL_IS_DONE, 1);
+
+        db.update(
+                TodoContract.Todos.TABLE_NAME,
+                updateTask,
+                TodoContract.Todos.COL_TASK + " = ?",
+                new String[]{todo.getTask()}
+        );
+
+        db.close();
+
+        mList.remove(todo);
+        mAdapter.notifyDataSetChanged();
+
+        // TODO デバッグ用関数。削除。
+        checkDB();
+
+        // TODO deadlineがあればアラーム削除処理
+        return;
     }
-    public void setTodoAlarm(Todo todo, int TodoId, Calendar calendar) {
+
+    public void setTodoAlarm(Todo todo, int todoId, Calendar calendar) {
 //        private void setTodoAlarm(Todo todo, int alarmId, Calendar calendar) {
 //            if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
 //                return;

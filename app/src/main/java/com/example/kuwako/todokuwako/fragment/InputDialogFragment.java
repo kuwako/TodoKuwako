@@ -183,25 +183,8 @@ public class InputDialogFragment extends DialogFragment {
                     todo.setDeadline(deadline);
                 }
 
-                // DBに追加
-                Time time = new Time("Asia/Tokyo");
-                time.setToNow();
-
-                TodoOpenHelper todoOpenHelper = new TodoOpenHelper(getActivity());
-                SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
-
-                ContentValues newTask = new ContentValues();
-                newTask.put(TodoContract.Todos.COL_TASK, todo.getTask());
-                newTask.put(TodoContract.Todos.COL_DEADLINE, todo.getDeadline());
-                newTask.put(TodoContract.Todos.COL_IS_DONE, 0);
-                newTask.put(TodoContract.Todos.COL_CREATED_AT, time.year + "-" + (time.month + 1) + "-" + time.monthDay);
-
-                long newId = db.insert(TodoContract.Todos.TABLE_NAME, null, newTask);
-                todo.setId(newId);
-                // TODO todoオブジェクトをActivity側に返す処理
                 listener.setTodo(todo);
 
-                db.close();
 
                 dismiss();
                 break;
