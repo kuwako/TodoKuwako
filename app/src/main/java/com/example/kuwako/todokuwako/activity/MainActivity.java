@@ -281,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         // TODO deadlineがあればアラーム登録処理
         if (todo.getDeadline() != null) {
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
+            setTodoAlarm(todo);
         }
         return;
     }
@@ -327,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         checkDB();
 
         // TODO deadlineがあればアラーム登録処理
+
         return;
     }
 
@@ -354,31 +356,35 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         checkDB();
 
         // TODO deadlineがあればアラーム削除処理
+        if (todo.getDeadline() != null) {
+            Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
+            setTodoAlarm(todo);
+        }
         return;
     }
 
-    public void setTodoAlarm(Todo todo, int todoId, Calendar calendar) {
-//        private void setTodoAlarm(Todo todo, int alarmId, Calendar calendar) {
-//            if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
-//                return;
-//            }
-//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//            Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-//            intent.putExtra("task", todo.getTask());
-//            intent.putExtra("deadline", todo.getDeadline());
-//            intent.putExtra("id", alarmId);
-//            intent.putExtra("todoId", alarmId);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, 0);
-//            checkDB();
-//
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    public void setTodoAlarm(Todo todo) {
+        if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
+            return;
+        }
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+        intent.putExtra("task", todo.getTask());
+        intent.putExtra("deadline", todo.getDeadline());
+        intent.putExtra("id", todo.getId());
+        intent.putExtra("todoId", todo.getId());
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);
+        checkDB();
+
+        // TODO カレンダーセット
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-//            } else {
+        } else {
 //                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-//            }
-//        }
+        }
     }
+}
 }
 
