@@ -9,6 +9,5 @@ import java.util.Calendar;
 import java.util.EventListener;
 
 public interface InputDialogListener extends EventListener {
-    public void setTodo(Todo todo);
-    public void setAlarm(Todo todo, Calendar calendar);
+    public void setTodo(Todo todo, Calendar calendar);
 }

@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         }
     }
 
-    public void setTodo(Todo todo) {
+    public void setTodo(Todo todo, Calendar calendar) {
         long newId = insertTodoForDb(todo);
         todo.setId(newId);
         mList.add(0, todo);
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         // TODO deadlineがあればアラーム登録処理
         if (todo.getDeadline() != null) {
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
-            setTodoAlarm(todo);
+            setTodoAlarm(todo, calendar);
         }
         return;
     }
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         return newId;
     }
 
-    public void saveTodo(Todo todo) {
+    public void saveTodo(Todo todo, Calendar calendar) {
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         checkDB();
 
         // TODO deadlineがあればアラーム登録処理
+        setTodoAlarm(todo, calendar);
 
         return;
     }
@@ -358,12 +359,11 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         // TODO deadlineがあればアラーム削除処理
         if (todo.getDeadline() != null) {
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
-            setTodoAlarm(todo);
         }
         return;
     }
 
-    public void setAlarm(Todo todo, Calendar calendar) {
+    public void setTodoAlarm(Todo todo, Calendar calendar) {
         if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
             return;
         }
