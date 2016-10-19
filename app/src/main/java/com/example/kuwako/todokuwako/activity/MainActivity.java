@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         return;
     }
 
-    public void setTodoAlarm(Todo todo) {
+    public void setAlarm(Todo todo, Calendar calendar) {
         if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
             return;
         }
@@ -380,11 +380,10 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
 
         // TODO カレンダーセット
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
         } else {
-//                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
         }
     }
-}
 }
 

@@ -184,7 +184,7 @@ public class InputDialogFragment extends DialogFragment {
                 }
 
                 listener.setTodo(todo);
-
+                listener.setAlarm(todo, mCalendar);
 
                 dismiss();
                 break;

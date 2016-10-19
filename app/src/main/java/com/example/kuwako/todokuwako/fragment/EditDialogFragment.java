@@ -177,6 +177,7 @@ public class EditDialogFragment extends DialogFragment {
                 listener.saveTodo(editTodo);
                 // アラーム仕込む処理
                 // TODO 再度編集した場合にアラームならない？
+                listener(editTodo, mCalendar);
                 dismiss();
                 break;
             case R.id.deleteBtn:
