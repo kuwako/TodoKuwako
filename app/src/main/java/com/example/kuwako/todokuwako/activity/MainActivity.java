@@ -170,7 +170,13 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
             }
 
             if (editTodo != null) {
-//                mEditFragment.show(getFragmentManager(), "bbb");
+                EditDialogFragment edf = EditDialogFragment.newInstance(editTodo);
+                edf.setEditDialogListener(MainActivity.this);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("editTodo", editTodo);
+                edf.setArguments(bundle);
+                edf.setCancelable(false);
+                edf.show(getFragmentManager(), "fff");
             }
         }
     }
