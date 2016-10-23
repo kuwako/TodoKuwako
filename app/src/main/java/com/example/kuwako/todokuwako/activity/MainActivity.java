@@ -284,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         mList.add(0, todo);
         mAdapter.notifyDataSetChanged();
 
-        // TODO deadlineがあればアラーム登録処理
         if (todo.getDeadline() != null) {
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
             setTodoAlarm(todo, calendar);
@@ -333,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         // TODO デバッグ用関数。削除。
         checkDB();
 
-        // TODO deadlineがあればアラーム登録処理
         setTodoAlarm(todo, calendar);
 
         return;
@@ -365,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         // TODO deadlineがあればアラーム削除処理
         if (todo.getDeadline() != null) {
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
+            deleteTodoAlarm(todo);
         }
         return;
     }
@@ -390,5 +389,17 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
         }
     }
+
+    public void deleteTodoAlarm(Todo todo) {
+        if (todo.getDeadline() == null || todo.getDeadline().equals("")) {
+            return;
+        }
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);
+        pending.cancel();
+        alarmManager.cancel(pending);
+    }
+
 }
 
