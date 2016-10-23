@@ -384,7 +384,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);
         checkDB();
 
-        // TODO カレンダーセット
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
         } else {
