@@ -1,7 +1,6 @@
 package com.example.kuwako.todokuwako.activity;
 
 import android.app.AlarmManager;
-import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -133,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 ListView listView = (ListView) parent;
                 editTodo = (Todo) listView.getItemAtPosition(position);
 
-                // mEditFragment.show(getFragmentManager(), "bbb");
                 EditDialogFragment edf = EditDialogFragment.newInstance(editTodo);
                 edf.setEditDialogListener(MainActivity.this);
                 Bundle bundle = new Bundle();
@@ -159,11 +157,15 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
+        Log.d("@@@intent",  String.valueOf(intent.getIntExtra("todoId", 0)));
+        // TODO　ここ機能してない
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
+                Log.d("@@@todo", targetTodo.getTask());
 
                 if ((int) targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
+                    Log.d("@@@todo", "this is.");
                     editTodo = targetTodo;
                     break;
                 }
@@ -360,9 +362,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         // TODO デバッグ用関数。削除。
         checkDB();
 
-        // TODO deadlineがあればアラーム削除処理
         if (todo.getDeadline() != null) {
-            Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
             deleteTodoAlarm(todo);
         }
         return;
