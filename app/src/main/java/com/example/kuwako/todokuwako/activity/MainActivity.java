@@ -37,6 +37,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -157,7 +158,19 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-        Log.d("@@@intent",  String.valueOf(intent.getIntExtra("todoId", 0)));
+//        Log.d("@@@intent",  String.valueOf(intent.getIntExtra("todoId", 0)));
+        Bundle extras = intent.getExtras();
+        StringBuilder sb = new StringBuilder();
+        if (extras != null) {
+            Iterator<?> it = extras.keySet().iterator();
+            while (it.hasNext()) {
+                String key = (String) it.next();
+                Log.d("@@@IntentReceive", "key: " + key);
+                Log.d("@@@intent",  String.valueOf(intent.getIntExtra(key, 0)));
+                Log.d("@@@intent",  String.valueOf(intent.getDoubleExtra(key, 0)));
+
+            }
+        }
         // TODO　ここ機能してない
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
@@ -377,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         intent.putExtra("task", todo.getTask());
         intent.putExtra("deadline", todo.getDeadline());
         intent.putExtra("id", todo.getId());
-        intent.putExtra("todoId", todo.getId());
+        intent.putExtra("todoId", (int) todo.getId());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);

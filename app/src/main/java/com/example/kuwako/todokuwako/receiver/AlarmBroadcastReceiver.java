@@ -21,7 +21,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         int bid = intent.getIntExtra("intentId", 0);
         Intent intent2 = new Intent(context, MainActivity.class);
-        intent2.putExtra("todoId", intent.getIntExtra("id", 0));
+        intent2.putExtra("todoId", intent.getDoubleExtra("id", 0));
         intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, bid, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
