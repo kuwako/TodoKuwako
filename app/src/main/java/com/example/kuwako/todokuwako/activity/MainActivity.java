@@ -158,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-//        Log.d("@@@intent",  String.valueOf(intent.getIntExtra("todoId", 0)));
         Bundle extras = intent.getExtras();
         StringBuilder sb = new StringBuilder();
         if (extras != null) {
@@ -303,7 +302,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
             Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
             setTodoAlarm(todo, calendar);
         }
-        return;
     }
 
     private long insertTodoForDb(Todo todo) {
@@ -390,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         intent.putExtra("task", todo.getTask());
         intent.putExtra("deadline", todo.getDeadline());
         intent.putExtra("id", todo.getId());
-        intent.putExtra("todoId", (int) todo.getId());
+        intent.putExtra("todoId", todo.getId());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);
