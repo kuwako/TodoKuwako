@@ -158,26 +158,12 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        StringBuilder sb = new StringBuilder();
-        if (extras != null) {
-            Iterator<?> it = extras.keySet().iterator();
-            while (it.hasNext()) {
-                String key = (String) it.next();
-                Log.d("@@@IntentReceive", "key: " + key);
-                Log.d("@@@intent",  String.valueOf(intent.getIntExtra(key, 0)));
-                Log.d("@@@intent",  String.valueOf(intent.getDoubleExtra(key, 0)));
 
-            }
-        }
-        // TODO　ここ機能してない
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
-                Log.d("@@@todo", targetTodo.getTask());
 
                 if ((int) targetTodo.getId() == intent.getIntExtra("todoId", 0)) {
-                    Log.d("@@@todo", "this is.");
                     editTodo = targetTodo;
                     break;
                 }
@@ -231,8 +217,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         mList.add(0, todo);
         mAdapter.notifyDataSetChanged();
         db.close();
-
-        Log.e(logTag, task);
 
         // TODO 削除 デバッグ用関数
         checkDB();
@@ -387,8 +371,8 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
         intent.putExtra("task", todo.getTask());
         intent.putExtra("deadline", todo.getDeadline());
-        intent.putExtra("id", todo.getId());
-        intent.putExtra("todoId", todo.getId());
+        intent.putExtra("id", (int) todo.getId());
+        intent.putExtra("todoId", (int) todo.getId());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);
