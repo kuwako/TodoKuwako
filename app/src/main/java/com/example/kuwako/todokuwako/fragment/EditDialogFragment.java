@@ -58,7 +58,6 @@ public class EditDialogFragment extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
         editTodo = getArguments().getParcelable("editTodo");
 
-        // TODO 機能してない？
         if (editTodo == null) {
             dismiss();
         }
@@ -68,7 +67,6 @@ public class EditDialogFragment extends DialogFragment {
         View content = inflater.inflate(R.layout.dialog_edit, null);
         ButterKnife.bind(this, content);
 
-        // TODO 時間が保存されない。
         editTask.setText(editTodo.getTask());
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -81,8 +79,8 @@ public class EditDialogFragment extends DialogFragment {
             }
         });
 
-        // TODO そもそも期限を削除する機能も必要そう。
         if (editTodo.getDeadline() != null) {
+            deadLine = editTodo.getDeadline();
             editTime.setText(editTodo.getDeadline());
             String[] deadLineArr = editTodo.getDeadline().split(" ", 0);
             String[] deadLineDateArr = deadLineArr[0].split("-", 0);
