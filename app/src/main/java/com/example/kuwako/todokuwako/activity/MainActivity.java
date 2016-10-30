@@ -395,6 +395,5 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         pending.cancel();
         alarmManager.cancel(pending);
     }
-
 }
 

@@ -4,17 +4,13 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,13 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.text.format.Time;
 
 import com.example.kuwako.todokuwako.R;
-import com.example.kuwako.todokuwako.contract.TodoContract;
 import com.example.kuwako.todokuwako.listener.InputDialogListener;
 import com.example.kuwako.todokuwako.model.Todo;
-import com.example.kuwako.todokuwako.sqlite.TodoOpenHelper;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -56,7 +49,6 @@ public class InputDialogFragment extends DialogFragment {
     private GregorianCalendar mMaxDate = new GregorianCalendar();
     private GregorianCalendar mMinDate = new GregorianCalendar();
     private DatePicker mDatePicker;
-    private TimePicker mTimePicker;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -65,7 +57,8 @@ public class InputDialogFragment extends DialogFragment {
     private boolean mSetTime;
 
     // 空のコンストラクタが必須
-    public InputDialogFragment() {}
+    public InputDialogFragment() {
+    }
 
     public static InputDialogFragment newInstance() {
         InputDialogFragment fragment = new InputDialogFragment();
@@ -99,6 +92,8 @@ public class InputDialogFragment extends DialogFragment {
 
         // datepicker用の初期情報取得
         mCalendar = Calendar.getInstance();
+        // 過去の日付は追加できないので、1分追加した時間をデフォルトとする。
+        mCalendar.add(Calendar.MINUTE, 1);
         mYear = mCalendar.get(Calendar.YEAR);
         mMonth = mCalendar.get(Calendar.MONTH);
         mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
@@ -148,7 +143,6 @@ public class InputDialogFragment extends DialogFragment {
                 break;
             case R.id.dialogBtn:
                 Todo todo = new Todo();
-                // テキストを取得
                 String sEditText = String.valueOf(dialogEditText.getText());
 
                 // テキストが空なら終わり
@@ -223,9 +217,5 @@ public class InputDialogFragment extends DialogFragment {
 
     public void setInputDialogListener(InputDialogListener listener) {
         this.listener = listener;
-    }
-
-    public void removeDialogLister() {
-        this.listener = null;
     }
 }

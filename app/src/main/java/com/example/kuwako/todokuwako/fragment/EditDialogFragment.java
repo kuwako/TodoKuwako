@@ -96,6 +96,7 @@ public class EditDialogFragment extends DialogFragment {
                 mHour = Integer.parseInt(deadLineTimeArr[0]);
                 mMinute = Integer.parseInt(deadLineTimeArr[1]);
             } else {
+                mCalendar.add(Calendar.MINUTE, 1);
                 mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
                 mMinute = mCalendar.get(Calendar.MINUTE);
             }
@@ -103,6 +104,7 @@ public class EditDialogFragment extends DialogFragment {
         } else {
             editTime.setText("タスクの期限を設定");
 
+            mCalendar.add(Calendar.MINUTE, 1);
             mYear = mCalendar.get(Calendar.YEAR);
             mMonth = mCalendar.get(Calendar.MONTH);
             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
