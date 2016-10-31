@@ -51,8 +51,8 @@ public class TodoOpenHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE);
         // create table
         db.execSQL(CREATE_TABLE);
-        // init table
-        db.execSQL(INIT_TABLE);
+        // テストデータをデフォルトで入れたい場合はコメントアウトを解除する
+//        db.execSQL(INIT_TABLE);
     }
 
     @Override
