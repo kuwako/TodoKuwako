@@ -1,4 +1,4 @@
-package com.example.kuwako.todokuwako.fragment;
+package com.android.kuwako.todokuwako.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.kuwako.todokuwako.R;
-import com.example.kuwako.todokuwako.listener.InputDialogListener;
-import com.example.kuwako.todokuwako.model.Todo;
+import com.android.kuwako.todokuwako.R;
+import com.android.kuwako.todokuwako.listener.InputDialogListener;
+import com.android.kuwako.todokuwako.model.Todo;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

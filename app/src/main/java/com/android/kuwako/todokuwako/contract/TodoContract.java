@@ -1,4 +1,4 @@
-package com.example.kuwako.todokuwako.contract;
+package com.android.kuwako.todokuwako.contract;
 
 import android.provider.BaseColumns;
 
