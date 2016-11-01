@@ -334,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     }
 
     public void deleteTodo(Todo todo) {
-        Toast.makeText(MainActivity.this, todo.getTask() + " is completed.", Toast.LENGTH_LONG).show();
         TodoOpenHelper todoOpenHelper = new TodoOpenHelper(MainActivity.this);
         SQLiteDatabase db = todoOpenHelper.getWritableDatabase();
 
