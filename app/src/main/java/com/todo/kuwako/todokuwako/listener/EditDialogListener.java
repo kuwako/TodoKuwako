@@ -1,6 +1,6 @@
-package com.android.kuwako.todokuwako.listener;
+package com.todo.kuwako.todokuwako.listener;
 
-import com.android.kuwako.todokuwako.model.Todo;
+import com.todo.kuwako.todokuwako.model.Todo;
 
 import java.util.Calendar;
 import java.util.EventListener;

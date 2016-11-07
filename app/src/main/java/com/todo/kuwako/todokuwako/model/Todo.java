@@ -1,4 +1,4 @@
-package com.android.kuwako.todokuwako.model;
+package com.todo.kuwako.todokuwako.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

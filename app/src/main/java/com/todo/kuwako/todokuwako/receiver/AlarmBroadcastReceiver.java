@@ -1,4 +1,4 @@
-package com.android.kuwako.todokuwako.receiver;
+package com.todo.kuwako.todokuwako.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
-import com.android.kuwako.todokuwako.R;
-import com.android.kuwako.todokuwako.activity.MainActivity;
+import com.todo.kuwako.todokuwako.R;
+import com.todo.kuwako.todokuwako.activity.MainActivity;
 
 /**
  * Created by kuwako on 2016/04/11.

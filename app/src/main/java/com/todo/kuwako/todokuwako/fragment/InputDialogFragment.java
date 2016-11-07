@@ -1,4 +1,4 @@
-package com.android.kuwako.todokuwako.fragment;
+package com.todo.kuwako.todokuwako.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -20,9 +20,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.kuwako.todokuwako.R;
-import com.android.kuwako.todokuwako.listener.InputDialogListener;
-import com.android.kuwako.todokuwako.model.Todo;
+import com.todo.kuwako.todokuwako.listener.InputDialogListener;
+import com.todo.kuwako.todokuwako.model.Todo;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -33,15 +32,15 @@ import butterknife.OnClick;
 
 public class InputDialogFragment extends DialogFragment {
     private InputDialogListener listener = null;
-    @BindView(R.id.dialogEditText)
+    @BindView(com.todo.kuwako.todokuwako.R.id.dialogEditText)
     EditText dialogEditText;
-    @BindView(R.id.dialogBtn)
+    @BindView(com.todo.kuwako.todokuwako.R.id.dialogBtn)
     Button dialogBtn;
-    @BindView(R.id.edit_date)
+    @BindView(com.todo.kuwako.todokuwako.R.id.edit_date)
     TextView editDate;
-    @BindView(R.id.dateResetBtn)
+    @BindView(com.todo.kuwako.todokuwako.R.id.dateResetBtn)
     ImageView dateResetBtn;
-    @BindView(R.id.edit_time)
+    @BindView(com.todo.kuwako.todokuwako.R.id.edit_time)
     TextView editTime;
     private DatePickerDialog mDlgDatePicker;
     private TimePickerDialog mDlgTimePicker;
@@ -76,7 +75,7 @@ public class InputDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View content = inflater.inflate(R.layout.dialog_input, null);
+        View content = inflater.inflate(com.todo.kuwako.todokuwako.R.layout.dialog_input, null);
         ButterKnife.bind(this, content);
 
         dialogEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -136,12 +135,12 @@ public class InputDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    @OnClick({R.id.dialogEditText, R.id.dialogBtn, R.id.edit_date, R.id.dateResetBtn, R.id.edit_time})
+    @OnClick({com.todo.kuwako.todokuwako.R.id.dialogEditText, com.todo.kuwako.todokuwako.R.id.dialogBtn, com.todo.kuwako.todokuwako.R.id.edit_date, com.todo.kuwako.todokuwako.R.id.dateResetBtn, com.todo.kuwako.todokuwako.R.id.edit_time})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.dialogEditText:
+            case com.todo.kuwako.todokuwako.R.id.dialogEditText:
                 break;
-            case R.id.dialogBtn:
+            case com.todo.kuwako.todokuwako.R.id.dialogBtn:
                 Todo todo = new Todo();
                 String sEditText = String.valueOf(dialogEditText.getText());
 
@@ -181,7 +180,7 @@ public class InputDialogFragment extends DialogFragment {
 
                 dismiss();
                 break;
-            case R.id.edit_date:
+            case com.todo.kuwako.todokuwako.R.id.edit_date:
                 mDatePicker = mDlgDatePicker.getDatePicker();
                 if (mDatePicker != null) {
                     mDatePicker.setMaxDate(mMaxDate.getTimeInMillis());
@@ -191,7 +190,7 @@ public class InputDialogFragment extends DialogFragment {
                 // datePickerを表示
                 mDlgDatePicker.show();
                 break;
-            case R.id.dateResetBtn:
+            case com.todo.kuwako.todokuwako.R.id.dateResetBtn:
                 mCalendar = Calendar.getInstance();
                 editDate.setText("日付登録にはこちらをクリック");
                 editTime.setText("");
@@ -199,7 +198,7 @@ public class InputDialogFragment extends DialogFragment {
                 Log.e("@@@@@x", "x button");
                 mSetTime = false;
                 break;
-            case R.id.edit_time:
+            case com.todo.kuwako.todokuwako.R.id.edit_time:
                 mDlgTimePicker.show();
                 break;
         }

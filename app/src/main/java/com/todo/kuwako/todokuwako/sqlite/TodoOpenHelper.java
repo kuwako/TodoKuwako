@@ -1,10 +1,10 @@
-package com.android.kuwako.todokuwako.sqlite;
+package com.todo.kuwako.todokuwako.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.android.kuwako.todokuwako.contract.TodoContract;
+import com.todo.kuwako.todokuwako.contract.TodoContract;
 
 /**
  * Created by kuwako on 2016/01/12.

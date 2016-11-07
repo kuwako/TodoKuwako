@@ -1,4 +1,4 @@
-package com.android.kuwako.todokuwako.activity;
+package com.todo.kuwako.todokuwako.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -22,17 +22,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.kuwako.todokuwako.BuildConfig;
-import com.android.kuwako.todokuwako.R;
-import com.android.kuwako.todokuwako.adapter.TodoListAdapter;
-import com.android.kuwako.todokuwako.contract.TodoContract;
-import com.android.kuwako.todokuwako.fragment.EditDialogFragment;
-import com.android.kuwako.todokuwako.fragment.InputDialogFragment;
-import com.android.kuwako.todokuwako.listener.EditDialogListener;
-import com.android.kuwako.todokuwako.listener.InputDialogListener;
-import com.android.kuwako.todokuwako.model.Todo;
-import com.android.kuwako.todokuwako.receiver.AlarmBroadcastReceiver;
-import com.android.kuwako.todokuwako.sqlite.TodoOpenHelper;
+import com.todo.kuwako.todokuwako.BuildConfig;
+import com.todo.kuwako.todokuwako.adapter.TodoListAdapter;
+import com.todo.kuwako.todokuwako.contract.TodoContract;
+import com.todo.kuwako.todokuwako.fragment.EditDialogFragment;
+import com.todo.kuwako.todokuwako.fragment.InputDialogFragment;
+import com.todo.kuwako.todokuwako.listener.EditDialogListener;
+import com.todo.kuwako.todokuwako.listener.InputDialogListener;
+import com.todo.kuwako.todokuwako.model.Todo;
+import com.todo.kuwako.todokuwako.receiver.AlarmBroadcastReceiver;
+import com.todo.kuwako.todokuwako.sqlite.TodoOpenHelper;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -45,15 +44,15 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements InputDialogListener, EditDialogListener {
 
-    @BindView(R.id.toolbar)
+    @BindView(com.todo.kuwako.todokuwako.R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.addButton)
+    @BindView(com.todo.kuwako.todokuwako.R.id.addButton)
     Button addButton;
-    @BindView(R.id.todoListView)
+    @BindView(com.todo.kuwako.todokuwako.R.id.todoListView)
     ListView todoListView;
-    @BindView(R.id.fab)
+    @BindView(com.todo.kuwako.todokuwako.R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.editText)
+    @BindView(com.todo.kuwako.todokuwako.R.id.editText)
     EditText editTask;
 
     private TodoListAdapter mAdapter;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.todo.kuwako.todokuwako.R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -260,13 +259,13 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         db.close();
     }
 
-    @OnClick({R.id.addButton, R.id.fab})
+    @OnClick({com.todo.kuwako.todokuwako.R.id.addButton, com.todo.kuwako.todokuwako.R.id.fab})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.addButton:
+            case com.todo.kuwako.todokuwako.R.id.addButton:
                 addList(view);
                 break;
-            case R.id.fab:
+            case com.todo.kuwako.todokuwako.R.id.fab:
                 InputDialogFragment idf = InputDialogFragment.newInstance();
                 idf.setInputDialogListener(this);
                 idf.setCancelable(false);

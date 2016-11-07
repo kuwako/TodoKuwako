@@ -1,4 +1,4 @@
-package com.android.kuwako.todokuwako.adapter;
+package com.todo.kuwako.todokuwako.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.kuwako.todokuwako.R;
-import com.android.kuwako.todokuwako.model.Todo;
+import com.todo.kuwako.todokuwako.model.Todo;
 
 import java.util.ArrayList;
 
@@ -46,10 +45,10 @@ public abstract class TodoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = layoutInflater.inflate(R.layout.todorow, parent, false);
+        convertView = layoutInflater.inflate(com.todo.kuwako.todokuwako.R.layout.todorow, parent, false);
 
-        ((TextView) convertView.findViewById(R.id.task)).setText(todoArrayList.get(position).getTask());
-        ((TextView) convertView.findViewById(R.id.deadline)).setText(todoArrayList.get(position).getDeadline());
+        ((TextView) convertView.findViewById(com.todo.kuwako.todokuwako.R.id.task)).setText(todoArrayList.get(position).getTask());
+        ((TextView) convertView.findViewById(com.todo.kuwako.todokuwako.R.id.deadline)).setText(todoArrayList.get(position).getDeadline());
 
         return convertView;
     }

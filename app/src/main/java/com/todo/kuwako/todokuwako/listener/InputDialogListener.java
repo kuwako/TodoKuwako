@@ -1,9 +1,9 @@
-package com.android.kuwako.todokuwako.listener;
+package com.todo.kuwako.todokuwako.listener;
 
 /**
  * Created by kuwako on 2016/09/26.
  */
-import com.android.kuwako.todokuwako.model.Todo;
+import com.todo.kuwako.todokuwako.model.Todo;
 
 import java.util.Calendar;
 import java.util.EventListener;

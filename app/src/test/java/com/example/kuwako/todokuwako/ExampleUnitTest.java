@@ -1,4 +1,4 @@
-package com.android.kuwako.todokuwako;
+package com.todo.kuwako.todokuwako;
 
 import org.junit.Test;
 
