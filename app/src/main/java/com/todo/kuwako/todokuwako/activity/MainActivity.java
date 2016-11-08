@@ -193,6 +193,9 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
 
     public void addList(View view) {
         String task = String.valueOf(editTask.getText());
+        if (task.equals("")) {
+            return;
+        }
 
         Todo todo = new Todo();
         todo.setTask(task);
@@ -279,9 +282,9 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         todo.setId(newId);
         mList.add(0, todo);
         mAdapter.notifyDataSetChanged();
+        Toast.makeText(this, todo.getTask(), Toast.LENGTH_SHORT).show();
 
         if (todo.getDeadline() != null) {
-            Toast.makeText(this, todo.getDeadline(), Toast.LENGTH_SHORT).show();
             setTodoAlarm(todo, calendar);
         }
     }
