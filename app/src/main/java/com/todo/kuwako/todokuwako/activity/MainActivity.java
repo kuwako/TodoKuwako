@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     // TODO DBをrealmに移行
     // TODO 関数をHelper系クラスに移行
     // TODO スヌーズ機能
+    // TODO 通知の長さを選べるようにする
+    // TODO 通知欄に固定できるようにする
+    // TODO Push通知送信できるようにする
+    // TODO Dialogのデザイン改修
+    // TODO fabの位置をもう少し左上に移動
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
