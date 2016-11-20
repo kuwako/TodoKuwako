@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.todo.kuwako.todokuwako.BuildConfig;
+import com.todo.kuwako.todokuwako.R;
 import com.todo.kuwako.todokuwako.adapter.TodoListAdapter;
 import com.todo.kuwako.todokuwako.contract.TodoContract;
 import com.todo.kuwako.todokuwako.fragment.EditDialogFragment;
@@ -193,6 +195,12 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         editTodo = savedInstanceState.getParcelable("parcelableTodo");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     public void addList(View view) {
