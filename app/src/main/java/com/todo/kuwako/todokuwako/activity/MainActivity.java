@@ -209,6 +209,9 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Toast.makeText(MainActivity.this, "setting", Toast.LENGTH_LONG).show();
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
                 break;
         }
         return true;
