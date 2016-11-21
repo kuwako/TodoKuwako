@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -46,15 +47,15 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements InputDialogListener, EditDialogListener {
 
-    @BindView(com.todo.kuwako.todokuwako.R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(com.todo.kuwako.todokuwako.R.id.addButton)
+    @BindView(R.id.addButton)
     Button addButton;
-    @BindView(com.todo.kuwako.todokuwako.R.id.todoListView)
+    @BindView(R.id.todoListView)
     ListView todoListView;
-    @BindView(com.todo.kuwako.todokuwako.R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(com.todo.kuwako.todokuwako.R.id.editText)
+    @BindView(R.id.editText)
     EditText editTask;
 
     private TodoListAdapter mAdapter;
@@ -203,6 +204,16 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(MainActivity.this, "setting", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return true;
+    }
+
     public void addList(View view) {
         String task = String.valueOf(editTask.getText());
         if (task.equals("")) {
@@ -274,13 +285,13 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         db.close();
     }
 
-    @OnClick({com.todo.kuwako.todokuwako.R.id.addButton, com.todo.kuwako.todokuwako.R.id.fab})
+    @OnClick({R.id.addButton, R.id.fab})
     public void onClick(View view) {
         switch (view.getId()) {
-            case com.todo.kuwako.todokuwako.R.id.addButton:
+            case R.id.addButton:
                 addList(view);
                 break;
-            case com.todo.kuwako.todokuwako.R.id.fab:
+            case R.id.fab:
                 InputDialogFragment idf = InputDialogFragment.newInstance();
                 idf.setInputDialogListener(this);
                 idf.setCancelable(false);
