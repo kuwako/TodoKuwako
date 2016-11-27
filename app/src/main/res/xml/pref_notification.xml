@@ -29,7 +29,7 @@
             android:defaultValue="2"
             android:entries="@array/listVibrate"
             android:entryValues="@array/listVibrateValues"
-            android:key="listPref"
+            android:key="vibrateType"
             android:title="Vibrate" />
     <!--</PreferenceCategory>-->
 </PreferenceScreen>

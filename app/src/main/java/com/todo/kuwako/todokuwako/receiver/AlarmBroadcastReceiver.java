@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.todo.kuwako.todokuwako.R;
 import com.todo.kuwako.todokuwako.activity.MainActivity;
+import com.todo.kuwako.todokuwako.contract.PreferenceContract;
 
 /**
  * Created by kuwako on 2016/04/11.
@@ -37,7 +38,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setContentText(intent.getStringExtra("task"))
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
-                .setVibrate(new long[]{0, 1000, 300, 2000})
+                // TODO 動的に設定を反映できるように変更
+                .setVibrate(PreferenceContract.Vibrate.NORMAL)
                 .setAutoCancel(true)
                 .build();
 
