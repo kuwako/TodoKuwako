@@ -39,7 +39,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
                 // TODO 動的に設定を反映できるように変更
-                .setVibrate(PreferenceContract.Vibrate.NORMAL)
+                .setVibrate(PreferenceContract.Vibrate.TYPES[3])
                 .setAutoCancel(true)
                 .build();
 
