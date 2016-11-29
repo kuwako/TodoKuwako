@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.preference.ListPreference;
 import android.support.v4.app.NotificationCompat;
 
 import com.todo.kuwako.todokuwako.R;
