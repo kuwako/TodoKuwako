@@ -9,6 +9,7 @@ import java.util.List;
 
 public final class PreferenceContract {
     public static class Vibrate {
+        public static final String KEY = "vibrateType";
         public static final long[] SHORT = {0, 500, 300, 1000};
         public static final long[] NORMAL = {0, 1000, 300, 2000};
         public static final long[] LONG = {0, 5000, 300, 5000};

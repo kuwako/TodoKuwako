@@ -87,7 +87,7 @@ public class EditDialogFragment extends DialogFragment {
             }
 
             mYear = Integer.parseInt(deadLineDateArr[0]);
-            mMonth = Integer.parseInt(deadLineDateArr[1]);
+            mMonth = Integer.parseInt(deadLineDateArr[1]) - 1;
             mDay = Integer.parseInt(deadLineDateArr[2]);
             if (deadLineTimeArr != null) {
                 mHour = Integer.parseInt(deadLineTimeArr[0]);
@@ -127,7 +127,7 @@ public class EditDialogFragment extends DialogFragment {
                 mMinute = minute;
 
                 deadLine = String.valueOf(mYear) + "-" +
-                        String.format("%02d", mMonth) + "-" +
+                        String.format("%02d", mMonth + 1) + "-" +
                         String.format("%02d", mDay) + " " +
                         String.format("%02d", mHour) + ":" +
                         String.format("%02d", mMinute);
