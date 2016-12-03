@@ -33,7 +33,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Integer vibrateType = PreferenceManager.getDefaultSharedPreferences(context).getInt(PreferenceContract.Vibrate.KEY, PreferenceContract.Vibrate.NORMAL);
+        Integer vibrateType = PreferenceManager.getDefaultSharedPreferences(context).getInt(PreferenceContract.Vibrate.KEY, 2);
 
         // TODO 動的に設定を反映できるように変更
         // TODO レシーバからのPreferenceの取得方法がわからん...
