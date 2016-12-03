@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        Integer vibrateType = PreferenceManager.getDefaultSharedPreferences(context).getInt(PreferenceContract.Vibrate.KEY, PreferenceContract.Vibrate.NORMAL);
 
         // TODO 動的に設定を反映できるように変更
         // TODO レシーバからのPreferenceの取得方法がわからん...
@@ -44,7 +46,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setContentText(intent.getStringExtra("task"))
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
-                .setVibrate(PreferenceContract.Vibrate.TYPES[3])
+                .setVibrate(PreferenceContract.Vibrate.TYPES[vibrateType])
                 .setAutoCancel(true)
                 .build();
 
