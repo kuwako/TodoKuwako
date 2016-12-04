@@ -35,8 +35,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         Integer vibrateType = PreferenceManager.getDefaultSharedPreferences(context).getInt(PreferenceContract.Vibrate.KEY, 2);
 
-        // TODO 動的に設定を反映できるように変更
-        // TODO レシーバからのPreferenceの取得方法がわからん...
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_app)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
