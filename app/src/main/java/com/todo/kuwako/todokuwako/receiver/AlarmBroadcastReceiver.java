@@ -45,7 +45,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
                 .setVibrate(PreferenceContract.Vibrate.TYPES[vibrateType])
-                .setAutoCancel(true)
                 .build();
 
         notificationManager.notify(intent.getIntExtra("id", 0), notification);
