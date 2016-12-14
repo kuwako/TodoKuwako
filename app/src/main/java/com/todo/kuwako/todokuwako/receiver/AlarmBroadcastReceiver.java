@@ -44,10 +44,11 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setContentText(intent.getStringExtra("task"))
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
-                .setVibrate(PreferenceContract.Vibrate.TYPES[3])
+                .setVibrate(PreferenceContract.Vibrate.TYPES[1])
                 .setAutoCancel(true)
                 .build();
 
         notificationManager.notify(intent.getIntExtra("id", 0), notification);
     }
+
 }
