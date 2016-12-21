@@ -121,7 +121,7 @@ public class InputDialogFragment extends DialogFragment {
 
         // TODO もう少しおしゃれに
         mMaxDate.set(2020, 11, 31);
-        mMinDate.set(2016, 0, 1);
+        mMinDate.set(2016, 11, 1);
 
         builder.setView(content);
         builder.setMessage("タスクを登録")
