@@ -40,6 +40,8 @@ public class EditDialogFragment extends DialogFragment {
     Button saveBtn;
     @BindView(R.id.deleteBtn)
     Button deleteBtn;
+    @BindView(R.id.ll_snooze)
+    Button snoozeBtn;
     private int mYear;
     private int mMonth;
     private int mDay;

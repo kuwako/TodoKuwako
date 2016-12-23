@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         super.onResume();
         Intent intent = getIntent();
 
+        // 通知から立ち上げた時にそのタスクのモーダルを開く
         if (intent.getIntExtra("todoId", 0) != 0) {
             for (int i = 0; mList.size() > i; i++) {
                 Todo targetTodo = mList.get(i);
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 }
             }
 
+            // TODO ここに、通知から開いたフラグを持たせる必要がある
             if (editTodo != null) {
                 EditDialogFragment edf = EditDialogFragment.newInstance(editTodo);
                 edf.setEditDialogListener(MainActivity.this);
