@@ -32,6 +32,7 @@ import butterknife.OnClick;
 public class EditDialogFragment extends DialogFragment {
     private EditDialogListener listener = null;
     private Todo editTodo = null;
+    private boolean showSnooze = false;
     @BindView(R.id.editTask)
     EditText editTask;
     @BindView(R.id.editTime)
@@ -56,6 +57,12 @@ public class EditDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         editTodo = getArguments().getParcelable("editTodo");
+        showSnooze = getArguments().getBoolean("showSnooze", false);
+
+        // TODO スヌーズボタンの実際の処理
+        if (showSnooze) {
+            snoozeBtn.setVisibility(View.VISIBLE);
+        }
 
         if (editTodo == null) {
             dismiss();

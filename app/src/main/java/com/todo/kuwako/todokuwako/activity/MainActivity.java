@@ -173,12 +173,12 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 }
             }
 
-            // TODO ここに、通知から開いたフラグを持たせる必要がある
             if (editTodo != null) {
                 EditDialogFragment edf = EditDialogFragment.newInstance(editTodo);
                 edf.setEditDialogListener(MainActivity.this);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("editTodo", editTodo);
+                bundle.putBoolean("showSnooze", true);
                 edf.setArguments(bundle);
                 edf.setCancelable(false);
                 edf.show(getFragmentManager(), "fff");
