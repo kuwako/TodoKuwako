@@ -59,8 +59,8 @@ public class EditDialogFragment extends DialogFragment {
         editTodo = getArguments().getParcelable("editTodo");
         showSnooze = getArguments().getBoolean("showSnooze", false);
 
-        // TODO スヌーズボタンの実際の処理
         if (showSnooze) {
+            // TODO スヌーズボタンのクリックの処理
             snoozeBtn.setVisibility(View.VISIBLE);
         }
 
