@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -42,7 +43,15 @@ public class EditDialogFragment extends DialogFragment {
     @BindView(R.id.deleteBtn)
     Button deleteBtn;
     @BindView(R.id.ll_snooze)
-    Button snoozeBtn;
+    LinearLayout llSnooze;
+    @BindView(R.id.five_minutes)
+    Button fiveMinutesBtn;
+    @BindView(R.id.ten_minutes)
+    Button tenMinutesBtn;
+    @BindView(R.id.thirty_minutes)
+    Button thirtyMinutesBtn;
+    @BindView(R.id.sixty_minutes)
+    Button sixtyMinutesBtn;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -61,7 +70,7 @@ public class EditDialogFragment extends DialogFragment {
 
         if (showSnooze) {
             // TODO スヌーズボタンのクリックの処理
-            snoozeBtn.setVisibility(View.VISIBLE);
+            llSnooze.setVisibility(View.VISIBLE);
         }
 
         if (editTodo == null) {
@@ -187,11 +196,28 @@ public class EditDialogFragment extends DialogFragment {
                 listener.deleteTodo(editTodo);
                 dismiss();
                 break;
+            case R.id.five_minutes:
+                setSnooze(5);
+                break;
+            case R.id.ten_minutes:
+                setSnooze(10);
+                break;
+            case R.id.thirty_minutes:
+                setSnooze(30);
+                break;
+            case R.id.sixty_minutes:
+                setSnooze(60);
+                break;
         }
     }
 
     public EditDialogFragment() {
     }
+
+    public void setSnooze(int minutes) {
+        // TODO スヌーズを仕掛ける
+    }
+
 
     public static EditDialogFragment newInstance(Todo todo) {
         EditDialogFragment instance = new EditDialogFragment();
