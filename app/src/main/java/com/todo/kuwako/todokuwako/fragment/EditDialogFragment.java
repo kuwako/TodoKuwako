@@ -215,7 +215,10 @@ public class EditDialogFragment extends DialogFragment {
     }
 
     public void setSnooze(int minutes) {
-        // TODO スヌーズを仕掛ける
+        // スヌーズを仕掛ける
+        mCalendar.add(Calendar.MINUTE, minutes);
+        listener.saveTodo(editTodo, mCalendar);
+        dismiss();
     }
 
 
