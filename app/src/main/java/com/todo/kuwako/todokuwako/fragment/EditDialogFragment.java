@@ -69,7 +69,6 @@ public class EditDialogFragment extends DialogFragment {
         showSnooze = getArguments().getBoolean("showSnooze", false);
 
         if (showSnooze) {
-            // TODO スヌーズボタンのクリックの処理
             llSnooze.setVisibility(View.VISIBLE);
         }
 

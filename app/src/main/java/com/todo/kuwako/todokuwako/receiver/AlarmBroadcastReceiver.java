@@ -33,7 +33,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Integer vibrateType = PreferenceManager.getDefaultSharedPreferences(context).getInt(PreferenceContract.Vibrate.KEY, 2);
+        Integer vibrateType = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(PreferenceContract.Vibrate.KEY, "2"));
 
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_app)

@@ -42,7 +42,7 @@
 
     </LinearLayout>
 
-    <!-- TODO スヌーズボタン実装。通常時はvisibility:gone -->
+    <!--TODO ボタンデザイン変更した方が良さそう-->
     <LinearLayout
         android:id="@+id/ll_snooze"
         android:layout_width="match_parent"
