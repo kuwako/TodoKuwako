@@ -68,10 +68,6 @@ public class EditDialogFragment extends DialogFragment {
         editTodo = getArguments().getParcelable("editTodo");
         showSnooze = getArguments().getBoolean("showSnooze", false);
 
-        if (showSnooze) {
-            llSnooze.setVisibility(View.VISIBLE);
-        }
-
         if (editTodo == null) {
             dismiss();
         }
@@ -80,6 +76,10 @@ public class EditDialogFragment extends DialogFragment {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View content = inflater.inflate(R.layout.dialog_edit, null);
         ButterKnife.bind(this, content);
+
+        if (showSnooze) {
+            llSnooze.setVisibility(View.VISIBLE);
+        }
 
         editTask.setText(editTodo.getTask());
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -170,6 +170,7 @@ public class EditDialogFragment extends DialogFragment {
         super.onDismiss(dialog);
     }
 
+    // TODO 多分ボタンのid追加しないといけない
     @OnClick({R.id.editTask, R.id.editTime, R.id.saveBtn, R.id.deleteBtn})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -221,7 +222,7 @@ public class EditDialogFragment extends DialogFragment {
     }
 
 
-    public static EditDialogFragment newInstance(Todo todo) {
+    public sttic EditDialogFragment newInstance(Todo todo) {
         EditDialogFragment instance = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putParcelable("todo", (Parcelable) todo);
