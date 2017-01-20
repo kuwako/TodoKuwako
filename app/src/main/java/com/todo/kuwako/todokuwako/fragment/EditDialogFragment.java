@@ -170,8 +170,7 @@ public class EditDialogFragment extends DialogFragment {
         super.onDismiss(dialog);
     }
 
-    // TODO 多分ボタンのid追加しないといけない
-    @OnClick({R.id.editTask, R.id.editTime, R.id.saveBtn, R.id.deleteBtn})
+    @OnClick({R.id.editTask, R.id.editTime, R.id.saveBtn, R.id.deleteBtn, R.id.five_minutes, R.id.ten_minutes, R.id.thirty_minutes, R.id.sixty_minutes})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.editTask:
@@ -222,7 +221,7 @@ public class EditDialogFragment extends DialogFragment {
     }
 
 
-    public sttic EditDialogFragment newInstance(Todo todo) {
+    public static EditDialogFragment newInstance(Todo todo) {
         EditDialogFragment instance = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putParcelable("todo", (Parcelable) todo);

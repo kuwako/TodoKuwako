@@ -35,6 +35,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         Integer vibrateType = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(PreferenceContract.Vibrate.KEY, "2"));
 
+        // TODO 通知がタップしても消えない
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_app)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
