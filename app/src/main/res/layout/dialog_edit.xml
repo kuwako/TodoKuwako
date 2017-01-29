@@ -48,31 +48,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:layout_marginTop="20dp"
         >
         <Button
             android:id="@+id/five_minutes"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/snooze_btn_background"
             android:text="5min" />
         <Button
             android:id="@+id/ten_minutes"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/snooze_btn_background"
             android:text="10min" />
         <Button
             android:id="@+id/thirty_minutes"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/snooze_btn_background"
             android:text="30min" />
         <Button
             android:id="@+id/sixty_minutes"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/snooze_btn_background"
             android:text="60min" />
     </LinearLayout>
 </LinearLayout>
