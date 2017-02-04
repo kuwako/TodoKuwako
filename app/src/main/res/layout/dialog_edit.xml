@@ -42,7 +42,6 @@
 
     </LinearLayout>
 
-    <!--TODO ボタンデザイン変更した方が良さそう-->
     <LinearLayout
         android:id="@+id/ll_snooze"
         android:layout_width="match_parent"
