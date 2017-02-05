@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     // TODO Dagger2導入
     // TODO DBをrealmに移行
     // TODO 関数をHelper系クラスに移行
-    // TODO スヌーズ機能
     // TODO Push通知送信できるようにする
     // TODO Dialogのデザイン改修
     @Override
