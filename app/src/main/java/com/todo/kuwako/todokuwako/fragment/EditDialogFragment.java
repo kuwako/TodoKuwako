@@ -217,6 +217,19 @@ public class EditDialogFragment extends DialogFragment {
         // スヌーズを仕掛ける
         mCalendar.add(Calendar.MINUTE, minutes);
         listener.saveTodo(editTodo, mCalendar);
+        // TODO ここで登録されているタスクの日付も変更したい
+        // TODO ビルドまだなので動作確認
+        mYear = mCalendar.get(Calendar.YEAR);
+        mMonth = mCalendar.get(Calendar.MONTH);
+        mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+        mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+        mMinute = mCalendar.get(Calendar.MINUTE);
+        deadLine = String.valueOf(mYear) + "-" +
+                String.format("%02d", mMonth + 1) + "-" +
+                String.format("%02d", mDay) + " " +
+                String.format("%02d", mHour) + ":" +
+                String.format("%02d", mMinute);
+        editTodo.setDeadline(deadLine);
         dismiss();
     }
 
