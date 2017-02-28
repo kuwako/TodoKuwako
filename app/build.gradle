@@ -18,6 +18,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        dev {
+            applicationId = "com.todo.kuwako.todokuwako.dev"
+            manifestPlaceholders = [appName:"@string/app_name_dev"]
+        }
+        production {}
+    }
 }
 apply plugin: 'android-apt'
 
