@@ -11,17 +11,21 @@ android {
         versionCode 3
         versionName "1.1.1"
         vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [appName: "@string/app_name"]
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            setApplicationIdSuffix(".debug")
+        }
     }
     productFlavors {
         dev {
-            applicationId = "com.todo.kuwako.todokuwako.dev"
-            manifestPlaceholders = [appName:"@string/app_name_dev"]
+            setApplicationId("com.todo.kuwako.dev")
+            manifestPlaceholders = [appName: "@string/app_name_dev"]
         }
         production {}
     }
