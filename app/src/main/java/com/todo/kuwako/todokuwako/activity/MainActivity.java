@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     // TODO 関数をHelper系クラスに移行
     // TODO Push通知送信できるようにする
     // TODO Dialogのデザイン改修
-    // TODO 開発版と本番を同居できるようにする
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // TODO 追加ボタンをクリック時に2度クリックしないといけないのを修正したい
                 // キーボードを隠す処理
                 if (hasFocus == false) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
