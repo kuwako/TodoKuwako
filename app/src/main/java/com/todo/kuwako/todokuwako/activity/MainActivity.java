@@ -44,7 +44,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 public class MainActivity extends AppCompatActivity implements InputDialogListener, EditDialogListener {
 
     @BindView(R.id.toolbar)
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     // TODO 関数をHelper系クラスに移行
     // TODO Push通知送信できるようにする
     // TODO Dialogのデザイン改修
-    // TODO チェックボックス復活させたい
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -293,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addButton:
+                // TODO 要検証
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 addList(view);
                 break;
             case R.id.fab:
