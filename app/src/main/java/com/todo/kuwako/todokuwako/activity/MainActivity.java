@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         editTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                // TODO 追加ボタンをクリック時に2度クリックしないといけないのを修正したい
                 // キーボードを隠す処理
-                Log.d("@@@focus", "onFocusChange" + String.valueOf(hasFocus));
                 if (hasFocus == false) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    // ↓追加ボタンをクリック時に2度クリックしないといけないのを修正するために入れたが、本来的にこれでいい感じがしない。
+                    addButton.performClick();
                 }
             }
         });
@@ -292,8 +292,6 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addButton:
-                // TODO 要検証
-                Log.d("@@@focus", "onClick" + String.valueOf(view.getId()));
                 InputMethodManager inputMethodManager =
                         (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
