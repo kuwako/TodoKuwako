@@ -1,5 +1,11 @@
 package com.todo.kuwako.todokuwako.activity;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+import com.todo.kuwako.todokuwako.model.Todo;
+
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -10,9 +16,13 @@ import static org.junit.Assert.*;
 public class MainActivityTest {
     @Test
     public void addList() throws Exception {
-        String actual = "Hello" + " " + "World.";
-
-        assertThat(actual, is("Hello World."));
+//        MainActivity activity = new MainActivity();
+//        activity.editTask.setText("");
+//        activity.onCreate(new Bundle());
+//        int mListNum = activity.getmList().size();
+//        activity.addList();
+//
+//        assertThat(0, is(mListNum));
     }
 
     @Test

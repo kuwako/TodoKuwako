@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         return true;
     }
 
-    public void addList(View view) {
+    public void addList() {
         String task = String.valueOf(editTask.getText());
         if (task.equals("")) {
             return;
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
                 InputMethodManager inputMethodManager =
                         (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                addList(view);
+                addList();
                 break;
             case R.id.fab:
                 InputDialogFragment idf = InputDialogFragment.newInstance();
@@ -424,6 +424,46 @@ public class MainActivity extends AppCompatActivity implements InputDialogListen
         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), (int) todo.getId(), intent, 0);
         pending.cancel();
         alarmManager.cancel(pending);
+    }
+
+    public TodoListAdapter getmAdapter() {
+        return mAdapter;
+    }
+
+    public void setmAdapter(TodoListAdapter mAdapter) {
+        this.mAdapter = mAdapter;
+    }
+
+    public ArrayList<Todo> getmList() {
+        return mList;
+    }
+
+    public void setmList(ArrayList<Todo> mList) {
+        this.mList = mList;
+    }
+
+    public String getLogTag() {
+        return logTag;
+    }
+
+    public void setLogTag(String logTag) {
+        this.logTag = logTag;
+    }
+
+    public FirebaseAnalytics getmFirebaseAnalytics() {
+        return mFirebaseAnalytics;
+    }
+
+    public void setmFirebaseAnalytics(FirebaseAnalytics mFirebaseAnalytics) {
+        this.mFirebaseAnalytics = mFirebaseAnalytics;
+    }
+
+    public Todo getEditTodo() {
+        return editTodo;
+    }
+
+    public void setEditTodo(Todo editTodo) {
+        this.editTodo = editTodo;
     }
 }
 
