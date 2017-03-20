@@ -8,12 +8,15 @@ import com.todo.kuwako.todokuwako.model.Todo;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
  * Created by kuwako on 2017/03/13.
  */
+@RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, false, false);
