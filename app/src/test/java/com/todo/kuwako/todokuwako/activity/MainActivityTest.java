@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.todo.kuwako.todokuwako.model.Todo;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.LargeTest;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,13 +27,12 @@ public class MainActivityTest {
     @Test
     public void addList() throws Exception {
         MainActivity activity = activityTestRule.launchActivity(null);
-//        MainActivity activity = new MainActivity();
-//        activity.editTask.setText("");
-//        activity.onCreate(new Bundle());
-//        int mListNum = activity.getmList().size();
-//        activity.addList();
-//
-//        assertThat(0, is(mListNum));
+        activity.editTask.setText("");
+        activity.onCreate(new Bundle());
+        int mListNum = activity.getmList().size();
+        activity.addList();
+
+        assertThat(0, is(mListNum));
     }
 
     @Test
