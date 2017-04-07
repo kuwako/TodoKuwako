@@ -1,12 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'kuwako'
-            keyPassword 'starbozu'
-        }
-    }
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
     defaultConfig {
